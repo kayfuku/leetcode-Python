@@ -1,9 +1,9 @@
-# Author: peyman_np + kei
-# Date: May 2, 2021
 from typing import *
 
 
 class Solution:
+    # Author: peyman_np + kei
+    # Date: May 2, 2021
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         seen = dict()
         for i, v in enumerate(nums):
@@ -12,6 +12,8 @@ class Solution:
                 return [seen[rem], i]
 
             seen[v] = i
+
+        return []
 
 
 def main():

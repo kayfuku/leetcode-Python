@@ -17,8 +17,8 @@ def main():
     s = Solution()
 
     # Test args
-    nums = [3, 2, 5, 1]
-    target = 8
+    # nums = [3, 2, 5, 1]
+    # target = 8
 
     print(s.twoSum(nums, target))
 
