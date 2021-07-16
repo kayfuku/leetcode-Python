@@ -1,15 +1,12 @@
 # Author: + kei
 # Date: July ?, 2021
 from typing import *
+from helper_classes import *
 
 
 class Solution:
     def solve(self, nums: List[int], target: int) -> List[int]:
-        seen = dict()
-        for i, v in enumerate(nums):
-            print(i, v)
-
-        return nums
+        return
 
 
 def main():

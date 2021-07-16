@@ -1,7 +1,7 @@
 # Author: leetcode + kei
 # Date: July 15, 2021
 from typing import *
-from helper_classes import ListNode
+from helper_classes import *
 
 
 class Solution:
