@@ -1,7 +1,9 @@
 
 
 def main():
-    print('helloworld')
+    stack = []
+    print('true' if stack else 'false')
+    print('done')
 
 
 if __name__ == '__main__':
