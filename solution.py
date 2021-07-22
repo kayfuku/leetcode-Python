@@ -8,7 +8,6 @@ class Solution:
     def solve(self, nums: List[int], target: int) -> List[int]:
         return
 
-
 def main():
     """ For testing """
     s = Solution()
