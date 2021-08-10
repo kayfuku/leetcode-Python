@@ -6,7 +6,9 @@ from helper_classes import *
 
 class Solution:
     def isValid(self, s: str) -> bool:
-        if s is None or len(s) <= 1:
+        if s is None or len(s) == 0:
+            return True
+        if len(s) == 1:
             return False
 
         mapping = {')': '(', '}': '{', ']': '['}
@@ -24,7 +26,7 @@ class Solution:
         return len(stack) == 0
 
 
-class Solution:
+class Solution2:
     """ leetcode solution """
 
     def isValid(self, s: str) -> bool:
@@ -71,6 +73,8 @@ def main():
     # nums = [3, 2, 5, 1]
     # target = 8
     # print(s.solve(nums, target))
+    string = ''
+    print(s.isValid(string))
 
 
 if __name__ == '__main__':
