@@ -2,10 +2,12 @@
 
 def main():
     #
-    a = 987654321
-    b = a > pow(2, 31) - 1 // 10
-    print(pow(2, 31) - 1 // 10)
-    print(b)
+    a = None
+    print(not a)
+    a = []
+    print(not a)
+    a = ''
+    print(not a)
 
     # done
     print('done')
