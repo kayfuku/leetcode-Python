@@ -1,13 +1,21 @@
 # Author: leetcode + kei
-# Date: August ?, 2021
+# Date: August 10, 2021
 from typing import *
 from helper_classes import *
 import numpy as np
 
 
 class Solution:
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return
+    def maxProfit(self, prices: List[int]) -> int:
+        if not prices:
+            return 0
+
+        max_profit = 0
+        for i in range(1, len(prices)):
+            if prices[i] > prices[i-1]:
+                max_profit += prices[i] - prices[i-1]
+
+        return max_profit
 
 
 def main():

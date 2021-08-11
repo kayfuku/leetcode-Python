@@ -1,13 +1,13 @@
+from typing import *
+from helper_classes import *
+import numpy as np
 
 
 def main():
     #
-    a = None
-    print(not a)
-    a = []
-    print(not a)
-    a = ''
-    print(not a)
+    n = 5
+    a = np.zeros(n)
+    print(a)
 
     # done
     print('done')

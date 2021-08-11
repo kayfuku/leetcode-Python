@@ -10,8 +10,11 @@ class Solution:
         prev = None
         curr = head
         while curr:
+            # new node
             next_node = curr.next
+            # reverse the link
             curr.next = prev
+            # move on to the next
             prev = curr
             curr = next_node
 

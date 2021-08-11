@@ -2,6 +2,7 @@
 # Date: July ?, 2021
 from typing import *
 from helper_classes import *
+import collections
 
 
 class Solution:
@@ -18,6 +19,7 @@ class Solution:
         for idx, ch in enumerate(s):
             if count[ch] == 1:
                 return idx
+
         return -1
 
 
