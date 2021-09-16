@@ -1,13 +1,14 @@
-# Author: leetcode + kei
-# Date: September ?, 2021
+# Author: lee215 + kei
+# Date: September 15, 2021
 from typing import *
 from helper_classes import *
 import numpy as np
 
 
 class Solution:
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return
+    def minDifference(self, A: List[int]) -> int:
+        A.sort()
+        return min(b - a for a, b in zip(A[:4], A[-4:]))
 
 
 def main():
