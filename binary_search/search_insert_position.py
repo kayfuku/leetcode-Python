@@ -1,0 +1,34 @@
+# Author: leetcode + kei
+# Date: September 17, 2021
+from typing import *
+from helper_classes import *
+import numpy as np
+
+
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] == target:
+                return mid
+            if target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+
+
+def main():
+    """ For testing """
+    s = Solution()
+
+    # Test args
+    # nums = [3, 2, 5, 1]
+    # target = 2
+    # print(s.solve(nums, target))
+
+
+if __name__ == '__main__':
+    main()
