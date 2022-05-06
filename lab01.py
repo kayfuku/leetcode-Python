@@ -1,13 +1,11 @@
 from typing import *
 from helper_classes import *
 import numpy as np
+import os
 
 
 def main():
-    #
-    n = 5
-    a = np.zeros(n)
-    print(a)
+    # experiment code
 
     # done
     print('done')

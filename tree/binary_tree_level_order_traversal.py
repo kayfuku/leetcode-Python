@@ -5,6 +5,8 @@ from helper_classes import *
 
 
 from collections import deque
+
+
 class Solution:
     def levelOrder(self, root):
         """
@@ -17,7 +19,7 @@ class Solution:
             return levels
 
         level = 0
-        queue = deque([root,])
+        queue = deque([root, ])
         while queue:
             # start the current level
             list_level = []
@@ -43,10 +45,11 @@ class Solution:
 
         return levels
 
+
 class Solution:
     def levelOrder(self, root):
         """
-        DFS, recursive, not recomended for interview
+        DFS, recursive, not recommended for interview
         :type root: TreeNode
         :rtype: List[List[int]]
         """
@@ -70,6 +73,7 @@ class Solution:
 
         helper(root, 0)
         return levels
+
 
 def main():
     """ For testing """
