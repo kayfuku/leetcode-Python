@@ -7,7 +7,7 @@ import numpy as np
 
 class Solution:
     def __init__(self):
-        self.lca = None
+        pass
 
     def lowestCommonAncestor(
             self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
@@ -35,9 +35,9 @@ class Solution:
             # return null if both nodes are null.
             return left if left else right
 
-        self.lca = recurse_tree(root)
+        lca = recurse_tree(root)
 
-        return self.lca
+        return lca
 
 
 def main():
