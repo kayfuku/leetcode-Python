@@ -1,27 +1,26 @@
 # Author: leetcode + kei
-# Date: May 9, 2022
+# Date: May 10, 2022
 from typing import *
 from helper_classes import *
 import numpy as np
 
 
 class Solution:
-
     def __init__(self):
         pass
 
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         '''
         Recursive
         '''
 
-        def dfs(node, preorder):
+        def dfs(node, postorder):
             if not node:
                 return None
 
-            preorder.append(node.val)
-            dfs(node.left, preorder)
-            dfs(node.right, preorder)
+            dfs(node.left, postorder)
+            dfs(node.right, postorder)
+            postorder.append(node.val)
 
         ret = []
         dfs(root, ret)
@@ -33,9 +32,10 @@ class Solution2:
     def __init__(self):
         pass
 
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         '''
         Iterative
+        Postorder is actually reversed Right-first-preorder.
         '''
         ret = []
         if not root:
@@ -46,15 +46,14 @@ class Solution2:
 
         while stack:
             node = stack.pop()
-            ret.append(node.val)
+            ret.insert(0, node.val)
 
-            # Add all the children of the node to stack.
-            # Note that right child is first, then left for pre-order traversal.
-            # When popped, left child first.
-            if node.right:
-                stack.append(node.right)
+            # Right-first-preorder.
+            # Push left first so that you can pop right first.
             if node.left:
                 stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
 
         return ret
 
