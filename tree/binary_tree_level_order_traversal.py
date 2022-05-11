@@ -25,7 +25,6 @@ class Solution:
             list_level = []
             # number of elements in the current level
             size = len(queue)
-
             for i in range(size):
                 node = queue.popleft()
                 # fulfill the current level
