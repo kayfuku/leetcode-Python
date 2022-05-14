@@ -17,15 +17,16 @@ class Solution:
         self.price_to_time_rec = SortedDict()
 
     def update(self, timestamp: int, price: int) -> None:
+        # Remove old price.
         if timestamp in self.time_to_price:
             prev_price = self.time_to_price[timestamp]
             self.price_to_time_rec[prev_price].remove(timestamp)
             if len(self.price_to_time_rec[prev_price]) == 0:
                 self.price_to_time_rec.pop(prev_price)
 
+        # Set new price.
         if not price in self.price_to_time_rec:
             self.price_to_time_rec[price] = set()
-
         self.price_to_time_rec[price].add(timestamp)
         self.time_to_price[timestamp] = price
 
