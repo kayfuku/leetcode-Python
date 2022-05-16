@@ -1,9 +1,9 @@
 # Author: leetcode + kei
 # Date: May 14, 2022
-from turtle import right
 from typing import *
 from helper_classes import *
 import numpy as np
+import unittest
 
 
 class Solution:
@@ -25,22 +25,36 @@ class Solution:
                 right = mid - 1
             else:
                 left = mid + 1
-        # Why is this?
-        return right
+        # Why is this? Test it for all possible cases.
+        return right  # OK
+        # return left  # failed
+        # return right + 1  # failed
 
     def mono(self, a):
         # This must be monotonically increasing/decreasing function.
         return a * a
 
 
+class TestCalc(unittest.TestCase):
+
+    def test_mySqrt(self):
+        input_and_expected_outputs = [
+            # ((input), expected output)
+            (1, 1),
+            (2, 1),
+            (4, 2),
+            (8, 2),
+            (10, 3),
+        ]
+        s = Solution()
+        for input, expected in input_and_expected_outputs:
+            result = s.mySqrt(input)
+            self.assertEqual(result, expected)
+
+
 def main():
     """ For testing """
-    s = Solution()
-
-    # Test args
-    # nums = [3, 2, 5, 1]
-    # target = 2
-    # print(s.solve(nums, target))
+    unittest.main()
 
 
 if __name__ == '__main__':
