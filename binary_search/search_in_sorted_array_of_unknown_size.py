@@ -1,17 +1,41 @@
 # Author: leetcode + kei
-# Date: May ?, 2022
+# Date: May 18, 2022
+from turtle import left
 from typing import *
 from helper_classes import *
 import numpy as np
 import unittest
+import abc
 
 
 class Solution:
     def __init__(self):
         pass
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return len(nums) + target
+    def search(self, reader: 'ArrayReader', target: int) -> int:
+        # Find search space to use Binary Search.
+        right = 1
+        while reader.get(right) < target:
+            right = right << 1
+        left = right >> 1
+
+        # Binary Search
+        while left <= right:
+            mid = (left + right) // 2
+            if reader.get(mid) == target:
+                return mid
+            if reader.get(mid) > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return -1
+
+
+class ArrayReader(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def get(self, index: int) -> int:
+        raise NotImplementedError()
 
 
 class TestCalc(unittest.TestCase):
