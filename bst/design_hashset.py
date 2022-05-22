@@ -44,34 +44,40 @@ class Bucket:
     '''
 
     def __init__(self):
-        # a pseudo head
+        # a dummy head
         self.head = ListNode(0)
 
     def insert(self, newValue):
-        # if not existed, add the new element to the head.
+        # if not existed, add the new element to the head of the list.
         if not self.exists(newValue):
-            newNode = ListNode(newValue, self.head.next)
-            # set the new head.
+            newNode = ListNode(newValue)
+            # before: h -> next node
+            # after : h -> newNode -> next node
+            # link to the next node.
+            newNode.next = self.head.next
+            # h -> newNode
             self.head.next = newNode
 
     def delete(self, value):
+        # we need prev node to delete node in the list
         prev = self.head
-        curr = self.head.next
-        while curr is not None:
-            if curr.value == value:
+        node = self.head.next
+        # traverse to the last node
+        while node is not None:
+            if node.val == value:
                 # remove the current node
-                prev.next = curr.next
+                prev.next = node.next
                 return
-            prev = curr
-            curr = curr.next
+            prev = node
+            node = node.next
 
     def exists(self, value):
-        curr = self.head.next
-        while curr is not None:
-            if curr.value == value:
+        node = self.head.next
+        while node is not None:
+            if node.val == value:
                 # value existed already, do nothing
                 return True
-            curr = curr.next
+            node = node.next
         return False
 
 
