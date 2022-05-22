@@ -14,7 +14,7 @@ class Solution:
         return len(nums) + target
 
 
-class TestCalc(unittest.TestCase):
+class TestSolution(unittest.TestCase):
 
     def test_solve(self):
         '''
@@ -23,7 +23,7 @@ class TestCalc(unittest.TestCase):
         '''
         input_and_expected_outputs = [
             # ((input), expected output) or
-            # (input, expected output)
+            # (input, expected output) depending on number of arguments
             (([0, 1, 2], 3), 6),
             (([0, 1], 3), 5),
         ]
