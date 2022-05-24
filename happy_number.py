@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: May ?, 2022
+# Date: May 24, 2022
 from typing import *
 from helper_classes import *
 import numpy as np
@@ -10,8 +10,24 @@ class Solution:
     def __init__(self):
         pass
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def isHappy(self, n: int) -> bool:
+
+        def get_next(n):
+            total_sum = 0
+            while n > 0:
+                # divmod(a, b) returns quotient and remainder of a / b.
+                # d = n % 10
+                # n = n // 10
+                n, d = divmod(n, 10)
+                total_sum += d ** 2
+            return total_sum
+
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = get_next(n)
+
+        return n == 1
 
 
 class TestSolution(unittest.TestCase):

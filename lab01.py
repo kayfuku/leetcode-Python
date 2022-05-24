@@ -7,6 +7,9 @@ import os
 def main():
     # experiment code
 
+    for i in range(5):
+        print(i)
+
     # done
     print('done')
 
