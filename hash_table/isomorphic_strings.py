@@ -12,6 +12,7 @@ class Solution:
         pass
 
     def isIsomorphic(self, s: str, t: str) -> bool:
+        # K: character, V: index
         map_s_idx = {}
         map_t_idx = {}
         for i, (c1, c2) in enumerate(zip(s, t)):
