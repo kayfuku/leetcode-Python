@@ -5,32 +5,23 @@ from helper_classes import *
 import numpy as np
 import unittest
 
-import collections
-
 
 class Solution:
     def __init__(self):
         pass
 
     def groupStrings(self, strings: List[str]) -> List[List[str]]:
-        # Create a hash value
-        def get_hash(string: str):
-            key = []
-            for i in range(1, len(string)):
-                # Why modulo 26?
-                diff = (ord(string[i]) - ord(string[i - 1])) % 26
-                c = chr(diff + ord('a'))
-                key.append(c)
-            return ''.join(key)
+        groups = {}
+        for s in strings:
+            key = ()
+            for i in range(1, len(s)):
+                diff = ord(s[i]) - ord(s[i - 1])
+                # Just memorize to add 26.
+                circular_diff = (diff + 26) % 26
+                key += (circular_diff, )
+            # Add the string to the list and put the list to the dict.
+            groups[key] = groups.get(key, []) + [s]
 
-        # Create a hash value (hash_key) for each string and append the string
-        # to the list of hash values i.e. mapHashToList["cd"] = ["acf", "gil", "xzc"]
-        groups = collections.defaultdict(list)
-        for string in strings:
-            hash_key = get_hash(string)
-            groups[hash_key].append(string)
-
-        # Return a list of all of the grouped strings
         return list(groups.values())
 
 
