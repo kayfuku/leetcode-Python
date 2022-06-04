@@ -12,20 +12,22 @@ class Solution:
         self.count = 0
 
     def countUnivalSubtrees(self, root: Optional[TreeNode]) -> int:
+
         def is_unival_subtree(node):
             if node is None:
                 return True
 
-            left_is_us = is_unival_subtree(node.left)
-            right_is_us = is_unival_subtree(node.right)
+            # We need count, which means we need to traverse all the nodes.
+            left_is_uni = is_unival_subtree(node.left)
+            right_is_uni = is_unival_subtree(node.right)
             # Note that the below if statement including recursive func is not
             # working because we might not be able to traverse right subtrees.
             # if not is_unival_subtree(node.left) or \
             #         not is_unival_subtree(node.right):
-            if not left_is_us or not right_is_us:
+            if not left_is_uni or not right_is_uni:
                 return False
 
-            # TODO: Make it simpler
+            # Be careful about null nodes.
             if (node.left is not None and node.val != node.left.val) or \
                     (node.right is not None and node.val != node.right.val):
                 return False
@@ -34,6 +36,38 @@ class Solution:
             return True
 
         is_unival_subtree(root)
+        return self.count
+
+
+class Solution2:
+    def __init__(self):
+        self.count = 0
+
+    def countUnivalSubtrees(self, root: Optional[TreeNode]) -> int:
+
+        def is_unival_subtree_and_same_val_as_parent(node, parent_val):
+            if node is None:
+                return True
+
+            # We need count, which means we need to traverse all the nodes.
+            left_is_uni = is_unival_subtree_and_same_val_as_parent(
+                node.left, node.val)
+            right_is_uni = is_unival_subtree_and_same_val_as_parent(
+                node.right, node.val)
+            # Note that the below if statement including recursive func is not
+            # working because we might not be able to traverse right subtrees.
+            # if not is_unival_subtree_and_same_val_as_parent(node.left) or \
+            #         not is_unival_subtree_and_same_val_as_parent(node.right):
+            if not left_is_uni or not right_is_uni:
+                return False
+
+            # At this point, this subtree is a univalue subtree.
+            self.count += 1
+
+            return node.val == parent_val
+
+        # Any value will be fine in the second arg because it won't affect the count.
+        is_unival_subtree_and_same_val_as_parent(root, 0)
         return self.count
 
 
