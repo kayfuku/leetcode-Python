@@ -1,17 +1,43 @@
 # Author: leetcode + kei
-# Date: June ?, 2022
+# Date: June 4, 2022
 from typing import *
 from helper_classes import *
 import numpy as np
 import unittest
 
 
-class Solution:
-    def __init__(self):
+class MyCircularQueue:
+
+    def __init__(self, k: int):
         pass
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
+    def enQueue(self, value: int) -> bool:
+        return False
+
+    def deQueue(self) -> bool:
+        return False
+
+    def Front(self) -> int:
         return 0
+
+    def Rear(self) -> int:
+        return 0
+
+    def isEmpty(self) -> bool:
+        return False
+
+    def isFull(self) -> bool:
+        return False
+
+
+# Your MyCircularQueue object will be instantiated and called as such:
+# obj = MyCircularQueue(k)
+# param_1 = obj.enQueue(value)
+# param_2 = obj.deQueue()
+# param_3 = obj.Front()
+# param_4 = obj.Rear()
+# param_5 = obj.isEmpty()
+# param_6 = obj.isFull()
 
 
 class TestSolution(unittest.TestCase):
@@ -20,7 +46,6 @@ class TestSolution(unittest.TestCase):
         '''
         For more than one argument
         For one argument, comment out some lines.
-        Or maybe you want one set of arguments at a test method.
         '''
         input_and_expected_outputs = [
             # ((input), expected output) or
@@ -33,27 +58,6 @@ class TestSolution(unittest.TestCase):
             # result = s.solve(input)
             result = s.solve(*input)
             self.assertEqual(result, expected)
-
-    def test_solve2(self):
-        '''
-        Tree test example
-        '''
-        n1 = TreeNode(5)
-        n2 = TreeNode(1)
-        n3 = TreeNode(5)
-        n4 = TreeNode(5)
-        n5 = TreeNode(5)
-        n6 = TreeNode(5)
-
-        n1.left = n2
-        n1.right = n3
-        n3.right = n6
-        n2.left = n4
-        n2.right = n5
-
-        s = Solution()
-        result = s.countUnivalSubtrees(n1)
-        self.assertEqual(result, 4)
 
 
 def main():
