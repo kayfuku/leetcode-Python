@@ -18,23 +18,20 @@ class TestSolution(unittest.TestCase):
 
     def test_solve(self):
         '''
-        For more than one argument
-        For one argument, comment out some lines.
-        Or maybe you want one set of arguments at a test method.
+        Test
         '''
         input_and_expected_outputs = [
-            # ((input), expected output) or
-            # (input, expected output) depending on number of arguments
-            (([0, 1, 2], 3), 6),
-            (([0, 1], 3), 5),
+            # (input, input, expected output) depending on number of arguments
+            ([0, 1, 2], 3, 6),
+            ([0, 1], 3, 5),
         ]
         s = Solution()
-        for input, expected in input_and_expected_outputs:
-            # result = s.solve(input)
-            result = s.solve(*input)
-            self.assertEqual(result, expected)
+        for input1, input2, expected in input_and_expected_outputs:
+            with self.subTest(input1=input1, input2=input2):
+                result = s.solve(input1, input2)
+                self.assertEqual(result, expected)
 
-    def test_solve2(self):
+    def test_tree(self):
         '''
         Tree test example
         '''

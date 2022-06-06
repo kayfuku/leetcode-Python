@@ -13,6 +13,9 @@ def main():
     print(n - n // b * b)
     print(n % b)
 
+    c = -4 % 3
+    print(c)
+
     # done
     print('done')
 
