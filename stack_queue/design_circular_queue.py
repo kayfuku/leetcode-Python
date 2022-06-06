@@ -28,6 +28,7 @@ class MyCircularQueue:
         if self.count == self.capacity:
             # full
             return False
+        # Enqueue to tail.
         self.queue[self.tail] = value
         self.tail = (self.tail + 1) % self.capacity
         self.count += 1
@@ -40,6 +41,7 @@ class MyCircularQueue:
         if self.count == 0:
             # empty
             return False
+        # Dequeue from head.
         self.head = (self.head + 1) % self.capacity
         self.count -= 1
         return True
