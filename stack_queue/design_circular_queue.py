@@ -119,7 +119,7 @@ class TestSolution(unittest.TestCase):
         n2.left = n4
         n2.right = n5
 
-        s = Solution()
+        s = MyCircularQueue()
         result = s.countUnivalSubtrees(n1)
         self.assertEqual(result, 4)
 
