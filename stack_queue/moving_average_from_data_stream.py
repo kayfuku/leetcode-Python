@@ -5,32 +5,76 @@ from helper_classes import *
 import numpy as np
 import unittest
 
+from collections import deque
+
 
 class Solution:
     '''
-    List
+    Deque (Need import)
+    First shot
     '''
 
     def __init__(self, size: int):
         self.win_size = size
-        self.queue = []
+        self.queue = deque()
+        self.win_sum = 0
+        self.count = 0
 
     def next(self, val: int) -> float:
-        win_size, queue = self.win_size, self.queue
-        queue.append(val)
-        # calculate the sum of the moving window
-        win_sum = sum(queue[-win_size:])
+        self.count += 1
+        # Enqueue to the right anyway.
+        self.queue.append(val)
+        self.win_sum += val
 
-        # Calculate average.
-        # Queue size can be smaller or larger than the window size.
-        return win_sum / min(len(queue), win_size)
+        # Dequeue from the left when it's oversize.
+        tail = self.queue.popleft() if self.count > self.win_size else 0
+        self.win_sum -= tail
 
-# TODO: Deque
+        return self.win_sum / min(self.count, self.win_size)
+
+
+class Solution2:
+    '''
+    Circular Queue, Two Pointer
+    Enqueue to tail and dequeue from head. (Other way around compared to Soluion3)
+    Not for interview
+    '''
+
+    def __init__(self, size: int):
+        self.win_size = size
+        self.queue = [0] * self.win_size
+        self.head = self.tail = 0
+        self.win_sum = 0
+        # number of elements seen so far
+        self.count = 0
+
+    def next(self, val: int) -> float:
+        # When we say head or tail in a queue context, we need to define
+        # what that means first. In this case, we enqueue to tail and
+        # dequeue from head.
+
+        # Do not dequeue until queue is full.
+        if self.count >= self.win_size:
+            # Dequeue from head first when queue is full.
+            # Move forward the head.
+            self.win_sum -= self.queue[self.head]
+            self.head = (self.head + 1) % self.win_size
+
+        # Enqueue to tail.
+        # If the count >= winSize, then overwrite the oldest val.
+        self.queue[self.tail] = val
+        self.tail = (self.tail + 1) % self.win_size
+        self.win_sum += val
+        self.count += 1
+
+        # Caluculate the average in the window.
+        return self.win_sum / min(self.count, self.win_size)
 
 
 class Solution3:
     '''
-    Circular Queue
+    Circular Queue without tail pointer
+    Enqueue to head and dequeue from tail. (Other way around compared to Soluion2)
     Not for interview
     '''
 
@@ -47,15 +91,20 @@ class Solution3:
         # what that means first. In this case, we enqueue to head and
         # dequeue from tail.
 
-        # Dequeue from tail.
+        # Dequeue from tail first.
         tail = (self.head + 1) % self.win_size
-        self.win_sum = self.win_sum - self.queue[tail] + val
+        # If 'count' is smaller than 'winSize', queue[tail] is 0.
+        self.win_sum -= self.queue[tail]
+
         # Enqueue to head.
+        # Move forward the head. If the count >= winSize, then
+        # automatically remove/overwrite the oldest val.
         self.head = (self.head + 1) % self.win_size
         self.queue[self.head] = val
+        self.win_sum += val
 
-        # Caluculate the average.
-        return self.win_sum / min(self.win_size, self.count)
+        # Caluculate the average in the window.
+        return self.win_sum / min(self.count, self.win_size)
 
 # Your MovingAverage object will be instantiated and called as such:
 # obj = MovingAverage(size)

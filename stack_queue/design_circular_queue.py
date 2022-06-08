@@ -21,12 +21,15 @@ class MyCircularQueue:
         self.count = 0
         self.capacity = k
 
+    # When we say head or tail in a queue context, we need to define
+    # what that means first. In this case, we enqueue to tail and
+    # dequeue from head.
     def enQueue(self, value: int) -> bool:
         """
         Insert an element into the circular queue. Return true if the operation is successful.
         """
         if self.count == self.capacity:
-            # full
+            # Do not enqueue when queue is full.
             return False
         # Enqueue to tail.
         self.queue[self.tail] = value
@@ -39,7 +42,7 @@ class MyCircularQueue:
         Delete an element from the circular queue. Return true if the operation is successful.
         """
         if self.count == 0:
-            # empty
+            # Do not dequeue when queue is empty.
             return False
         # Dequeue from head.
         self.head = (self.head + 1) % self.capacity
