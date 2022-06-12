@@ -25,6 +25,7 @@ class Solution:
             return []
         # Initialize the queue with all 0s.
         R, C = len(rooms), len(rooms[0])
+        # Instead of doing BFS from each square, we do BFS from each gate.
         # Put all the gates first so that we do BFS one at a time for each gate.
         q = deque()
         for r in range(R):
