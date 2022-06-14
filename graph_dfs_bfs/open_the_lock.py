@@ -28,6 +28,7 @@ class Solution:
 
         # BFS
         # (node, depth), depth will be the minimum number of turns.
+        # list is needed when passing initial value.
         queue = deque([('0000', 0)])
         seen = {'0000'}
         while queue:
@@ -40,6 +41,44 @@ class Solution:
                 if nei not in seen:
                     queue.append((nei, depth + 1))
                     seen.add(nei)
+
+        return -1
+
+
+class Solution2:
+    '''
+    Without generator
+    '''
+
+    def __init__(self):
+        pass
+
+    def openLock(self, deadends: List[str], target: str) -> int:
+        dead = set(deadends)
+
+        # BFS
+        queue = deque()
+        # (node, depth), depth will be the minimum number of turns.
+        queue.append(('0000', 0))
+        visited = set('0000')
+        while queue:
+            node, depth = queue.popleft()
+            if node == target:
+                return depth
+            if node in dead:
+                continue
+            # Check neighbors.
+            for i in range(4):
+                # Choose one digit.
+                x = int(node[i])
+                for d in (-1, 1):
+                    # 0 down => 9, 9 up => 0
+                    y = (x + d) % 10
+                    # Insert y at i in the node.
+                    nei = node[:i] + str(y) + node[i + 1:]
+                    if nei not in visited:
+                        queue.append((nei, depth + 1))
+                        visited.add(nei)
 
         return -1
 
