@@ -8,6 +8,33 @@ import numpy as np
 class MinStack:
 
     def __init__(self):
+        # (x, min)
+        self.stack = []
+
+    def push(self, x: int) -> None:
+
+        # If the stack is empty, then the min value
+        # must just be the first value we add
+        if not self.stack:
+            self.stack.append((x, x))
+            return
+
+        current_min = self.stack[-1][1]
+        self.stack.append((x, min(x, current_min)))
+
+    def pop(self) -> None:
+        self.stack.pop()
+
+    def top(self) -> int:
+        return self.stack[-1][0]
+
+    def getMin(self) -> int:
+        return self.stack[-1][1]
+
+
+class MinStack2:
+
+    def __init__(self):
         """
         initialize your data structure here.
         """
@@ -17,6 +44,8 @@ class MinStack:
     def push(self, val: int) -> None:
         if val <= self.min:
             # push the old min
+            # The point is that we need to keep track of the old min
+            # when we pop the current min in the stack.
             self.stack.append(self.min)
             # update the min
             self.min = val
@@ -25,7 +54,9 @@ class MinStack:
         self.stack.append(val)
 
     def pop(self) -> None:
+        # Check if the popped val is the current minimum.
         if self.stack.pop() == self.min:
+            # There should be old min next to it.
             self.min = self.stack.pop()
 
     def top(self) -> int:
