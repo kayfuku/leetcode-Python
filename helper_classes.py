@@ -7,6 +7,7 @@ class ListNode:
         self.val = x
         self.next = node
 
+
 class TreeNode:
     def __init__(self, val=0):
         self.val = val
@@ -17,3 +18,13 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
+
+class Node:
+    def __init__(self, val=0):
+        self.val = val
+        self.neighbors = []
+
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors
