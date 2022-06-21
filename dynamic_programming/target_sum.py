@@ -20,6 +20,7 @@ class Solution:
                 step[y + x] += count[y]
                 step[y - x] += count[y]
             count = step
+
         return count[S]
 
 
