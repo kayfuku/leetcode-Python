@@ -16,9 +16,13 @@ class Solution:
         count = Counter({0: 1})
         for x in A:
             step = Counter()
+            # count is the previous step which keeps track of the number of
+            # ways for each key.
             for y in count:
+                # y + x and y - x take over the number of ways for y.
                 step[y + x] += count[y]
                 step[y - x] += count[y]
+
             count = step
 
         return count[S]
