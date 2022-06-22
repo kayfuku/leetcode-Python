@@ -1,4 +1,4 @@
-# Author: leetcode + kei
+# Author: AntaresTsao + kei
 # Date: June 22, 2022
 from typing import *
 from helper_classes import *
@@ -10,13 +10,11 @@ class Solution:
     def __init__(self):
         pass
 
-    def reverseString(self, s: List[str]) -> None:
-        left = 0
-        right = len(s) - 1
-        while left < right:
-            s[left], s[right] = s[right], s[left]
-            left = left + 1
-            right = right - 1
+    def getRow(self, rowIndex: int) -> List[int]:
+        row = [1]
+        for _ in range(rowIndex):
+            row = [x + y for x, y in zip([0]+row, row+[0])]
+        return row
 
 
 class TestSolution(unittest.TestCase):
