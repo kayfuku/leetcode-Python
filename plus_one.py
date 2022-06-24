@@ -1,24 +1,17 @@
 # Author: leetcode + kei
-# Date: September 17, 2021
-import unittest
+# Date: June 24, 2022
 from typing import *
 from helper_classes import *
 import numpy as np
+import unittest
 
 
 class Solution:
-    def searchInsert(self, nums: List[int], target: int) -> int:
-        left = 0
-        right = len(nums) - 1
-        while left <= right:
-            mid = (left + right) // 2
-            if nums[mid] == target:
-                return mid
-            if target < nums[mid]:
-                right = mid - 1
-            else:
-                left = mid + 1
-        return left
+    def __init__(self):
+        pass
+
+    def plusOne(self, digits: List[int]) -> List[int]:
+        return 0
 
 
 class TestSolution(unittest.TestCase):
