@@ -11,7 +11,21 @@ class Solution:
         pass
 
     def plusOne(self, digits: List[int]) -> List[int]:
-        return 0
+        n = len(digits)
+        for i in range(n):
+            # move along the input array starting from the end
+            idx = n - 1 - i
+            if digits[idx] < 9:
+                # we have the rightmost not-nine
+                # increase this rightmost not-nine by 1
+                digits[idx] += 1
+                return digits
+
+            # set all the nines at the end of array to zeros
+            digits[idx] = 0
+
+        # all the digits were nines
+        return [1] + digits
 
 
 class TestSolution(unittest.TestCase):
