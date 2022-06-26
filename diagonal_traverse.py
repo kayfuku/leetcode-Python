@@ -31,18 +31,14 @@ class Solution:
             r = 0 if d < C else d - C + 1
             c = d if d < C else C - 1
 
-            # TODO:
-            # Iterate until one of the indices goes out of scope
-            # Take note of the index math to go down the diagonal
-            while r < R and c > -1:
+            # Iterate until one of the indices goes out of scope.
+            # Take note of the index math to go down the diagonal.
+            while r < R and c >= 0:
                 intermediate.append(matrix[r][c])
                 r += 1
                 c -= 1
 
-            # Reverse even numbered diagonals. The
-            # article says we have to reverse odd
-            # numbered articles but here, the numbering
-            # is starting from 0 :P
+            # Reverse even numbered diagonals.
             if d % 2 == 0:
                 result.extend(intermediate[::-1])
             else:
