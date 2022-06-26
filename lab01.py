@@ -7,16 +7,10 @@ import os
 
 def main():
     # experiment code
-    wait_count = {}
-
-    wait_count[3] = 1
-    print(wait_count)
-
-    for k, v in wait_count.items():
-        wait_count[k] -= 1
-    print(wait_count)
-
-    print(wait_count[k] == 0)
+    a = 1
+    b = a
+    b //= 2
+    print(b)
 
     # done
     print('done')
