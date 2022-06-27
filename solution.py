@@ -49,7 +49,7 @@ class TestSolution(unittest.TestCase):
     #     n2.right = n5
 
     #     s = Solution()
-    #     result = s.countUnivalSubtrees(n1)
+    #     result = s.solve(n1)
     #     self.assertEqual(result, 4)
 
 
