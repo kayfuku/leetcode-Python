@@ -19,7 +19,8 @@ class Solution:
         dummy = ListNode(0)
         dummy.next = head
 
-        prev, curr = dummy, head
+        prev = dummy
+        curr = head
         # A part of pattern to traverse the singly linked list to process the last node as well.
         while curr:
             if curr.val == val:
@@ -30,6 +31,7 @@ class Solution:
             # A part of pattern to traverse the singly linked list
             curr = curr.next
 
+        # Not head because it might be deleted.
         return dummy.next
 
 
