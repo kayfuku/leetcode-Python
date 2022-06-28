@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: August 10, 2021
+# Date: August 10, 2021, June 28, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -11,9 +11,10 @@ class Solution:
     def isPalindrome(self, head: ListNode) -> bool:
         vals = []
         curr = head
-        while curr is not None:
+        while curr:
             vals.append(curr.val)
             curr = curr.next
+
         return vals == vals[::-1]
 
 
@@ -24,17 +25,17 @@ class Solution2:
             return True
 
         # Find the end of first half and reverse second half.
-        first_half_end = self.end_of_first_half(head)
         # first_half_end.next is like this
         # 1-2-3-3-2-1 => 3-2-1
         # 1-2-3-2-1 => 2-1
+        first_half_end = self.end_of_first_half(head)
         second_half_start = self.reverse_list(first_half_end.next)
 
         # Check whether or not there's a palindrome.
         result = True
         p1 = head
         p2 = second_half_start
-        while result and p2 is not None:
+        while result and p2:
             if p1.val != p2.val:
                 result = False
             p1 = p1.next
@@ -44,22 +45,29 @@ class Solution2:
         first_half_end.next = self.reverse_list(second_half_start)
         return result
 
-    def end_of_first_half(self, head):
+    def end_of_first_half(self, head: ListNode) -> ListNode:
         fast = head
         slow = head
-        while fast.next is not None and fast.next.next is not None:
+        while fast.next and fast.next.next:
             fast = fast.next.next
             slow = slow.next
+
+        # slow ends up at the end of first half.
         return slow
 
-    def reverse_list(self, head):
+    def reverse_list(self, head: ListNode) -> ListNode:
         prev = None
         curr = head
-        while curr is not None:
-            next_node = curr.next
+        while curr:
+            # Keep next node.
+            temp = curr.next
+            # Point to prev. (Reverse)
             curr.next = prev
             prev = curr
-            curr = next_node
+            # Jump to the next node.
+            curr = temp
+
+        # prev is the head of reversed list.
         return prev
 
 
