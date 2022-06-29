@@ -1,16 +1,15 @@
-from multiprocessing.connection import wait
 from typing import *
 from helper_classes import *
 import numpy as np
 import os
+from collections import deque
 
 
 def main():
     # experiment code
-    a = 1
-    b = a
-    b //= 2
-    print(b)
+    q = deque()
+    q.append(1)
+    print(len(q))
 
     # done
     print('done')

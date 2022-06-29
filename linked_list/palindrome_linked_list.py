@@ -29,12 +29,12 @@ class Solution2:
         # 1-2-3-3-2-1 => 3-2-1
         # 1-2-3-2-1 => 2-1
         first_half_end = self.end_of_first_half(head)
-        second_half_start = self.reverse_list(first_half_end.next)
+        reversed_second_half = self.reverse_list(first_half_end.next)
 
         # Check whether or not there's a palindrome.
         result = True
         p1 = head
-        p2 = second_half_start
+        p2 = reversed_second_half
         while result and p2:
             if p1.val != p2.val:
                 result = False
@@ -42,7 +42,8 @@ class Solution2:
             p2 = p2.next
 
         # Restore the list and return the result.
-        first_half_end.next = self.reverse_list(second_half_start)
+        first_half_end.next = self.reverse_list(reversed_second_half)
+
         return result
 
     def end_of_first_half(self, head: ListNode) -> ListNode:
