@@ -7,6 +7,7 @@ import unittest
 
 
 class Node:
+    # We can use construct to link to the next node.
     def __init__(self, val=None, next=None):
         self.val = val
         self.next = next
@@ -21,34 +22,33 @@ class Solution:
             new_node.next = new_node
             return new_node
 
-        # TODO:
         prev = head
         curr = head.next
-        to_insert = False
-
+        # Note that you cannnot put curr != head.next here to check the last
+        # interval between the head and the tail. Insert it later.
         while curr != head:
 
             if prev.val <= insert_val <= curr.val:
                 # Case #1.
-                to_insert = True
-            elif prev.val > curr.val:
-                # Case #2. where we locate the tail element
-                # 'prev' points to the tail, i.e. the largest element!
-                if insert_val >= prev.val or insert_val <= curr.val:
-                    to_insert = True
-
-            if to_insert:
+                # Don't forget to put the curr in to make it circular.
                 prev.next = Node(insert_val, curr)
-                # mission accomplished
                 return head
+            elif prev.val > curr.val:
+                # Case #2. where we locate the max (prev.val) in the sorted list.
+                if insert_val >= prev.val or insert_val <= curr.val:
+                    # insert_val is a new max or min in the list.
+                    prev.next = Node(insert_val, curr)
+                    return head
 
             prev = curr
             curr = curr.next
 
         # Case #3.
-        # did not insert the node in the loop
-        # Every node in the list is the same value.
-        # insert_val is less than or greater than that value.
+        # The insert_val is in the last interval between the head and the tail
+        # whatever the value is.
+        # The value could be prev <= insert_val <= curr if the head is not min or
+        # max in the list.
+        # The value could be a new min or max if the head is min in the list.
         prev.next = Node(insert_val, curr)
 
         return head
