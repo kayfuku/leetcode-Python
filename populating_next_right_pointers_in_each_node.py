@@ -1,18 +1,52 @@
 # Author: leetcode + kei
-# Date: July ?, 2022
+# Date: July 6, 2022
+from platform import node
 from typing import *
 from helper_classes import *
-from collections import *
 import numpy as np
 import unittest
+from collections import *
+
+
+class Node:
+    def __init__(self, val: int = 0, left: Node = None, right: Node = None,
+                 next: Node = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 
 class Solution:
+    '''
+    BFS (Level order traversal) in a tree.
+    '''
+
     def __init__(self):
         pass
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def connect(self, root: Optional[Node]) -> Optional[Node]:
+        if not root:
+            return root
+
+        # BFS (Level order traversal) from right to left.
+        q = deque([root])
+        while q:
+            size = len(q)
+            prev = None
+            for i in range(size):
+                curr = q.popleft()
+                curr.next = prev
+                # Right first!
+                if curr.right:
+                    q.append(curr.right)
+                # Then left.
+                if curr.left:
+                    q.append(curr.left)
+
+                prev = curr
+
+        return root
 
 
 class TestSolution(unittest.TestCase):
