@@ -13,6 +13,7 @@ class Solution:
     def lowestCommonAncestor(
             self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         # Find p and q using DFS, then return candidate node.
+        # Check the both child nodes and return not-None node like an OR operation.
 
         def recurse_tree(curr_node):
             if not curr_node or curr_node == p or curr_node == q:
@@ -25,11 +26,11 @@ class Solution:
             right = recurse_tree(curr_node.right)
 
             if left and right:
-                # Return the node when both child nodes are not null.
+                # Return the node when both child nodes are not None.
                 return curr_node
 
-            # Return not-null child node, and
-            # return null if both nodes are null.
+            # Return not-None child node, and
+            # return None if both nodes are None.
             return left if left else right
 
         lca = recurse_tree(root)
@@ -85,11 +86,11 @@ class TestSolution(unittest.TestCase):
             # (input1, input2, expected output) depending on number of arguments
             (n1, n6, n7, n3),
             (n1, n3, n5, n1),
-            (n1, n4, n5, n1),  # Fail
+            (n1, n4, n5, n2),
         ]
         s = Solution()
         for input1, input2, input3, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, input3=input3, expected=expected):
+            with self.subTest(input1=input1.val, input2=input2.val, input3=input3.val, expected=expected.val):
                 result = s.lowestCommonAncestor(input1, input2, input3)
                 self.assertEqual(result, expected)
 
