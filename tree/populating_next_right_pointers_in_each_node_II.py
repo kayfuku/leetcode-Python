@@ -1,5 +1,6 @@
 # Author: leetcode + kei
-# Date: July 6, 2022
+# Date: July 8, 2022
+from platform import node
 from typing import *
 from helper_classes import *
 import numpy as np
@@ -18,32 +19,30 @@ class Node:
 
 class Solution:
     '''
-    BFS (Level order traversal) in a tree.
+    BFS (Level order traversal)
     '''
 
     def __init__(self):
         pass
 
-    def connect(self, root: Optional[Node]) -> Optional[Node]:
+    def connect(self, root: Node) -> Node:
         if not root:
             return root
 
-        # BFS (Level order traversal) from right to left.
-        q = deque([root])
+        q = deque()
+        q.append(root)
         while q:
             size = len(q)
             prev = None
             for i in range(size):
-                curr = q.popleft()
-                curr.next = prev
-                # Right first!
-                if curr.right:
-                    q.append(curr.right)
-                # Then left.
-                if curr.left:
-                    q.append(curr.left)
+                node = q.popleft()
+                node.next = prev
+                if node.right:
+                    q.append(node.right)
+                if node.left:
+                    q.append(node.left)
 
-                prev = curr
+                prev = node
 
         return root
 
