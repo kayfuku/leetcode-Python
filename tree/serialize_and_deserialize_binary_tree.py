@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: July ?, 2022
+# Date: July 8, 2022
 from typing import *
 from helper_classes import *
 from collections import *
@@ -11,11 +11,25 @@ class Solution:
     '''
     '''
 
-    def __init__(self):
-        pass
+    def serialize(self, root):
+        """
+        Encodes a tree to a single string.
+        :type root: TreeNode
+        :rtype: str
+        """
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def deserialize(self, data):
+        """
+        Decodes your encoded data to tree.
+        :type data: str
+        :rtype: TreeNode
+        """
+
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
 
 
 class TestSolution(unittest.TestCase):
