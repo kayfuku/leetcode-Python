@@ -20,6 +20,9 @@ class TreeNode:
         self.left = left
         self.right = right
 
+    def __str__(self) -> str:
+        return str(self.val)
+
 
 class Node:
     def __init__(self, val=0):
