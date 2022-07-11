@@ -1,5 +1,6 @@
 # Author: leetcode + kei
 # Date: July 8, 2022
+from msilib import sequence
 from typing import *
 from helper_classes import *
 from collections import *
@@ -17,6 +18,20 @@ class Solution:
         :type root: TreeNode
         :rtype: str
         """
+        def dfs(node, string):
+            if node is None:
+                # We need None to correctly serialize the structure of a tree.
+                # Put comma in to split it when deserializing.
+                string += 'None,'
+                return string
+
+            # Pre-order traversal.
+            string += str(node.val) + ','
+            string = dfs(node.left, string)
+            string = dfs(node.right, string)
+            return string
+
+        return dfs(root, '')
 
     def deserialize(self, data):
         """
@@ -24,6 +39,23 @@ class Solution:
         :type data: str
         :rtype: TreeNode
         """
+        def dfs(s):
+            # Check from the leftmost.
+            if s[0] == 'None':
+                s.pop(0)
+                return None
+
+            # Pre-order traversal.
+            node = TreeNode(s[0])
+            # Remove the first one.
+            s.pop(0)
+            node.left = dfs(s)
+            node.right = dfs(s)
+            return node
+
+        sequence = data.split(',')
+        root = dfs(sequence)
+        return root
 
 
 # Your Codec object will be instantiated and called as such:

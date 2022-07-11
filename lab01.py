@@ -7,9 +7,9 @@ from collections import deque
 
 def main():
     # experiment code
-    q = deque()
-    q.append(1)
-    print(len(q))
+    a = 'a'
+    a += 'None,'
+    print(a)
 
     # done
     print('done')
