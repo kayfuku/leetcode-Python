@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: July 11, 2022
+# Date: July 12, 2022
 from typing import *
 from helper_classes import *
 from collections import *
@@ -14,23 +14,22 @@ class Solution:
     def __init__(self):
         pass
 
-    def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> TreeNode:
-        # Just memorize it.
-
-        successor = None
+    def searchBST(
+            self, root: Optional[TreeNode],
+            val: int) -> Optional[TreeNode]:
         node = root
         while node:
-            if node.val <= p.val:
-                # Go right.
+            if node.val == val:
+                return node
+
+            # Don't make a mistake like using '>' here again!
+            if node.val < val:
+                # Go search on the right.
                 node = node.right
             else:
-                # p.val < node.val
-                # Go left.
-                # Keep the node as a successor candidate.
-                successor = node
                 node = node.left
 
-        return successor
+        return node
 
 
 class TestSolution(unittest.TestCase):
@@ -55,38 +54,34 @@ class TestSolution(unittest.TestCase):
         Tree test example
         '''
         # Binary Tree
-        #     6
+        #     4
         #    /  \
-        #   3    12
-        #  / \   / \
-        # 1   4 9  14
+        #   2    7
+        #  / \
+        # 1   3
 
-        n6 = TreeNode(6)
-        n3 = TreeNode(3)
-        n12 = TreeNode(12)
-        n1 = TreeNode(1)
-        n4 = TreeNode(4)
-        n9 = TreeNode(9)
-        n14 = TreeNode(14)
+        n1 = TreeNode(4)
+        n2 = TreeNode(2)
+        n3 = TreeNode(7)
+        n4 = TreeNode(1)
+        n5 = TreeNode(3)
 
-        n6.left = n3
-        n6.right = n12
-        n3.left = n1
-        n3.right = n4
-        n12.left = n9
-        n12.right = n14
+        n1.left = n2
+        n1.right = n3
+        n2.left = n4
+        n2.right = n5
 
         s = Solution()
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
-            (n6, n4, n6),
-            (n6, n6, n9),
-            (n6, n3, n4),
+            (n1, 2, n2),
+            (n1, 1, n4),
+            (n1, 3, n5),
         ]
         s = Solution()
         for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1.val, input2=input2.val, expected=expected.val):
-                result = s.inorderSuccessor(input1, input2)
+            with self.subTest(input1=input1.val, input2=input2, expected=expected.val):
+                result = s.searchBST(input1, input2)
                 self.assertEqual(result, expected)
 
 
