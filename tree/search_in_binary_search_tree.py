@@ -23,6 +23,7 @@ class Solution:
                 return node
 
             # Don't make a mistake like using '>' here again!
+            # Think of val as target.
             if node.val < val:
                 # Go search on the right.
                 node = node.right
