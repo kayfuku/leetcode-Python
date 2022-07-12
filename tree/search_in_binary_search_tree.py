@@ -9,6 +9,7 @@ import unittest
 
 class Solution:
     '''
+    Iterative
     '''
 
     def __init__(self):
@@ -31,6 +32,34 @@ class Solution:
                 node = node.left
 
         return node
+
+
+class Solution2:
+    '''
+    Recursive
+    '''
+
+    def __init__(self):
+        pass
+
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if root is None:
+            return root
+        if root.val == val:
+            return root
+
+        # This is just my personal preference, but easier to debug.
+        ret = None
+        if root.val > val:
+            ret = self.searchBST(root.left, val)
+        else:
+            ret = self.searchBST(root.right, val)
+
+        return ret
+
+        # # Tail recursion is more efficient for time and space.
+        # return self.searchBST(root.left, val) if val < root.val \
+        #     else self.searchBST(root.right, val)
 
 
 class TestSolution(unittest.TestCase):
