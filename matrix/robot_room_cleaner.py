@@ -62,15 +62,21 @@ class Solution:
             robot.turnRight()
 
         def backtrack(cell, d):
+            # Do the job.
             robot.clean()
+            # This is needed to traverse a graph.
             visited.add(cell)
             # going clockwise : 0: 'up', 1: 'right', 2: 'down', 3: 'left'
             # If all the new cells are not available, then go back to the
             # previous recursion stack (previous cell) facing the same direction and
-            # keep searching from where we left at the cell.
+            # keep searching from where we left off at the cell.
+            # We need 'd' because this solution is based on the same idea as
+            # maze solving algorithm called right-hand rule.
+            # https://en.wikipedia.org/wiki/Maze_solving_algorithm  # Wall_follower
             for i in range(4):
-                # Turn 90 degrees and get the new cell.
+                # Turn 90 degrees.
                 nd = (d + i) % 4
+                # Get the next new cell.
                 nr = cell[0] + directions[nd][0]
                 nc = cell[1] + directions[nd][1]
                 new_cell = (nr, nc)  # (Partial candidates)
@@ -84,6 +90,7 @@ class Solution:
         # going clockwise: 0: 'up', 1: 'right', 2: 'down', 3: 'left'
         directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
         visited = set()
+        # Any place is ok to start with.
         backtrack((0, 0), 0)
 
 
