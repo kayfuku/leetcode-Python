@@ -7,8 +7,11 @@ from collections import deque
 
 def main():
     # experiment code
-    a = -1
-    print(bool(a))
+    a = set([1, 2])
+    a.add(3)
+    print(a)
+    a.remove(2)
+    print(a)
 
     # done
     print('done')
