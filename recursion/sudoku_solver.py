@@ -112,105 +112,9 @@ class Solution:
         backtrack()
 
 
-class Solution:
-    '''
-    Use set, AC
-    '''
-
-    def solveSudoku(self, board):
-        """
-        :type board: List[List[str]]
-        :rtype: void Do not return anything, modify board in-place instead.
-        """
-        def could_place(d, row, col):
-            """
-            Check if one could place a number d in (row, col) cell
-            """
-            return not (d in rows[row] or d in columns[col] or
-                        d in boxes[box_index(row, col)])
-
-        def place_number(d, row, col):
-            """
-            Place a number d in (row, col) cell
-            """
-            rows[row].add(d)
-            columns[col].add(d)
-            boxes[box_index(row, col)].add(d)
-            board[row][col] = str(d)
-
-        def remove_number(d, row, col):
-            """
-            Remove a number which didn't lead
-            to a solution
-            """
-            rows[row].remove(d)
-            columns[col].remove(d)
-            boxes[box_index(row, col)].remove(d)
-            board[row][col] = '.'
-
-        def move_to_next(r, c):
-            if c == N - 1:
-                nr = r + 1
-                nc = 0
-            else:
-                nr = r
-                nc = c + 1
-
-            if nr != N and board[nr][nc] != '.':
-                return move_to_next(nr, nc)
-
-            return nr, nc
-
-        def backtrack(r=0, c=0):
-            if board[r][c] != '.':
-                r, c = move_to_next(r, c)
-
-            # Iterate over all numbers from 1 to 9.
-            for d in range(1, 10):
-                # (Constraints)
-                if not could_place(d, r, c):
-                    continue
-
-                # (Candidate)
-                place_number(d, r, c)
-                nr, nc = move_to_next(r, c)
-                if nr == N:
-                    # We're in the last cell, that means we have the solution.
-                    return True
-                if backtrack(nr, nc):
-                    return True
-
-                # Recover. (Backtracking)
-                remove_number(d, r, c)
-
-            return False
-
-        # box size
-        n = 3
-        # row size
-        N = n * n
-        # lambda function to compute box index
-        def box_index(row, col): return (row // n) * n + col // n
-
-        # Use set for each row, column, and box to check if
-        # there is a number already placed in there.
-        rows = [set() for i in range(N)]
-        columns = [set() for i in range(N)]
-        boxes = [set() for i in range(N)]
-        # Initialize the dictionaries.
-        for i in range(N):
-            for j in range(N):
-                if board[i][j] != '.':
-                    d = int(board[i][j])
-                    place_number(d, i, j)
-
-        # Let's get started.
-        backtrack()
-
-
 class Solution2:
     '''
-    Use set, NG! I don't know why.
+    Use set, AC
     '''
 
     def __init__(self):
@@ -258,10 +162,10 @@ class Solution2:
             return nr, nc
 
         def backtrack(r=0, c=0):
-            while r != N - 1 and c != N - 1 and board[r][c] != '.':
+            while r != N and board[r][c] != '.':
                 r, c = move_to_next(r, c)
 
-            if r == N - 1 and c == N - 1:
+            if r == N:
                 # We're in the last cell, that means we have the solution.
                 return True
 
