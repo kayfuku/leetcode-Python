@@ -17,50 +17,45 @@ class Solution:
 
     def treeToDoublyList(self, root: Node) -> Node:
 
-        def helper(node):
+        def helper(curr):
             """
             Performs standard inorder traversal:
-            left -> node -> right
+            left -> curr -> right
             and links all nodes into DLL
             """
             # This is needed.
-            nonlocal last, first
-            if node is None:
+            nonlocal head, tail
+            if curr is None:
                 return
 
-            # In-order traversal ('node' will be accessed in in-order order in the BST)
-            # left
-            helper(node.left)
-            # node
-            # TODO: Think twice about why it is like this.
-            if last:
-                # Link the previous node (last)
-                # with the current one (node).
-                last.right = node
-                node.left = last
+            # In-order traversal ('curr' will be accessed in in-order order in the BST)
+            # 1. left
+            helper(curr.left)
+            # 2. curr
+            if tail:
+                # Link the previous node (tail) with the current one (curr).
+                tail.right = curr
+                curr.left = tail
             else:
-                # Keep the smallest node
-                # to close DLL later on.
-                first = node
+                # Keep the smallest node to close DLL later on.
+                head = curr
 
-            # Move the last node to the current node.
-            last = node
-            # right
-            helper(node.right)
+            # Move the tail node to the current node.
+            tail = curr
+            # 3. right
+            helper(curr.right)
 
         if not root:
             return None
 
-        # the smallest (first) and the largest (last) nodes
-        # as variables out of recursion
-        first, last = None, None
+        head, tail = None, None
         helper(root)
 
         # Close DLL.
-        last.right = first
-        first.left = last
+        tail.right = head
+        head.left = tail
 
-        return first
+        return head
 
 
 class TestSolution(unittest.TestCase):
