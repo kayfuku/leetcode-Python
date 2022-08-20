@@ -43,6 +43,9 @@ class Solution:
 class Solution2:
     '''
     k Sum solution
+    Cut recursion tree height in half so that we can save the square root of
+    n^k time and space .
+    O(n^(k/2)) time and space
     '''
 
     def fourSumCount(
@@ -51,33 +54,67 @@ class Solution2:
             C: List[int],
             D: List[int]) -> int:
 
+        # initialized by 0
         m = defaultdict(int)
         lists = [A, B, C, D]
 
-        def nSumCount() -> int:
-            addToHash(0, 0)
-            return countComplements(len(lists) // 2, 0)
+        def k_sum_count() -> int:
+            # first half
+            sum_first_half(0, 0)
+            # second half
+            return sum_second_half(len(lists) // 2, 0)
 
-        def addToHash(i: int, total: int) -> None:
+        def sum_first_half(i: int, total: int) -> None:
             if i == len(lists) // 2:
                 m[total] += 1
                 return
-            # Sum all the combinations of numbers of lists for first half.
+            # Sum all the combinations of the numbers of lists for first half.
             # We use recursion when the number of nested loops is a variable.
             for a in lists[i]:
                 # One list of numbers at one recursion stack.
-                addToHash(i + 1, total + a)
+                sum_first_half(i + 1, total + a)
 
-        def countComplements(i: int, complement: int) -> int:
+        def sum_second_half(i: int, total: int) -> int:
             if i == len(lists):
-                return m[complement]
+                # If the total is a complement of the total of the first half,
+                # then it means that those numbers add up to zero.
+                return m[-total]
             cnt = 0
             for a in lists[i]:
-                # TODO: ?
-                cnt += countComplements(i + 1, complement - a)
+                cnt += sum_second_half(i + 1, total + a)
             return cnt
 
-        return nSumCount()
+        return k_sum_count()
+
+
+class Solution3:
+    '''
+    k Sum solution (TLE)
+    O(n^k) time and space
+    '''
+
+    def fourSumCount(
+            self, A: List[int],
+            B: List[int],
+            C: List[int],
+            D: List[int]) -> int:
+
+        lists = [A, B, C, D]
+
+        def sum_all_comb(i: int, total: int) -> int:
+            if i == len(lists):
+                if total == 0:
+                    return 1
+                else:
+                    return 0
+
+            cnt = 0
+            for num in lists[i]:
+                cnt += sum_all_comb(i + 1, total + num)
+
+            return cnt
+
+        return sum_all_comb(0, 0)
 
 
 class TestSolution(unittest.TestCase):
