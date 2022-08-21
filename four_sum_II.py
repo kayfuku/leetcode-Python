@@ -43,8 +43,8 @@ class Solution:
 class Solution2:
     '''
     k Sum solution
-    Cut recursion tree height in half so that we can save the square root of
-    n^k time and space .
+    Cut recursion tree height in half so that we can save the time and space to
+    square root of n^k.
     O(n^(k/2)) time and space
     '''
 
@@ -109,6 +109,7 @@ class Solution3:
                     return 0
 
             cnt = 0
+            # Sum all the combinations of the numbers of lists for first half.
             for num in lists[i]:
                 cnt += sum_all_comb(i + 1, total + num)
 
