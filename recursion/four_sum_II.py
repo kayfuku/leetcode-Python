@@ -54,7 +54,7 @@ class Solution2:
             C: List[int],
             D: List[int]) -> int:
 
-        # initialized by 0
+        # initialized by 0 and can also avoid key error.
         m = defaultdict(int)
         lists = [A, B, C, D]
 
