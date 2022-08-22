@@ -1,3 +1,4 @@
+import random
 from re import A
 from typing import *
 from helper_classes import *
@@ -8,9 +9,10 @@ from collections import *
 
 def main():
     # experiment code
-    d = defaultdict(int)
-    d['a'] = 0
-    print(d['b'])
+    num_set = set([1, 2, 3])
+    n = random.choice(num_set)
+
+    print(n)
 
     # done
     print('done')
