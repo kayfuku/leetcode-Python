@@ -9,10 +9,9 @@ from collections import *
 
 def main():
     # experiment code
-    num_set = set([1, 2, 3])
-    n = random.choice(num_set)
+    s = ' a  b    '
 
-    print(n)
+    print(s.split())
 
     # done
     print('done')
