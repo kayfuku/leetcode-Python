@@ -15,43 +15,20 @@ class Solution:
         pass
 
     def duplicateZeros(self, arr: List[int]) -> None:
-        """
-        Do not return anything, modify arr in-place instead.
-        """
-        possible_dups = 0
-        original_last = len(arr) - 1
-
-        # Find the number of zeros to be duplicated.
-        for left in range(original_last + 1):
-            new_last = original_last - possible_dups
-            if left > new_last:
-                # Stop when 'left' pointer beyond the new last element.
-                break
-
-            # Count the zeros.
-            if arr[left] == 0:
-                # TODO:
-                if left == new_last:
-                    # Edge case: This zero can't be duplicated. We have no more space,
-                    # as left is pointing to the last element which could be included.
-                    # For this zero, we just copy it without duplication.
-                    arr[original_last] = 0
-                    original_last -= 1
-                    break
-
-                possible_dups += 1
-
-        new_last = original_last - possible_dups
-
-        # Start backwards from the last element which would be part of new list.
-        for i in range(new_last, -1, -1):
-            # Copy zero twice, and non zero once.
+        # The number of zeroes in the array, which is a maximum shift distance.
+        # Shift distance is equal to the number of zeroes to the left of each element.
+        zeroes = arr.count(0)
+        n = len(arr)
+        # Start copying from the last element so that we don't overwrite
+        # the values we need.
+        for i in range(n - 1, -1, -1):
+            if i + zeroes < n:
+                arr[i + zeroes] = arr[i]
             if arr[i] == 0:
-                arr[i + possible_dups] = 0
-                possible_dups -= 1
-                arr[i + possible_dups] = 0
-            else:
-                arr[i + possible_dups] = arr[i]
+                # Decrement shift distance by one.
+                zeroes -= 1
+                if i + zeroes < n:
+                    arr[i + zeroes] = 0
 
 
 class TestSolution(unittest.TestCase):
