@@ -1,11 +1,12 @@
 # Author: leetcode + kei
-# Date: July 15, 2021
+# Date: July 15, 2021, August 28, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+
     def hasCycle(self, head: ListNode) -> bool:
         nodes_seen = set()
         while head is not None:
@@ -14,6 +15,9 @@ class Solution:
             nodes_seen.add(head)
             head = head.next
         return False
+
+
+class Solution2:
 
     def hasCycle(self, head: ListNode) -> bool:
         if head is None:
