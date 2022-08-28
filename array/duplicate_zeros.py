@@ -9,6 +9,7 @@ import unittest
 
 class Solution:
     '''
+    First, think about copy to another array. Then, think about copy in-place.
     '''
 
     def __init__(self):
@@ -17,18 +18,22 @@ class Solution:
     def duplicateZeros(self, arr: List[int]) -> None:
         # The number of zeroes in the array, which is a maximum shift distance.
         # Shift distance is equal to the number of zeroes to the left of each element.
-        zeroes = arr.count(0)
+        shift = arr.count(0)
         n = len(arr)
         # Start copying from the last element so that we don't overwrite
         # the values we need.
         for i in range(n - 1, -1, -1):
-            if i + zeroes < n:
-                arr[i + zeroes] = arr[i]
+            # We can't copy at index out of bound.
+            if i + shift < n:
+                # Copy in-place.
+                # Basically, we copy each element whether it's zero or not.
+                arr[i + shift] = arr[i]
             if arr[i] == 0:
                 # Decrement shift distance by one.
-                zeroes -= 1
-                if i + zeroes < n:
-                    arr[i + zeroes] = 0
+                shift -= 1
+                if i + shift < n:
+                    # Copy the zero again.
+                    arr[i + shift] = 0
 
 
 class TestSolution(unittest.TestCase):
@@ -39,14 +44,14 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([1, 0, 2, 3, 0, 4, 5, 0], [1, 0, 0, 2, 3, 0, 0, 4]),
+            ([1, 0, 2, 3, 0, 0, 5, 0], [1, 0, 0, 2, 3, 0, 0, 0]),
         ]
         s = Solution()
-        for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
-                self.assertEqual(result, expected)
+        for input1, expected in input_and_expected_outputs:
+            with self.subTest(input1=input1, expected=expected):
+                s.duplicateZeros(input1)
+                self.assertEqual(input1, expected)
 
     # def test_tree(self):
     #     '''

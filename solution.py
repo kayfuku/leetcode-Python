@@ -24,13 +24,13 @@ class TestSolution(unittest.TestCase):
         '''
         Test
         '''
-        input_and_expected_outputs = [
+        input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
             ([0, 1, 2], 3, 6),
             ([0, 1], 3, 5),
         ]
         s = Solution()
-        for input1, input2, expected in input_and_expected_outputs:
+        for input1, input2, expected in input_and_expected_output:
             with self.subTest(input1=input1, input2=input2, expected=expected):
                 result = s.solve(input1, input2)
                 self.assertEqual(result, expected)

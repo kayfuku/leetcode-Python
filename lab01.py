@@ -9,9 +9,9 @@ from collections import *
 
 def main():
     # experiment code
-    a = [[1, 2], [3, 4]]
+    a = [1, 2, 2, 3]
 
-    print(a[0][1])
+    print(a.count(3))
 
     # done
     print('done')
