@@ -1,40 +1,43 @@
 # Author: leetcode + kei
-# Date: July 15, 2021
+# Date: July 15, 2021, August 30, 2022
 import unittest
 from typing import *
+
+from helper_classes import ListNode
 
 
 class Solution:
     """
-    Set
+    1. Set
     O(N) time, O(N) space
     """
 
     def detectCycle(self, head):
         visited = set()
         node = head
-        while node is not None:
+        while node:
             if node in visited:
                 return node
             visited.add(node)
             node = node.next
 
+        # Despite the problem statement, it should be None.
         return None
 
 
 class Solution2:
     """
-    Two pointers
+    2. Two pointers (Floyd's Tortoise and Hare)
     O(N) time, O(1) space
     """
 
-    def getIntersect(self, head):
+    def getIntersect(self, head: ListNode):
         slow = head
         fast = head
 
         # A fast pointer will either loop around a cycle and meet the slow
-        # pointer or reach the `null` at the end of a non-cyclic list.
-        while fast is not None and fast.next is not None:
+        # pointer or reach the None at the end of a non-cyclic list.
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
             if slow == fast:
@@ -42,7 +45,7 @@ class Solution2:
 
         return None
 
-    def detectCycle(self, head):
+    def detectCycle(self, head: ListNode):
         if head is None:
             return None
 
