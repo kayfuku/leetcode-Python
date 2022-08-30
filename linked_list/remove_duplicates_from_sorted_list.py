@@ -1,23 +1,28 @@
 # Author: leetcode + kei
-# Date: July 15, 2021
+# Date: July 15, 2021, August 30, 2022
 import unittest
 from helper_classes import *
 from typing import *
 
 
 class Solution:
+
     def deleteDuplicates(self, head: ListNode) -> ListNode:
+        # 'head is None' is clearer than 'not head'.
+        # 'not head' return True if head is an empty list.
         if head is None or head.next is None:
             return head
+        # Assert that it has two or more nodes.
 
+        # We only need one pointer.
         curr = head
         # repeat while curr node is not the last node
-        while curr.next is not None:
+        while curr.next:
             if curr.val == curr.next.val:
-                # delete duplicate
+                # Delete duplicate(next node).
                 curr.next = curr.next.next
             else:
-                # keep curr node
+                # Move forward the pointer.
                 curr = curr.next
 
         return head
@@ -29,6 +34,12 @@ class TestSolution(unittest.TestCase):
         '''
         Test
         '''
+        n1 = ListNode(1)
+        n2 = ListNode(1)
+        n3 = ListNode(2)
+        n1.next = n2
+        n2.next = n3
+
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
             ([0, 1, 2], 3, 6),
@@ -37,7 +48,7 @@ class TestSolution(unittest.TestCase):
         s = Solution()
         for input1, input2, expected in input_and_expected_outputs:
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+                result = s.deleteDuplicates(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
@@ -64,7 +75,15 @@ class TestSolution(unittest.TestCase):
 
 def main():
     """ For testing """
-    unittest.main()
+    # unittest.main()
+    n1 = ListNode(1)
+    n2 = ListNode(1)
+    n3 = ListNode(2)
+    n1.next = n2
+    n2.next = n3
+
+    s = Solution()
+    s.deleteDuplicates(n1)
 
 
 if __name__ == '__main__':
