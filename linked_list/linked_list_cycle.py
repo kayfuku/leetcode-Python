@@ -8,12 +8,14 @@ from helper_classes import *
 class Solution:
 
     def hasCycle(self, head: ListNode) -> bool:
-        nodes_seen = set()
-        while head is not None:
-            if head in nodes_seen:
+        node = head
+        seen = set()
+        while node:
+            if node in seen:
                 return True
-            nodes_seen.add(head)
-            head = head.next
+            seen.add(node)
+            node = node.next
+
         return False
 
 
@@ -22,9 +24,10 @@ class Solution2:
     def hasCycle(self, head: ListNode) -> bool:
         if head is None:
             return False
+
         slow = head
         fast = head
-        while fast is not None and fast.next is not None:
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
             if slow == fast:
