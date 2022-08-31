@@ -1,15 +1,17 @@
 # Author: leetcode + kei
-# Date: July 16, 2021
+# Date: July 16, 2021, August 31, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         dummy = ListNode(0)
         curr = dummy
         carry = 0
+        # Length of l1 and l2 might not be the same.
         while l1 or l2:
             x = l1.val if l1 else 0
             y = l2.val if l2 else 0
@@ -22,6 +24,7 @@ class Solution:
                 l2 = l2.next
             curr = curr.next
 
+        # Don't forget this.
         if carry:
             curr.next = ListNode(carry)
 
