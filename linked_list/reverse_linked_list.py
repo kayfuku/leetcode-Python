@@ -1,42 +1,53 @@
 # Author: leetcode + kei
-# Date: July 16, 2021
+# Date: July 16, 2021, August 31, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    Iterative, good for interview
+    '''
+
     def reverseList(self, head: ListNode) -> ListNode:
-        """ iterative """
         prev = None
         curr = head
         while curr:
-            # new node
+            # First, we need next node so that curr pointer can move to the node
+            # after the link is cut.
             next_node = curr.next
-            # reverse the link
+            # Reverse the link.
             curr.next = prev
-            # move on to the next
+            # Move on to the next.
             prev = curr
             curr = next_node
 
+        # If the head is an empty list, then prev is None, which is ok
+        # despite the problem statement.
         return prev
 
 
 class Solution2:
-
-    def helper(self, prev, curr):
-        if curr is None:
-            return prev
-
-        next_node = curr.next
-        curr.next = prev
-
-        return self.helper(curr, next_node)
+    '''
+    Recursive
+    '''
 
     def reverseList(self, head: ListNode) -> ListNode:
-        """ recursive """
+
+        def helper(prev, curr: ListNode) -> ListNode:
+            if curr is None:
+                return prev
+
+            next_node = curr.next
+            curr.next = prev
+
+            # prev gets curr and curr gets next_node in the next recursion stack.
+            return helper(curr, next_node)
+
         prev = None
-        return self.helper(prev, head)
+        # Each recursion stack takes as input two pointers, prev and curr.
+        return helper(prev, head)
 
 
 class TestSolution(unittest.TestCase):
