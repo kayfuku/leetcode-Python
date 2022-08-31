@@ -9,7 +9,7 @@ class Solution:
 
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         # 'head is None' is clearer than 'not head'.
-        # 'not head' return True if head is an empty list.
+        # By the way, 'not head' return True if head is an empty list.
         if head is None or head.next is None:
             return head
         # Assert that it has two or more nodes.

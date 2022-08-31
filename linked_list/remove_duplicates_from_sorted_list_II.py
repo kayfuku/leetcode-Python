@@ -1,29 +1,36 @@
 # Author: + kei
-# Date: July ?, 2021
+# Date: July ?, 2021, August 31, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    Two pointers
+    '''
+
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         dummy = ListNode(0)
         dummy.next = head
 
-        # before the sublist of duplicates
+        # 'slow' is always the last node of the desired list.
         slow = dummy
         fast = head
 
         while fast:
-            # move till the end of duplicates sublist
+            # Move 'fast' till the end of duplicates sublist.
             while fast.next and fast.val == fast.next.val:
                 fast = fast.next
 
             if slow.next != fast:
-                # skip all duplicates
+                # Delete all the duplicates from 'slow.next' to 'fast'.
                 slow.next = fast.next
                 fast = slow.next
             else:
+                # 'fast' and 'fast.next' is not the same because 'fast' has not moved
+                # from 'slow.next', which means 'fast' is a distinct number.
+                # Move forward both pointers by one.
                 slow = slow.next
                 fast = fast.next
 
