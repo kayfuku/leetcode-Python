@@ -1,11 +1,12 @@
 # Author: leetcode + kei
-# Date: July 17, 2021
+# Date: July 17, 2021, August 31, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+
     def isValid(self, s: str) -> bool:
         if s is None or len(s) == 0:
             return True
