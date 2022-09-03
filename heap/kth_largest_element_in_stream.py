@@ -1,5 +1,5 @@
 # Author: cenkay + kei
-# Date: July 17, 2021
+# Date: July 17, 2021, September 3, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -11,17 +11,20 @@ class KthLargest:
     def __init__(self, k, nums):
         self.nums = nums
         self.k = k
-        # create min heap
+        # Create a min heap of size k.
+        # Unlike Java, no variable for heap, and it takes as input an array and
+        # converts an array into a heap.
         heapq.heapify(self.nums)
         while len(self.nums) > k:
             heapq.heappop(self.nums)
 
     def add(self, val):
         heapq.heappush(self.nums, val)
+        # Keep the heap size k.
         if len(self.nums) > self.k:
             heapq.heappop(self.nums)
 
-        # peek
+        # Peek.
         return self.nums[0]
 
     # Your KthLargest object will be instantiated and called as such:
