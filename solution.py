@@ -30,9 +30,11 @@ class TestSolution(unittest.TestCase):
             ([0, 1], 3, 5),
         ]
         s = Solution()
-        for input1, input2, expected in input_and_expected_output:
+        for case, (input1, input2, expected) in enumerate(
+                input_and_expected_output):
+            print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+                result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):

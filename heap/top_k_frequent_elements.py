@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: July 18, 2021
+# Date: July 18, 2021, September 3, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -7,22 +7,27 @@ import heapq
 
 
 class Solution:
+
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         # O(1) time
         if k == len(nums):
+            print("k is the length of nums.")
             return nums
 
-        # 1. build hash map : character and how often it appears
+        # 1. Build a count dictionary.
+        # K: number, V: count
         # O(N) time
         count = Counter(nums)
-        # print('count:', count)
-        # print('count.keys():', count.keys())
-        # print('count.get(1):', count.get(1))
+        print('count:', count)
+        print('count.keys():', count.keys())
+        print('count.get(1):', count.get(1))
 
-        # 2-3. build heap of top k frequent elements and
-        # convert it into an output array
+        # heapq.nlargest(n, iterable, key function) returns n largests.
+        # 'key' function takes as input each element and return something which
+        # the sorting is based on.
         # O(NlogK) time
-        return heapq.nlargest(k, count.keys(), key=count.get)
+        largests = heapq.nlargest(k, count.keys(), key=count.get)
+        return largests
 
 
 class TestSolution(unittest.TestCase):
@@ -31,15 +36,17 @@ class TestSolution(unittest.TestCase):
         '''
         Test
         '''
-        input_and_expected_outputs = [
+        input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([1, 1, 1, 2, 2, 3], 2, [1, 2]),
+            ([1], 1, [1]),
         ]
         s = Solution()
-        for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+        for case, (input1, input2, expected) in enumerate(
+                input_and_expected_output):
+            print('Case: {}'.format(case))
+            with self.subTest(nums=input1, k=input2, expected=expected):
+                result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
