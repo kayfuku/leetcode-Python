@@ -13,16 +13,21 @@ class Solution:
         if len(s) == 1:
             return False
 
+        # Use a dictionary to check the type.
+        # K: closing, V: opening
         mapping = {')': '(', '}': '{', ']': '['}
         stack = []
         for c in s:
             if not c in mapping:
+                # c is an opening parenthesis.
                 stack.append(c)
             else:
+                # c is a closing parenthesis.
+                # Check this before popping.
                 if len(stack) == 0:
                     return False
-                top = stack.pop()
-                if mapping[c] != top:
+                last_opening = stack.pop()
+                if mapping[c] != last_opening:
                     return False
 
         return len(stack) == 0
