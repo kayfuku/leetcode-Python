@@ -7,6 +7,10 @@ import heapq
 
 
 class Solution:
+    '''
+    O(NlogK) time, where N is the nums length and K is k, which is the heap size.
+    O(N) space
+    '''
 
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         # O(1) time
@@ -22,11 +26,12 @@ class Solution:
         print('count.keys():', count.keys())
         print('count.get(1):', count.get(1))
 
-        # heapq.nlargest(n, iterable, key function) returns n largests.
-        # 'key' function takes as input each element and return something which
-        # the sorting is based on.
+        # heapq.nlargest(n, iterable, key function) returns n elements from top.
+        # 'key' function takes as input each emelemt in the 'iterable' and apply
+        # the callable, and then return something by which we sort iterable.
         # O(NlogK) time
         largests = heapq.nlargest(k, count.keys(), key=count.get)
+
         return largests
 
 
