@@ -1,5 +1,5 @@
 # Author: peyman_np + kei
-# Date: May 2, 2021
+# Date: May 2, 2021, September 5, 2022
 import unittest
 from typing import *
 
@@ -8,12 +8,12 @@ class Solution:
 
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         seen = dict()
-        for i, v in enumerate(nums):
-            rem = target - v
+        for i, num in enumerate(nums):
+            rem = target - num
             if rem in seen:
                 return [seen[rem], i]
 
-            seen[v] = i
+            seen[num] = i
 
         return []
 
