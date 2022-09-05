@@ -8,9 +8,9 @@ from collections import *
 
 def main():
     # experiment code
-    a = [1, 2, 2, 3]
+    a = {'a': 1, 'b': 2}
 
-    print(a.count(3))
+    print(tuple(a))
 
     # done
     print('done')
