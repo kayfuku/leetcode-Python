@@ -1,11 +1,15 @@
 # Author: rock + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 6, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    Group the same addresses and return the length of the set.
+    '''
+
     def numUniqueEmails(self, emails: List[str]) -> int:
         seen = set()
         for email in emails:
