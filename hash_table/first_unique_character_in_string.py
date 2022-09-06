@@ -1,12 +1,12 @@
 # Author: leetcode + kei
-# Date: August 10, 2021
+# Date: August 10, 2021, September 6, 2022
 import unittest
 from typing import *
 from helper_classes import *
-import collections
 
 
 class Solution:
+
     def firstUniqChar(self, s: str) -> int:
         """
         O(N) time and space
@@ -14,12 +14,12 @@ class Solution:
         :rtype: int
         """
         # build hash map : character and how often it appears
-        count = collections.Counter(s)
+        count = Counter(s)
 
         # find the index
-        for idx, ch in enumerate(s):
-            if count[ch] == 1:
-                return idx
+        for i, c in enumerate(s):
+            if count[c] == 1:
+                return i
 
         return -1
 
