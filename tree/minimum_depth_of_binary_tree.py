@@ -1,16 +1,70 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 7, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    1. DFS recursive
+    If the node has only one child, we can't just take minimum of two
+    subtrees' heights.
+    '''
+
     def minDepth(self, root: TreeNode) -> int:
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
+        if root is None:
+            return 0
+
+        left_subtree = self.minDepth(root.left)
+        right_subtree = self.minDepth(root.right)
+
+        # If node has only one child, then the depth is 2, not 1.
+        # So we can't just take minimum of two subtrees' heights.
+        # left == | right == | depth == |
+        # null(0) | not null | right + 1
+        # not null| null(0)  | left + 1
+        # null(0) | null(0)  | 1
+        if root.left is None or root.right is None:
+            return left_subtree + right_subtree + 1
+
+        min_depth = min(left_subtree, right_subtree)
+
+        return min_depth + 1
+
+
+class Solution2:
+    '''
+    2. DFS recursive
+    Easy to understand
+    '''
+
+    def minDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        # If node has one or more None, then we need to handle it.
+        if root.left is None and root.right is None:
+            return 1
+        if root.left is None:
+            return self.minDepth(root.right) + 1
+        if root.right is None:
+            return self.minDepth(root.left) + 1
+
+        left_subtree = self.minDepth(root.left)
+        right_subtree = self.minDepth(root.right)
+
+        return min(left_subtree, right_subtree) + 1
+
+# TODO: 3 more solutions!!
+
+
+class Solution:
+    '''
+    Leetcode solution
+    '''
+
+    def minDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
 
