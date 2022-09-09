@@ -4,10 +4,12 @@ import unittest
 from typing import *
 from helper_classes import *
 
+from collections import deque
 
-class Solution:
+
+class Solution1:
     '''
-    1. DFS recursive
+    1-1. DFS recursive
     If the node has only one child, we can't just take minimum of two
     subtrees' heights.
     '''
@@ -33,9 +35,9 @@ class Solution:
         return min_depth + 1
 
 
-class Solution2:
+class Solution1_2:
     '''
-    2. DFS recursive
+    1-2. DFS recursive
     Easy to understand
     '''
 
@@ -50,13 +52,92 @@ class Solution2:
             return self.minDepth(root.right) + 1
         if root.right is None:
             return self.minDepth(root.left) + 1
+        # Assert that both nodes are not None.
 
         left_subtree = self.minDepth(root.left)
         right_subtree = self.minDepth(root.right)
 
         return min(left_subtree, right_subtree) + 1
 
-# TODO: 3 more solutions!!
+
+class Solution1_3:
+    '''
+    1-3. DFS recursive
+    Easy to understand
+    '''
+
+    def minDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        if root.left is None and root.right is None:
+            return 1
+
+        min_depth = float('inf')
+        if root.left is not None:
+            min_depth = min(min_depth, self.minDepth(root.left))
+        if root.right is not None:
+            min_depth = min(min_depth, self.minDepth(root.right))
+
+        return min_depth + 1
+
+
+class Solution2:
+    '''
+    2. DFS iterative
+    Not very common
+    '''
+
+    def minDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        node = root
+        stack = []
+        stack.append((node, 1))
+        min_depth = float('inf')
+        while stack:
+            node, depth = stack.pop()
+
+            if node.left is None and node.right is None:
+                min_depth = min(min_depth, depth)
+
+            if node.right is not None:
+                stack.append([node.right, depth + 1])
+            if node.left is not None:
+                stack.append([node.left, depth + 1])
+
+        return min_depth
+
+
+class Solution3:
+    '''
+    3. BFS (Level order traversal)
+    Good for interview
+    O(N) time and space
+    '''
+
+    def minDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+
+        node = root
+        queue = deque()
+        queue.append(node)
+        depth = 0
+        while queue:
+            depth += 1
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                if node.left is None and node.right is None:
+                    return depth
+
+                if node.left is not None:
+                    queue.append(node.left)
+                if node.right is not None:
+                    queue.append(node.right)
+
+        return depth
 
 
 class Solution:
