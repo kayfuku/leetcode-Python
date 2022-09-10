@@ -1,49 +1,71 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 10, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
-class Solution:
+class Solution1_1:
+    '''
+    1-1. Recursive
+    '''
+
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
-        """
-        1. recursive
-        :type root: TreeNode
-        :type sum: int
-        :rtype: bool
-        """
-        if not root:
+
+        def dfs(node: TreeNode, rem: TreeNode) -> bool:
+            if node is None:
+                return False
+
+            rem -= node.val
+            if node.left is None and node.right is None:
+                # Leaf
+                return rem == 0
+
+            return dfs(node.left, rem) or dfs(node.right, rem)
+
+        return dfs(root, sum)
+
+
+class Solution1_2:
+    '''
+    1-2. Recursive
+    '''
+
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if root is None:
             return False
 
         sum -= root.val
-        if not root.left and not root.right:  # if reach a leaf
+        if root.left is None and root.right is None:
+            # 'root' is a leaf node.
             return sum == 0
-        return self.hasPathSum(
-            root.left, sum) or self.hasPathSum(
-            root.right, sum)
+
+        return self.hasPathSum(root.left, sum) or \
+            self.hasPathSum(root.right, sum)
 
 
 class Solution2:
+    '''
+    2. Iterative
+    '''
+
+    # TODO: why WA?
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
-        """
-        2. iterative
-        :type root: TreeNode
-        :type sum: int
-        :rtype: bool
-        """
-        if not root:
+        if root is None:
             return False
 
-        stack = [(root, sum - root.val), ]
+        stack = [(root, sum), ]
         while stack:
             node, curr_sum = stack.pop()
-            if not node.left and not node.right and curr_sum == 0:
-                return True
+            curr_sum -= node.val
+            if node.left is None and node.right is None:
+                return curr_sum == 0
+
             if node.right:
-                stack.append((node.right, curr_sum - node.right.val))
+                stack.append((node.right, curr_sum))
             if node.left:
-                stack.append((node.left, curr_sum - node.left.val))
+                stack.append((node.left, curr_sum))
+
         return False
 
 
