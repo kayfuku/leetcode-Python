@@ -1,20 +1,23 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 10, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+
     def mergeTrees(self, t1, t2):
         if t1 is None:
             return t2
         if t2 is None:
             return t1
 
+        # We can use one of those nodes instead of a new node.
         t1.val += t2.val
         t1.left = self.mergeTrees(t1.left, t2.left)
         t1.right = self.mergeTrees(t1.right, t2.right)
+
         return t1
 
 
