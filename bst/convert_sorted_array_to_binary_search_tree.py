@@ -1,27 +1,39 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 10, 2022
+from tkinter.tix import Tree
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    We can use preorder traversal to create BST from array.
+    First, we have to pick a root node. Then, attach children nodes.
+    Height-balanced tree can be created by choosing a middle element in the array
+    because the elements to the left of the middle element will be in the left
+    subtree and the elements to the right of the middle element will be in the
+    right subtree.
+    O(N) time and space
+    '''
 
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        """
-        O(N) time and space
-        """
-        def helper(left, right):
+        # We can use 'nums' in this inner method without passing it as an argument.
+        def helper(left: TreeNode, right: TreeNode) -> TreeNode:
             if left > right:
                 return None
 
-            # always choose left middle node as a root
+            # Height-balanced restriction means that at each step we have to
+            # pick up the number in the middle as a root so that the heights of
+            # left and right subtrees are almost the same.
             mid = (left + right) // 2
 
-            # preorder traversal: node -> left -> right
+            # Preorder traversal: node -> left -> right
             node = TreeNode(nums[mid])
             node.left = helper(left, mid - 1)
             node.right = helper(mid + 1, right)
+
+            # Return the root node.
             return node
 
         return helper(0, len(nums) - 1)
