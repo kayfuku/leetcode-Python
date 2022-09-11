@@ -1,25 +1,28 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 11, 2022
+from curses import nonl
 import unittest
 from typing import *
 from helper_classes import *
-
 
 from collections import deque
 
 
 class Solution:
+    '''
+    1. BFS
+    Good for interview
+    '''
+
     def levelOrder(self, root):
-        """
-        1. BFS
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
         levels = []
         if not root:
             return levels
 
+        # We don't need this for this problem.
         level = 0
+
+        # BFS
         queue = deque([root, ])
         while queue:
             # start the current level
@@ -33,6 +36,8 @@ class Solution:
 
                 # add child nodes of the current level
                 # in the queue for the next level
+                # Left first because problem statement says,
+                # "from left to right".
                 if node.left:
                     queue.append(node.left)
                 if node.right:
@@ -47,12 +52,12 @@ class Solution:
 
 
 class Solution2:
+    '''
+    2. DFS, recursive
+    Not recommended for interview
+    '''
+
     def levelOrder(self, root):
-        """
-        2. DFS, recursive, not recommended for interview
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
         levels = []
         if not root:
             return levels
