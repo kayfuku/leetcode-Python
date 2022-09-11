@@ -1,25 +1,19 @@
 # Author: leetcode + kei
-# Date: July 21, 2021
+# Date: July 21, 2021, September 11, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
-
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
 from collections import deque
 
 
 class Solution:
+    '''
+    BFS (Level order traversal)
+    Use append() and appendleft() on another deque for return
+    '''
+
     def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
         ret = []
         if root is None:
             return []
@@ -32,7 +26,6 @@ class Solution:
             size = len(queue)
             for i in range(size):
                 curr_node = queue.popleft()
-
                 if level % 2 == 0:
                     level_list.append(curr_node.val)
                 else:
