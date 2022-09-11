@@ -49,7 +49,6 @@ class Solution2:
     2. Iterative
     '''
 
-    # TODO: why WA?
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if root is None:
             return False
@@ -58,8 +57,12 @@ class Solution2:
         while stack:
             node, curr_sum = stack.pop()
             curr_sum -= node.val
-            if node.left is None and node.right is None:
-                return curr_sum == 0
+            if node.left is None and node.right is None and \
+                    curr_sum == 0:
+                return True
+            # # NG! We need to keep going if it's False.
+            # if node.left is None and node.right is None:
+            #     return curr_sum == 0
 
             if node.right:
                 stack.append((node.right, curr_sum))
@@ -71,41 +74,47 @@ class Solution2:
 
 class TestSolution(unittest.TestCase):
 
-    def test_solve(self):
+    # def test_solve(self):
+    #     '''
+    #     Test
+    #     '''
+    #     input_and_expected_outputs = [
+    #         # (input1, input2, expected output) depending on number of arguments
+    #         ([0, 1, 2], 3, 6),
+    #         ([0, 1], 3, 5),
+    #     ]
+    #     s = Solution2()
+    #     for input1, input2, expected in input_and_expected_outputs:
+    #         with self.subTest(input1=input1, input2=input2, expected=expected):
+    #             result = s.hasPathSum(input1, input2)
+    #             self.assertEqual(result, expected)
+
+    def test_tree(self):
         '''
-        Test
+        Tree test example
         '''
+        n1 = TreeNode(5)
+        n2 = TreeNode(4)
+        n3 = TreeNode(8)
+        n4 = TreeNode(11)
+        n5 = TreeNode(7)
+        n6 = TreeNode(2)
+
+        n1.left = n2
+        n1.right = n3
+        n2.left = n4
+        n4.left = n5
+        n4.right = n6
+
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            (n1, 22, True),
         ]
-        s = Solution()
+        s = Solution2()
         for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+            with self.subTest(input1=input1.val, sum=input2, expected=expected):
+                result = s.hasPathSum(input1, input2)
                 self.assertEqual(result, expected)
-
-    # def test_tree(self):
-    #     '''
-    #     Tree test example
-    #     '''
-    #     n1 = TreeNode(5)
-    #     n2 = TreeNode(1)
-    #     n3 = TreeNode(5)
-    #     n4 = TreeNode(5)
-    #     n5 = TreeNode(5)
-    #     n6 = TreeNode(5)
-
-    #     n1.left = n2
-    #     n1.right = n3
-    #     n3.right = n6
-    #     n2.left = n4
-    #     n2.right = n5
-
-    #     s = Solution()
-    #     result = s.solve(n1)
-    #     self.assertEqual(result, 4)
 
 
 def main():
