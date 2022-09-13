@@ -1,6 +1,5 @@
 # Author: leetcode + kei
 # Date: September 12, 2022
-from math import radians
 from typing import *
 from helper_classes import *
 from collections import *
@@ -10,26 +9,32 @@ import unittest
 
 class Solution:
     '''
+    preorder has roots in preorder.
+    inorder has nodes like left nodes, root, and right nodes recursively.
     '''
 
     def __init__(self):
         self.root_indices = dict()
-        # TODO: why this has to be a global variable?
+        # Use this pointer for root in 'preorder' throughout the recursion.
         self.root_pre = 0
 
-    def buildTree(
-            self, preorder: List[int],
-            inorder: List[int]) -> Optional[TreeNode]:
+    def buildTree(self,
+                  preorder: List[int],
+                  inorder: List[int]) -> Optional[TreeNode]:
 
         def dfs(left, right):
             if left > right:
                 return None
 
             root_val = preorder[self.root_pre]
+            # Move forward the pointer.
             self.root_pre += 1
             root = TreeNode(root_val)
             root_in = self.root_indices.get(root_val)
 
+            # Left first because root in 'preorder' is left first and
+            # 'root_pre' iterates 'preorder' array from left to right throughout
+            # the recursion stacks.
             root.left = dfs(left, root_in - 1)
             root.right = dfs(root_in + 1, right)
 
