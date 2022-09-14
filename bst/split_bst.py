@@ -33,26 +33,36 @@ class Solution:
             if node is None:
                 return [None, None]
 
+            # [root of left subtree, root of right subtree]
             ret = [None, None]
+
             # By comparing the target with the current node value,
             # we know we should go which way. Think twice about the condition!
-            # Since target value node must be in left subtree,
-            # do not include '=' in the if condition.
             if target < node.val:
                 # Go left.
                 # It is confirmed that the current node is a root of the right subtree.
+                # Since target value node must be in left subtree,
+                # do not include '=' in the if condition.
+                ret[1] = node
+
                 # Note that the left child of the current node will be determined by
                 # the recursive function.
+                # The left child node will be the root of right subtree of the left child node.
                 subtrees = dfs(node.left, target)
                 node.left = subtrees[1]
-                ret[1] = node
+
                 # The root of left subtree will be determined by the recursive function.
                 ret[0] = subtrees[0]
             else:
                 # Go right.
+                # It is confirmed that the current node is a root of the left subtree.
+                ret[0] = node
+
+                # The right child node will be the root of left subtree of the right child node.
                 subtrees = dfs(node.right, target)
                 node.right = subtrees[0]
-                ret[0] = node
+
+                # The root of left subtree will be determined by the recursive function.
                 ret[1] = subtrees[1]
 
             return ret
