@@ -1,34 +1,55 @@
 # Author: girikuncoro + kei
-# Date: July 24, 2021
+# Date: July 24, 2021, September 14, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    1. DFS
+    '''
 
-    D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-
-    def numIslands(self, grid):
+    def numIslands(self, grid: List[List[str]]) -> int:
         if not grid:
             return 0
 
+        def dfs(r, c):
+            if r < 0 or r >= R or c < 0 or c >= C or \
+                    grid[r][c] == WATER or grid[r][c] == VISITED:
+                return
+
+            grid[r][c] = VISITED
+            for d in D:
+                dfs(r + d[0], c + d[1])
+
         count = 0
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
-                if grid[r][c] == '1':
-                    self.dfs(grid, r, c)
+        # [up, right, down, left]
+        D = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+        WATER = '0'
+        ISLAND = '1'
+        VISITED = '2'
+        R = len(grid)
+        C = len(grid[0])
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == ISLAND:
+                    dfs(r, c)
                     count += 1
+
         return count
 
-    def dfs(self, grid, r, c):
-        if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or \
-                grid[r][c] != '1':
-            return
 
-        grid[r][c] = '#'
-        for d in self.D:
-            self.dfs(grid, r+d[0], c+d[1])
+class Solution2:
+    '''
+    2. BFS
+    '''
+
+
+class Solution3:
+    '''
+    3. Union Find
+    '''
 
 
 class TestSolution(unittest.TestCase):

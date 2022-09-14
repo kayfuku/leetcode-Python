@@ -8,11 +8,10 @@ from collections import *
 
 def main():
     # experiment code
-    num = 0.12345678901
+    a = '1'
+    b = ~a
 
-    num = float('{:.08f}'.format(num))
-
-    print(num * 0.95)
+    print(b)
 
     # done
     print('done')
