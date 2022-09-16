@@ -53,18 +53,22 @@ class Solution2:
 
         def bfs(r, c):
             q = deque()
+            # Adding to the queue and marking as visited.
             q.append([r, c])
             grid[r][c] = VISITED
             while q:
                 size = len(q)
                 for i in range(size):
                     r, c = q.popleft()
+                    # Neighbors
                     for d in D:
                         nr = r + d[0]
                         nc = c + d[1]
                         if nr < 0 or nr >= R or nc < 0 or nc >= C or \
                                 grid[nr][nc] == WATER or grid[nr][nc] == VISITED:
                             continue
+                        # Adding and marking as visited must be at the same time!
+                        # because two children can have the same child node.
                         q.append([nr, nc])
                         grid[nr][nc] = VISITED
 
@@ -93,8 +97,41 @@ class Solution3:
     '''
 
     def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid:
+            return 0
 
-        return 0
+        R = len(grid)
+        C = len(grid[0])
+        self.count = sum(grid[i][j] == '1' for i in range(R) for j in range(C))
+        parent = [i for i in range(R * C)]
+
+        def find(x):
+            if parent[x] == x:
+                return parent[x]
+            return find(parent[x])
+
+        def unite(x, y):
+            xroot = find(x)
+            yroot = find(y)
+            if xroot == yroot:
+                return
+            parent[xroot] = yroot
+            self.count -= 1
+
+        WATER = '0'
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == WATER:
+                    continue
+                index = r * C + c
+                # Unite '1' and the neighbor '1'.
+                # TODO:
+                if c + 1 < C and grid[r][c + 1] == '1':
+                    unite(index, index + 1)
+                if r + 1 < R and grid[r + 1][c] == '1':
+                    unite(index, index + C)
+
+        return self.count
 
 
 class TestSolution(unittest.TestCase):
