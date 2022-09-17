@@ -50,6 +50,8 @@ class Solution2:
     '''
 
     def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid:
+            return 0
 
         def bfs(r, c):
             q = deque()
@@ -72,9 +74,6 @@ class Solution2:
                         q.append([nr, nc])
                         grid[nr][nc] = VISITED
 
-        if not grid:
-            return 0
-
         D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
         WATER = '0'
         ISLAND = '1'
@@ -94,6 +93,13 @@ class Solution2:
 class Solution3:
     '''
     3. Union Find
+
+    ex)
+    2 - 0 - 3                2 - 0 - 3
+                 ==========> |
+    1 - 4                    1 - 4
+    i: 0 1 2 3 4 unite(4, 0) i: 0 1 2 3 4
+    p: 2 1 2 0 1 ==========> p: 2 2 2 0 2
     '''
 
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -102,10 +108,15 @@ class Solution3:
 
         R = len(grid)
         C = len(grid[0])
-        self.count = sum(grid[i][j] == '1' for i in range(R) for j in range(C))
+        self.count = sum(grid[r][c] == '1' for r in range(R) for c in range(C))
+        # Initialization. Every node has its own node as a parent node.
+        # Assign node index and store the coordinate of itself as the parent coordinate.
         parent = [i for i in range(R * C)]
 
         def find(x):
+            '''
+            Return root of the graph that contains x.
+            '''
             if parent[x] == x:
                 return parent[x]
             return find(parent[x])
@@ -114,7 +125,10 @@ class Solution3:
             xroot = find(x)
             yroot = find(y)
             if xroot == yroot:
+                # x and y are already in the same graph.
                 return
+            # The roots of two graphs are different.
+            # Connecting them together, the parent of x will be yroot.
             parent[xroot] = yroot
             self.count -= 1
 
@@ -124,8 +138,7 @@ class Solution3:
                 if grid[r][c] == WATER:
                     continue
                 index = r * C + c
-                # Unite '1' and the neighbor '1'.
-                # TODO:
+                # Unite '1' and the right or down neighbor '1'.
                 if c + 1 < C and grid[r][c + 1] == '1':
                     unite(index, index + 1)
                 if r + 1 < R and grid[r + 1][c] == '1':
