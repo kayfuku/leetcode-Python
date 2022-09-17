@@ -109,7 +109,7 @@ class Solution3:
         R = len(grid)
         C = len(grid[0])
         self.count = sum(grid[r][c] == '1' for r in range(R) for c in range(C))
-        # Initialization. Every node has its own node as a parent node.
+        # Initialization. Every node has its own node as a parent node (each node is isolated).
         # Assign node index and store the coordinate of itself as the parent coordinate.
         parent = [i for i in range(R * C)]
 

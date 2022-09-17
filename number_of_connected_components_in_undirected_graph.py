@@ -1,5 +1,6 @@
 # Author: leetcode + kei
-# Date: September ?, 2022
+# Date: September 17, 2022
+from gettext import find
 from typing import *
 from helper_classes import *
 from collections import *
@@ -9,10 +10,37 @@ import unittest
 
 class Solution:
     '''
+    Union Find
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        # First, every node is isolated.
+        uf = UF(n)
+        # TODO: Next,
+        for edge in edges:
+            u = edge[0]
+            v = edge[1]
+            root_u = uf.find(u)
+            root_v = uf.find(v)
+            if root_u != root_v:
+                uf.unite(root_u, root_v)
+                n -= 1
+
+        return n
+
+
+class UF:
+
+    def __init__(self, n) -> None:
+        self.roots = [i for i in range(n)]
+
+    def find(self, x):
+        if self.roots[x] == x:
+            return self.roots[x]
+        return self.find(self.roots[x])
+
+    def unite(self, x, y):
+        self.roots[x] = y
 
 
 class TestSolution(unittest.TestCase):
