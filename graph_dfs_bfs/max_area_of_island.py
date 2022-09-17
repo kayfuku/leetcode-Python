@@ -1,30 +1,39 @@
 # Author: leetcode + kei
-# Date: July 24, 2021
+# Date: July 24, 2021, September 17, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    DFS recursive
+    '''
+
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        seen = set()
         D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        R = len(grid)
+        C = len(grid[0])
 
         def get_area(r, c):
-            if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) \
-                    or (r, c) in seen or grid[r][c] == 0:
+            if r < 0 or r >= R or c < 0 or c >= C or \
+                    grid[r][c] == VISITED or grid[r][c] == WATER:
                 return 0
-            seen.add((r, c))
+
             area = 1
+            grid[r][c] = VISITED
             for d in D:
-                area += get_area(r+d[0], c+d[1])
+                area += get_area(r + d[0], c + d[1])
 
             return area
 
         max_area = 0
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
-                if grid[r][c] == 1:
+        WATER = 0
+        ISLAND = 1
+        VISITED = 2
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == ISLAND:
                     max_area = max(max_area, get_area(r, c))
 
         return max_area
