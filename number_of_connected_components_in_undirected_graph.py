@@ -14,14 +14,15 @@ class Solution:
     '''
 
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
-        # First, every node is isolated.
+        # First, every node is isolated. The number of group is n at first.
         uf = UF(n)
-        # TODO: Next,
+        # Next, unite nodes that are connected and decrement n by one.
         for edge in edges:
             u = edge[0]
             v = edge[1]
             root_u = uf.find(u)
             root_v = uf.find(v)
+            # u and v should be connected. If it's not, then connect them together.
             if root_u != root_v:
                 uf.unite(root_u, root_v)
                 n -= 1
@@ -36,7 +37,9 @@ class UF:
 
     def find(self, x):
         if self.roots[x] == x:
+            # This is the root node.
             return self.roots[x]
+        # Keep searching for parent of parent
         return self.find(self.roots[x])
 
     def unite(self, x, y):
