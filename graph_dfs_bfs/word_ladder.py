@@ -10,6 +10,7 @@ import unittest
 class Solution:
     '''
     1. BFS
+    O(M^2*N) time, O(MN) space
     '''
 
     def ladderLength(
@@ -21,46 +22,115 @@ class Solution:
         # Group words using wild card '*'. ex. hot => [*ot, h*t, ho*]
         # Adjacency List is good enough if you can get the neighbor nodes when you traverse.
         # Key does not have to be a node.
-        # O(MN) time. O(MN) space, where M is word length and N is list size.
+        # O(MN) time and space, where M is word length and N is list size.
         # K: generic word, V: a list of words which have the same intermediate generic word.
         map = defaultdict(list)
         L = len(begin_word)
         for word in word_list:
             for i in range(L):
-                key = word[:i] + '*' + word[i+1:]
+                key = word[:i] + '*' + word[i + 1:]
                 map[key].append(word)
 
         # 2. Do BFS
-        # TODO:
+        # O(M^2*N) time because the number of nodes is MN and for each node,
+        # it takes O(M) time
+        # O(MN)space because of the queue
         # [word, level]
         queue = deque([(begin_word, 1)])
         # To make sure we don't repeat processing same word.
-        visited = {begin_word: True}
+        visited = set([begin_word])
         while queue:
             current_word, level = queue.popleft()
-            for i in range(L):
-                # Intermediate words for current word
-                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
-
-                # Next states are all the words which share the same intermediate state.
-                for word in map[intermediate_word]:
-                    # If at any point if we find what we are looking for
-                    # i.e. the end word - we can return with the answer.
-                    if word == end_word:
-                        return level + 1
-                    # Otherwise, add it to the BFS Queue. Also mark it visited
-                    if word not in visited:
-                        visited[word] = True
-                        queue.append((word, level + 1))
-                map[intermediate_word] = []
+            neighbors = self.get_neighbors(current_word, map)
+            # neighbors
+            for next_word in neighbors:
+                if next_word == end_word:
+                    return level + 1
+                if next_word not in visited:
+                    queue.append((next_word, level + 1))
+                    visited.add(next_word)
 
         return 0
+
+    def get_neighbors(self, word, map):
+        '''
+        O(M) time and space
+        '''
+        neighbors = []
+        for i in range(len(word)):
+            temp_word = word[:i] + "*" + word[i + 1:]
+            # Note that map[temp_word] returns an empty list when temp_word is not
+            # in the map. map.get(temp_word, []) also works.
+            # But map.get(temp_word) does not work here
+            # because begin_word might not be in the word_list and the map.
+            temp_list = map[temp_word]
+            neighbors.extend(temp_list)
+
+        return neighbors
 
 
 class Solution2:
     '''
     2. Bidirectional BFS
     '''
+
+    def __init__(self):
+        self.length = 0
+        # K: generic word, V: a list of words which have the same intermediate generic word.
+        self.map = defaultdict(list)
+
+    def traverse(self, queue, visited, others_visited):
+        queue_size = len(queue)
+        for _ in range(queue_size):
+            current_word = queue.popleft()
+            for i in range(self.length):
+                # Intermediate words for current word
+                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
+
+                # Next states are all the words which share the same intermediate state.
+                for word in self.map[intermediate_word]:
+                    # If the intermediate state/word has already been visited from the
+                    # other parallel traversal this means we have found the answer.
+                    if word in others_visited:
+                        return visited[current_word] + others_visited[word]
+                    if word not in visited:
+                        # Save the level as the value of the dictionary, to save number of hops.
+                        visited[word] = visited[current_word] + 1
+                        queue.append(word)
+
+        return None
+
+    def ladderLength(self, begin_word, end_word, word_list):
+        if end_word not in word_list:
+            return 0
+
+        self.length = len(begin_word)
+
+        for word in word_list:
+            for i in range(self.length):
+                self.map[word[:i] + "*" + word[i+1:]].append(word)
+
+        # Bidirectional BFS
+        queue_begin = deque([begin_word])
+        visited_begin = {begin_word: 1}
+        queue_end = deque([end_word])
+        visited_end = {end_word: 1}
+        ans = None
+
+        # TODO:
+        # We do a birdirectional search starting one pointer from begin
+        # word and one pointer from end word. Hopping one by one.
+        while queue_begin and queue_end:
+
+            # Progress forward one step from the shorter queue
+            if len(queue_begin) <= len(queue_end):
+                ans = self.traverse(queue_begin, visited_begin, visited_end)
+            else:
+                ans = self.traverse(queue_end, visited_end, visited_begin)
+            if ans:
+                return ans
+
+        return 0
 
 
 class TestSolution(unittest.TestCase):
