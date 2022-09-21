@@ -74,63 +74,58 @@ class Solution2:
     2. Bidirectional BFS
     '''
 
-    def __init__(self):
-        self.length = 0
-        # K: generic word, V: a list of words which have the same intermediate generic word.
-        self.map = defaultdict(list)
-
-    def traverse(self, queue, visited, others_visited):
-        queue_size = len(queue)
-        for _ in range(queue_size):
-            current_word = queue.popleft()
-            for i in range(self.length):
-                # Intermediate words for current word
-                intermediate_word = current_word[:i] + "*" + current_word[i+1:]
-
-                # Next states are all the words which share the same intermediate state.
-                for word in self.map[intermediate_word]:
-                    # If the intermediate state/word has already been visited from the
-                    # other parallel traversal this means we have found the answer.
-                    if word in others_visited:
-                        return visited[current_word] + others_visited[word]
-                    if word not in visited:
-                        # Save the level as the value of the dictionary, to save number of hops.
-                        visited[word] = visited[current_word] + 1
-                        queue.append(word)
-
-        return None
-
     def ladderLength(self, begin_word, end_word, word_list):
-        if end_word not in word_list:
+        self.words = set(word_list)
+        if end_word not in self.words:
             return 0
 
-        self.length = len(begin_word)
-
-        for word in word_list:
-            for i in range(self.length):
-                self.map[word[:i] + "*" + word[i+1:]].append(word)
+        # K: generic word, V: a list of words which have the same intermediate generic word.
+        self.map = defaultdict(list)
+        for word in self.words:
+            for i in range(len(word)):
+                key = word[:i] + "*" + word[i+1:]
+                self.map[key].append(word)
 
         # Bidirectional BFS
-        queue_begin = deque([begin_word])
-        visited_begin = {begin_word: 1}
-        queue_end = deque([end_word])
-        visited_end = {end_word: 1}
-        ans = None
+        begin_set = set()
+        end_set = set()
+        begin_set.add(begin_word)
+        end_set.add(end_word)
+        # Start doing BFS from the smaller set.
+        self.length = 1
+        # Iterate while both sets are not empty.
+        while begin_set and end_set:
+            # Set the smaller set as begin_set.
+            if len(begin_set) > len(end_set):
+                temp = set(begin_set)
+                begin_set = end_set
+                end_set = temp
 
-        # TODO:
-        # We do a birdirectional search starting one pointer from begin
-        # word and one pointer from end word. Hopping one by one.
-        while queue_begin and queue_end:
+            new_begin_set = set()
+            for word in begin_set:
+                neighbors = self.get_neighbors(word)
+                for nei in neighbors:
+                    if nei in end_set:
+                        return self.length + 1
+                    if nei in self.words:
+                        new_begin_set.add(nei)
+                        # Use words set as visited.
+                        self.words.remove(nei)
 
-            # Progress forward one step from the shorter queue
-            if len(queue_begin) <= len(queue_end):
-                ans = self.traverse(queue_begin, visited_begin, visited_end)
-            else:
-                ans = self.traverse(queue_end, visited_end, visited_begin)
-            if ans:
-                return ans
+            begin_set = new_begin_set
+            self.length += 1
 
         return 0
+
+    def get_neighbors(self, word):
+        # O(M) time and space
+        neighbors = []
+        for i in range(len(word)):
+            temp_word = word[:i] + "*" + word[i+1:]
+            temp_list = self.map[temp_word]
+            neighbors.extend(temp_list)
+
+        return neighbors
 
 
 class TestSolution(unittest.TestCase):
