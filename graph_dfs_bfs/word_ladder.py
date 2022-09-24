@@ -10,7 +10,7 @@ import unittest
 class Solution:
     '''
     1. BFS
-    O(M^2*N) time, O(MN) space
+    O(M^2*N) time, O(MN) space, where MN is the number of nodes in the graph
     '''
 
     def ladderLength(
@@ -20,8 +20,8 @@ class Solution:
 
         # 1. Build a graph using Adjacency List.
         # Group words using wild card '*'. ex. hot => [*ot, h*t, ho*]
-        # Adjacency List is good enough if you can get the neighbor nodes when you traverse.
-        # Key does not have to be a node.
+        # Adjacency List is good enough if you can get the neighbor nodes when
+        # you traverse a graph. Key does not have to be a node.
         # O(MN) time and space, where M is word length and N is list size.
         # K: generic word, V: a list of words which have the same intermediate generic word.
         map = defaultdict(list)
@@ -35,11 +35,13 @@ class Solution:
         # O(M^2*N) time because the number of nodes is MN and for each node,
         # it takes O(M) time
         # O(MN)space because of the queue
-        # [word, level]
+        # (word, level)
         queue = deque([(begin_word, 1)])
         # To make sure we don't repeat processing same word.
         visited = set([begin_word])
         while queue:
+            # We don't need to check the queue size because we keep track of
+            # level with node.
             current_word, level = queue.popleft()
             neighbors = self.get_neighbors(current_word, map)
             # neighbors
@@ -59,10 +61,10 @@ class Solution:
         neighbors = []
         for i in range(len(word)):
             temp_word = word[:i] + "*" + word[i + 1:]
-            # Note that map[temp_word] returns an empty list when temp_word is not
+            # Note that map[temp_word] returns an empty list (default) when temp_word is not
             # in the map. map.get(temp_word, []) also works.
-            # But map.get(temp_word) does not work here
-            # because begin_word might not be in the word_list and the map.
+            # But map.get(temp_word) does not work here because
+            # begin_word might not be in the word_list and the map.
             temp_list = map[temp_word]
             neighbors.extend(temp_list)
 
@@ -72,48 +74,57 @@ class Solution:
 class Solution2:
     '''
     2. Bidirectional BFS
+    This saves more time and space than normal BFS
+    even though asymptotic complexty is the same.
+    O(M^2*N) time, O(MN) space, where MN is the number of nodes in the graph,
+    and for each node, it takes O(M) time
     '''
 
     def ladderLength(self, begin_word, end_word, word_list):
-        self.words = set(word_list)
-        if end_word not in self.words:
+        # This set is also used as visited nodes set.
+        words = set(word_list)
+        if end_word not in words:
             return 0
 
+        # Graph with Adjacency List
         # K: generic word, V: a list of words which have the same intermediate generic word.
         self.map = defaultdict(list)
-        for word in self.words:
+        for word in words:
             for i in range(len(word)):
                 key = word[:i] + "*" + word[i+1:]
                 self.map[key].append(word)
 
         # Bidirectional BFS
+        # If the order does not matter, then we can use a set.
         begin_set = set()
         end_set = set()
         begin_set.add(begin_word)
         end_set.add(end_word)
-        # Start doing BFS from the smaller set.
-        self.length = 1
+        length = 1
         # Iterate while both sets are not empty.
         while begin_set and end_set:
+            # Do BFS from the smaller set.
             # Set the smaller set as begin_set.
             if len(begin_set) > len(end_set):
                 temp = set(begin_set)
                 begin_set = end_set
                 end_set = temp
 
+            # Next layer of the smaller set.
             new_begin_set = set()
+            # Like queue.popleft() in a level-organized way.
             for word in begin_set:
                 neighbors = self.get_neighbors(word)
                 for nei in neighbors:
                     if nei in end_set:
-                        return self.length + 1
-                    if nei in self.words:
+                        return length + 1
+                    if nei in words:
                         new_begin_set.add(nei)
                         # Use words set as visited.
-                        self.words.remove(nei)
+                        words.remove(nei)
 
             begin_set = new_begin_set
-            self.length += 1
+            length += 1
 
         return 0
 
