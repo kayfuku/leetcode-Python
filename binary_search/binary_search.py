@@ -7,8 +7,6 @@ import numpy as np
 
 
 class Solution:
-    def __init__(self):
-        pass
 
     def search(self, nums: List[int], target: int) -> int:
         left = 0

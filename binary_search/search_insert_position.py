@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: September 17, 2021
+# Date: September 17, 2021, September 24, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -7,7 +7,14 @@ import numpy as np
 
 
 class Solution:
+    '''
+    Return the index if the target is found. If not, return the index
+    where it would be if it were inserted in order.
+    (R=M-1 version)
+    '''
+
     def searchInsert(self, nums: List[int], target: int) -> int:
+
         left = 0
         right = len(nums) - 1
         while left <= right:
@@ -18,6 +25,8 @@ class Solution:
                 right = mid - 1
             else:
                 left = mid + 1
+
+        # left is the desired index.
         return left
 
 
