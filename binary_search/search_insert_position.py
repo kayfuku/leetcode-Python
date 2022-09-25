@@ -11,6 +11,7 @@ class Solution:
     Binary Search
     Return the index if the target is found. If not, return the index
     where it would be if it were inserted in order.
+    O(logN) time, O(1) space
     (R=M-1 version)
     '''
 

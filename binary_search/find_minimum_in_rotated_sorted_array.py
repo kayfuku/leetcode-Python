@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: September 19, 2021
+# Date: September 19, 2021, September 25, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -7,26 +7,38 @@ import numpy as np
 
 
 class Solution:
+
     def findMin(self, nums: List[int]) -> int:
         if len(nums) == 1:
             return nums[0]
 
-        left = 0
-        right = len(nums) - 1
-
-        # if the last element is greater than the first element then there is no rotation.
-        # e.g. 1 < 2 < 3 < 4 < 5 < 7. Already sorted array.
-        # Hence the smallest element is first element. A[0]
-        if nums[0] < nums[right]:
+        if nums[0] < nums[len(nums) - 1]:
+            # The last element is greater than the first element then there is no rotation.
+            # e.g. 1 < 2 < 3 < 4 < 5 < 7. Already sorted array.
+            # Hence the smallest element is first element. A[0]
             return nums[0]
 
         # Binary search way
+        left = 0
+        right = len(nums) - 1
         while left <= right:
-            # Find the mid element
             mid = left + (right - left) // 2
 
-            if mid != 0 and nums[mid - 1] > nums[mid] or \
-               mid == 0 and nums[mid] < nums[mid + 1]:
+            # TODO:
+            # Check if the nums[mid] is the minimum.
+            # If the left neighbor is bigger than the nums[mid], then
+            # nums[mid] is the minimum.
+            # Be careful if the mid is 0.
+            # The reason we need the second condition is because with the R = M-1 version of
+            # binary search, the mid can move like index 2 -> 0 -> 1. In that case,
+            # we check index 0 before index 1. If the elem at index 1 is the minimum,
+            # then we need,
+            # 'nums[mid] < nums[mid + 1]'
+            # to continue when the mid is equal to 0.
+
+            # if mid != 0 and nums[mid - 1] > nums[mid] or \
+            #    mid == 0 and nums[mid] < nums[mid + 1]:
+            if mid != 0 and nums[mid - 1] > nums[mid]:
                 return nums[mid]
 
             if nums[mid] > nums[right]:
