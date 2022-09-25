@@ -8,6 +8,7 @@ import numpy as np
 
 class Solution:
     '''
+    Binary Search
     Return the index if the target is found. If not, return the index
     where it would be if it were inserted in order.
     (R=M-1 version)
@@ -19,7 +20,7 @@ class Solution:
         right = len(nums) - 1
         while left <= right:
             mid = (left + right) // 2
-            if nums[mid] == target:
+            if target == nums[mid]:
                 return mid
             if target < nums[mid]:
                 right = mid - 1
