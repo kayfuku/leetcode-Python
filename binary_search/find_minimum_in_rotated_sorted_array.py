@@ -18,26 +18,28 @@ class Solution:
             # Hence the smallest element is first element. A[0]
             return nums[0]
 
-        # Binary search way
+        # Binary Search (M=R-1 version)
         left = 0
         right = len(nums) - 1
         while left <= right:
             mid = left + (right - left) // 2
 
-            # TODO:
             # Check if the nums[mid] is the minimum.
             # If the left neighbor is bigger than the nums[mid], then
             # nums[mid] is the minimum.
             # Be careful if the mid is 0.
-            # The reason we need the second condition is because with the R = M-1 version of
+            # The reason we need the second condition is because with the R=M-1 version of
             # binary search, the mid can move like index 2 -> 0 -> 1. In that case,
             # we check index 0 before index 1. If the elem at index 1 is the minimum,
-            # then we need,
-            # 'nums[mid] < nums[mid + 1]'
+            # then we need, 'nums[mid] < nums[mid + 1]'
             # to continue when the mid is equal to 0.
 
             # if mid != 0 and nums[mid - 1] > nums[mid] or \
             #    mid == 0 and nums[mid] < nums[mid + 1]:
+
+            # Actually, we just need to check mid != 0 here.
+            # We already returned the result when mid is equal to 0 before
+            # doing Binary Search.
             if mid != 0 and nums[mid - 1] > nums[mid]:
                 return nums[mid]
 
