@@ -10,7 +10,7 @@ import unittest
 class Solution:
     '''
     '''
-    # TODO: Think a bit about this again, then move on to the next.
+    # TODO: Think a bit more about this again, then move on to the next.
 
     def shipWithinDays(self, weights: List[int], days: int) -> int:
 
@@ -29,6 +29,7 @@ class Solution:
 
         return min_capacity
 
+    # TODO: Think a bit more about this again.
     def get_days(self, weights, capacity):
         # O(N) time
         days_needed = 1
@@ -37,6 +38,7 @@ class Solution:
             sum += p
             if sum > capacity:
                 days_needed += 1
+                # Don't forget this package, not 0 here.
                 sum = p
 
         return days_needed
