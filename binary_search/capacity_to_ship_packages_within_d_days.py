@@ -10,9 +10,36 @@ import unittest
 class Solution:
     '''
     '''
+    # TODO: Think a bit about this again, then move on to the next.
 
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        return 0
+
+        min_capacity = max(weights)  # O(N) time
+        max_capacity = sum(weights)  # O(N) time
+        while min_capacity <= max_capacity:
+            capacity = min_capacity + (max_capacity - min_capacity) // 2
+            days_needed = self.get_days(weights, capacity)
+            # Note that even if we find days_needed that equals to the given days,
+            # there might be less cacpacity than that to meet the requirement.
+            if days_needed <= days:
+                # Search for less capacity.
+                max_capacity = capacity - 1
+            else:
+                min_capacity = capacity + 1
+
+        return min_capacity
+
+    def get_days(self, weights, capacity):
+        # O(N) time
+        days_needed = 1
+        sum = 0
+        for p in weights:
+            sum += p
+            if sum > capacity:
+                days_needed += 1
+                sum = p
+
+        return days_needed
 
 
 class TestSolution(unittest.TestCase):
@@ -23,15 +50,14 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([1, 2, 3, 1, 1], 4, 3),
         ]
         s = Solution()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.topKFrequent(input1, input2)
+                result = s.shipWithinDays(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
