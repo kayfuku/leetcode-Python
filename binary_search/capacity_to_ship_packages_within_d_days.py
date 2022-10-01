@@ -9,28 +9,39 @@ import unittest
 
 class Solution:
     '''
+    Binary Search (to find leftmost)
+        Taking capacity (equivalent to index for normal Binary Search) as the
+        horizontal axis and days needed as the vertical axis, if capacity increases,
+        then days needed decreases. Therefore, capacity and days needed form
+        a monotonically non-increasing curve. The reason of non-increasing is
+        because even if capacity increases a little, days needed might not change.
+        Binary Search can be used on that curve.
     '''
-    # TODO: Think a bit more about this again, then move on to the next.
 
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-
+        # The min capacity for left.
+        # The max capacity for right.
         min_capacity = max(weights)  # O(N) time
         max_capacity = sum(weights)  # O(N) time
         while min_capacity <= max_capacity:
+            # mid
             capacity = min_capacity + (max_capacity - min_capacity) // 2
-            days_needed = self.get_days(weights, capacity)
+            # Monotonically non-increasing function that takes as input capacity
+            # and returns days needed. The smaller the capacity, the more days it takes.
+            days_needed = self.get_days(capacity, weights)
             # Note that even if we find days_needed that equals to the given days,
             # there might be less cacpacity than that to meet the requirement.
+            # (find leftmost pattern)
             if days_needed <= days:
                 # Search for less capacity.
                 max_capacity = capacity - 1
             else:
                 min_capacity = capacity + 1
 
+        # Return left
         return min_capacity
 
-    # TODO: Think a bit more about this again.
-    def get_days(self, weights, capacity):
+    def get_days(self, capacity, weights):
         # O(N) time
         days_needed = 1
         sum = 0

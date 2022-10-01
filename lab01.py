@@ -8,10 +8,14 @@ from collections import *
 
 def main():
     # experiment code
-    a = '1'
-    b = ~a
 
-    print(b)
+    try:
+        a = 1
+        if a:
+            raise Exception("!!")
+
+    except Exception as e:
+        print("exception catched. {}".format(e))
 
     # done
     print('done')
