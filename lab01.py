@@ -9,13 +9,11 @@ from collections import *
 def main():
     # experiment code
 
-    try:
-        a = 1
-        if a:
-            raise Exception("!!")
-
-    except Exception as e:
-        print("exception catched. {}".format(e))
+    a = 100
+    b = 1.3
+    for i in range(3):
+        a *= b
+    print(a)
 
     # done
     print('done')
