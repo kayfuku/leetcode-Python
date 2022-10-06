@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: October ?, 2022
+# Date: October 6, 2022
 from typing import *
 from helper_classes import *
 from collections import *
@@ -9,10 +9,27 @@ import unittest
 
 class Solution:
     '''
+    O(N!) time and space
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def permute(self, nums: List[int]) -> List[List[int]]:
+
+        def backtrack(first=0):
+            if first == n:
+                output.append(nums[:])
+
+            for i in range(first, n):
+                # Place i-th integer first in the current permutation. (Partial candidate solution)
+                nums[first], nums[i] = nums[i], nums[first]
+                # Use next integers to complete the permutations. (Explore further)
+                backtrack(first + 1)
+                # Put it back. (Backtrack)
+                nums[first], nums[i] = nums[i], nums[first]
+
+        n = len(nums)
+        output = []
+        backtrack()
+        return output
 
 
 class TestSolution(unittest.TestCase):
