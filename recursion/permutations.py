@@ -9,7 +9,9 @@ import unittest
 
 class Solution:
     '''
-    O(N!) time and space
+    O(N!) time because the number of swapping for the first position is N, and
+    N - 1 for the second, and so on.
+    O(N!) space to keep N! solutions.
     '''
 
     def permute(self, nums: List[int]) -> List[List[int]]:

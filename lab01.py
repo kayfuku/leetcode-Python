@@ -9,10 +9,9 @@ from collections import *
 def main():
     # experiment code
 
-    a = 100
-    b = 1.3
-    for i in range(3):
-        a *= b
+    a = 500
+    for i in range(300 * 3):
+        a *= 1.001
     print(a)
 
     # done
