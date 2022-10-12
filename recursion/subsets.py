@@ -11,23 +11,42 @@ class Solution:
     '''
     '''
 
-    def subsets_NG(self, nums: List[int]) -> List[List[int]]:
-        # TODO:
-        return 0
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+
+        def backtrack(first=0, curr=[]):
+            if len(curr) == k:
+                output.append(curr[:])
+                return
+            for i in range(first, n):
+                # (Partial candidate solution)
+                curr.append(nums[i])
+                # (Explore further)
+                backtrack(i + 1, curr)
+                # (Backtrack)
+                curr.pop()
+
+        output = []
+        n = len(nums)
+        # TODO: This might not be needed?
+        for k in range(n + 1):
+            backtrack()
+        return output
 
 
 class SolutionNG:
     '''
-    NG! why?
+    NG! because it can't include [1, 3].
     '''
 
     def subsets_NG(self, nums: List[int]) -> List[List[int]]:
 
         def dfs(start=0):
+            if start == n:
+                return
             sol = []
             for i in range(start, n):
-                sol.append(nums[start:i])
-                ret.append(sol)
+                sol.append(nums[i])
+                ret.append(sol[:])
             dfs(start + 1)
 
         n = len(nums)

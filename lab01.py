@@ -9,10 +9,9 @@ from collections import *
 def main():
     # experiment code
 
-    a = 500
-    for i in range(300 * 3):
-        a *= 1.001
-    print(a)
+    a = {}
+    a['a'] = None
+    print(bool(a))
 
     # done
     print('done')
