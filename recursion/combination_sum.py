@@ -9,6 +9,7 @@ import unittest
 
 class Solution:
     '''
+    78. Subsets helps a lot to understand this problem.
     '''
 
     def combinationSum(self, candidates: List[int],
@@ -25,7 +26,7 @@ class Solution:
                 if candidates[i] > remaining:
                     continue
                 temp_list.append(candidates[i])
-                # Caution! 'i' here, not 'start'!
+                # Caution! 'i' here, not 'start'! Start from i for next.
                 combinations(i, remaining - candidates[i])
                 temp_list.pop()
 
