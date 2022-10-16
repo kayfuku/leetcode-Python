@@ -9,30 +9,32 @@ import unittest
 
 class Solution:
     '''
-    78. Subsets helps a lot to understand this problem.
+    Recursion
+    to choose one from two items. TODO: Think more.
     '''
 
-    def combinationSum(self, candidates: List[int],
-                       target: int) -> List[List[int]]:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
 
-        def combinations(start, remainder):
-            if remainder == 0:
-                output.append(temp_list[:])
+        def backtrack(S=[], left=0, right=0):
+            if len(S) == n * 2:
+                ans.append("".join(S))
                 return
 
-            for i in range(start, n):
-                if candidates[i] > remainder:
-                    continue
-                temp_list.append(candidates[i])
-                # Caution! 'i' here, not 'start'! Start from i for next.
-                combinations(i, remainder - candidates[i])
-                temp_list.pop()
+            if left < n:
+                # Go to left branch.
+                S.append("(")
+                backtrack(S, left + 1, right)
+                S.pop()
 
-        output = []
-        temp_list = []
-        n = len(candidates)
-        combinations(0, target)
-        return output
+            if right < left:
+                # Go to right branch.
+                S.append(")")
+                backtrack(S, left, right + 1)
+                S.pop()
+
+        backtrack()
+        return ans
 
 
 class TestSolution(unittest.TestCase):
@@ -43,14 +45,15 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([2, 3, 6, 7], 7, [[2, 2, 3], [7]]),
+            ([0, 1, 2], 3, 6),
+            ([0, 1], 3, 5),
         ]
         s = Solution()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.combinationSum(input1, input2)
+                result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
