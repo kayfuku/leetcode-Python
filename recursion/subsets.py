@@ -9,27 +9,43 @@ import unittest
 
 class Solution:
     '''
+    Since we don't know how many elements in one group, recursion is useful for this problem.
+    Think of a recursion tree, where nodes are the subsets consists of nums[i].
+    Pick one element and go further using that element.
+    Or, pick another element to the right of current one by backtraking.
     '''
 
     def subsets(self, nums: List[int]) -> List[List[int]]:
 
-        def backtrack(first=0, curr=[]):
-            if len(curr) == k:
-                output.append(curr[:])
+        def backtrack(start=0):
+            if start == n:
+                # Stop going further.
                 return
-            for i in range(first, n):
-                # (Partial candidate solution)
-                curr.append(nums[i])
-                # (Explore further)
-                backtrack(i + 1, curr)
-                # (Backtrack)
-                curr.pop()
 
-        output = []
+            # Pick every element to the right of 'start' until the last element.
+            for i in range(start, n):
+                # (Partial candidate solution)
+                curr_subset.append(nums[i])
+
+                # Create a new list of curr_subset and put it in the output.
+                output.append(curr_subset[:])
+
+                # For each recursion stack, the size grows by one.
+                # Prior to the 'start' index, those elements has been already used,
+                # so start from 'start', which is the next possible element.
+                # (Explore further)
+                backtrack(i + 1)
+
+                # When we come back from lower recursion stack, we undo the adding to
+                # replace the last element with the next element. (Backtrack)
+                curr_subset.pop()
+
         n = len(nums)
-        # TODO: This might not be needed?
-        for k in range(n + 1):
-            backtrack()
+        output = []
+        output.append([])
+        curr_subset = []
+        backtrack()
+
         return output
 
 
