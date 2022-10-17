@@ -7,37 +7,44 @@ import numpy as np
 import unittest
 
 
-class Solution:
+class temp_listolution:
     '''
     Recursion
-    to choose one from two items. TODO: Think more.
+    to choose one from two items.
+    We need '(' before adding ')'. We can use the number of those parentheses to
+    check if we can add them.
     '''
 
     def generateParenthesis(self, n: int) -> List[str]:
         ans = []
 
-        def backtrack(S=[], left=0, right=0):
-            if len(S) == n * 2:
-                ans.append("".join(S))
+        def backtrack(temp_list=[], left=0, right=0):
+            if len(temp_list) == n * 2:
+                ans.append(''.join(temp_list))
                 return
 
+            # We can add '(' until the number of it reaches n.
             if left < n:
                 # Go to left branch.
-                S.append("(")
-                backtrack(S, left + 1, right)
-                S.pop()
+                # (Partial candidate solution)
+                temp_list.append('(')
+                # (Explore further)
+                backtrack(temp_list, left + 1, right)
+                # (Backtracking)
+                temp_list.pop()
 
+            # We can add ')' if the number of ')' is less than '('.
             if right < left:
                 # Go to right branch.
-                S.append(")")
-                backtrack(S, left, right + 1)
-                S.pop()
+                temp_list.append(')')
+                backtrack(temp_list, left, right + 1)
+                temp_list.pop()
 
         backtrack()
         return ans
 
 
-class TestSolution(unittest.TestCase):
+class Testtemp_listolution(unittest.TestCase):
 
     def test_solve(self):
         '''
@@ -48,7 +55,7 @@ class TestSolution(unittest.TestCase):
             ([0, 1, 2], 3, 6),
             ([0, 1], 3, 5),
         ]
-        s = Solution()
+        s = temp_listolution()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
@@ -82,14 +89,14 @@ class TestSolution(unittest.TestCase):
     #     n3.left = n6
     #     n3.right = n7
 
-    #     s = Solution()
+    #     s = temp_listolution()
     #     input_and_expected_outputs = [
     #         # (input1, input2, expected output) depending on number of arguments
     #         (n1, n6, n7, n3),
     #         (n1, n3, n5, n1),
     #         (n1, n4, n5, n1),  # Fail
     #     ]
-    #     s = Solution()
+    #     s = temp_listolution()
     #     for input1, input2, input3, expected in input_and_expected_outputs:
     #         with self.subTest(input1=input1.val, input2=input2.val, input3=input3.val,
     #                           expected=expected.val):
