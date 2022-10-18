@@ -53,6 +53,7 @@ class TestSolution(unittest.TestCase):
             # (input1, input2, expected output) depending on number of arguments
             ([0, 1, 3, 5, 7], 5, 3),
             ([0, 1, 3, 5, 7], 6, 4),
+            ([0, 1, 3, 5, 7], 8, 5),
         ]
         s = Solution()
         for input1, input2, expected in input_and_expected_outputs:
