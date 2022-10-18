@@ -4,6 +4,7 @@ import unittest
 from typing import *
 from helper_classes import *
 import numpy as np
+import bisect
 
 
 class Solution:
@@ -23,6 +24,24 @@ class Solution:
 
         return -1
 
+    def search2(self, nums: List[int], target: int) -> int:
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[mid] > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return left
+
+    def search3(self, nums: List[int], target: int) -> int:
+        return bisect.bisect_left(nums, target)
+
 
 class TestSolution(unittest.TestCase):
 
@@ -32,13 +51,13 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([0, 1, 3, 5, 7], 5, 3),
+            ([0, 1, 3, 5, 7], 6, 4),
         ]
         s = Solution()
         for input1, input2, expected in input_and_expected_outputs:
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+                result = s.search3(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):

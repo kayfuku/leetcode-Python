@@ -1,5 +1,6 @@
 # Author: leetcode + kei
 # Date: October 17, 2022
+import bisect
 from typing import *
 from helper_classes import *
 from collections import *
@@ -10,7 +11,7 @@ import unittest
 class Solution:
     '''
     Dynamic Programming
-
+    O(N^2) time
     '''
 
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -21,6 +22,28 @@ class Solution:
                     dp[i] = max(dp[i], dp[j] + 1)
 
         return max(dp)
+
+
+class Solution2:
+    '''
+    DP with Binary Search
+    O(NlogN) time
+    '''
+
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        sub = []
+        for num in nums:
+            i = bisect.bisect_left(sub, num)
+
+            # If num is greater than any element in sub
+            if i == len(sub):
+                sub.append(num)
+
+            # Otherwise, replace the first element in sub greater than or equal to num
+            else:
+                sub[i] = num
+
+        return len(sub)
 
 
 class TestSolution(unittest.TestCase):
