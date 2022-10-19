@@ -13,20 +13,20 @@ class Solution:
     1. Dynamic Programming
     O(N^2) time, O(N) space.
     We store the max so far in the 'dp' array at the i-th element. And I can use
-        that array to get the max at the current index i.
-        For example, when the current index is 4, nums[i] is equal to 3.
-        And while iterating through the dp array from index 0 to right before i, if
-        nums[i] is bigger than the element that I am iterating in, then add 1 to the
-        max at that point, and keep track of the max.
-        Put the max in the dp array at the index i.
-        ===i: 0 1 2 3 4 5 6
-        nums:10 9 2 5 3 7 101
+    that array to get the max at the current index i.
+    For example, when the current index is 4, nums[i] is equal to 3.
+    And while iterating through the dp array from index 0 to right before i, if
+    nums[i] is bigger than the element that I am iterating in, then add 1 to the
+    max at that point, and keep track of the max.
+    Put the max in the dp array at the index i.
+    ===i: 0 1 2 3 4 5 6
+    nums:10 9 2 5 3 7 101
 
-        ==dp: 1 1 1 2 2
-        dp[3] = dp[2] + 1
+    ==dp: 1 1 1 2 2
+    dp[3] = dp[2] + 1
 
-        dp[i] = max(dp[j] + 1) (0 ≤ j < i)
-        LIS = max(dp[i]) (0 ≤ i < n)
+    dp[i] = max(dp[j] + 1) (0 ≤ j < i)
+    LIS = max(dp[i]) (0 ≤ i < n)
     '''
 
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -70,12 +70,15 @@ class Solution2:
 
             if i == len(sub):
                 # num would be the last element, which is the largest in sub.
+                # Note that elements in sub can change.
                 sub.append(num)
             else:
                 # Replace sub[i] that is smallest larger than (or equal to) num with num
                 # because we will be able to use elements that are
                 # greater than num but less than sub[i] in the future, which improves
                 # on the length of increasing subsequence.
+                # Note that sub is not always correct LIS, but it's ok because
+                # we just need the maximum length.
                 sub[i] = num
 
         return len(sub)

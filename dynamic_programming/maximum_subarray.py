@@ -1,11 +1,15 @@
 # Author: leetcode + kei
-# Date: August ?, 2021
+# Date: August 9, 2021, October 18, 2022
 import unittest
 from typing import *
 from helper_classes import *
 
 
 class Solution:
+    '''
+    Dynamic Programming
+    '''
+
     def maxSubArray(self, nums: List[int]) -> int:
         # Initialize our variables using the first element.
         curr_sum = max_sum = nums[0]
