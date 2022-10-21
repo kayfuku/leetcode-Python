@@ -10,6 +10,8 @@ from helper_classes import *
 class Solution:
     '''
     Dynamic Programming
+    Keep adding while cumulative sum is not negative.
+    Restart new subarray if cumulative sum is negative.
     '''
 
     def maxSubArray(self, nums: List[int]) -> int:
@@ -19,6 +21,7 @@ class Solution:
         curr_sum = max_sum = nums[0]
 
         # Start with the 2nd element since we already used the first one.
+        # If the length of nums is 1, then nums[1:] returns [], not out of range error.
         for num in nums[1:]:
             # If curr_sum is negative, throw it away. Otherwise, keep adding to it.
             curr_sum = max(num, curr_sum + num)
@@ -28,9 +31,11 @@ class Solution:
         return max_sum
 
     def maxSubArray2(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
         # For keeping track of contiguous subarray max.
         # Do not set it to 0 because the elements and max can be negative!
-        # Do not set it to int('inf') because curr_sum + num could overflow!
+        # Do not set it to -int('inf') because curr_sum + num could overflow!
         curr_sum = max_sum = nums[0]
         start = end = 0  # optional
 
@@ -38,7 +43,6 @@ class Solution:
         for i in range(1, len(nums)):
             # If curr_sum is negative, throw it away. Otherwise, keep adding to it.
             # curr_sum + nums[i] is for the sum of contiguous subarray.
-            # TODO: Think more about it.
             if nums[i] > curr_sum + nums[i]:
                 # nums[i] itself is bigger than the previous contiguous subarray
                 # nums[i] is the restart of contiguous subarray.
@@ -68,6 +72,7 @@ class TestSolution(unittest.TestCase):
             ([-2, 1, -3, 4, -1, 2, 1, -5, 4], 6),
             ([-2, 1, -3, 4, -1], 4),
             ([-2, 1, -3], 1),
+            ([-2], -2)
         ]
         s = Solution()
         for input1, expected in input_and_expected_outputs:
