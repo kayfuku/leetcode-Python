@@ -10,20 +10,24 @@ import unittest
 class Solution:
     '''
     DP
+    Recurrence relation: dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
     O(N) time and space
     Author: leetcode + kei
     '''
 
     def rob(self, nums: List[int]) -> int:
         n = len(nums)
-        dp = [0] * (n + 1)
-        dp[0] = 0
-        dp[1] = nums[0]
-        for i in range(2, n + 1):
-            # Be careful about index of nums.
-            dp[i] = max(dp[i - 2] + nums[i - 1], dp[i - 1])
+        if n == 1:
+            return nums[0]
 
-        return dp[n]
+        dp = [0] * n
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, n):
+            # Take max of the value two before plus current value or the value one before.
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
+
+        return dp[-1]
 
 
 class Solution2:
@@ -32,17 +36,23 @@ class Solution2:
     O(N) time, O(1) space
     '''
 
-    # TODO:
     def rob(self, nums: List[int]) -> int:
-        n = len(nums)
-        dp = [0] * (n + 1)
-        dp[0] = 0
-        dp[1] = nums[0]
-        for i in range(2, n + 1):
-            # Be careful about index of nums.
-            dp[i] = max(dp[i - 2] + nums[i - 1], dp[i - 1])
+        a = nums[0]
+        if len(nums) == 1:
+            return a
 
-        return dp[n]
+        b = max(nums[0], nums[1])
+        if len(nums) == 2:
+            return b
+
+        c = 0
+        for i in range(2, len(nums)):
+            # Take whichever is larger.
+            c = max(a + nums[i], b)
+            a = b
+            b = c
+
+        return c
 
 
 class TestSolution(unittest.TestCase):
