@@ -9,8 +9,6 @@ from collections import Counter
 
 
 class Solution:
-    def __init__(self):
-        pass
 
     def findTargetSumWays(self, A, S):
         # Initialize with 0 as key and its count 1 as value.
