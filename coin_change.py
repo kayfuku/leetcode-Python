@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: November ?, 2022
+# Date: November 3, 2022
 from typing import *
 from helper_classes import *
 from collections import *
@@ -11,7 +11,7 @@ class Solution:
     '''
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
+    def coinChange(self, coins: List[int], amount: int) -> int:
         return 0
 
 
