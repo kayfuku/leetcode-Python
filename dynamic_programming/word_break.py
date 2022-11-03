@@ -11,21 +11,26 @@ class Solution:
     '''
     DP
     O(n^3) time, O(n) space
+    (slicing takes O(n) time)
     '''
 
     def wordBreak(self, S: str, word_dict: List[str]) -> bool:
         word_set = set(word_dict)
         n = len(S)
         dp = [False] * (n + 1)
+        # dp: True if all chars to the left of the current index can meet the requirement.
         dp[0] = True
 
-        # Check every substring in the S and keep the result to the left of it.
+        # Check every substring S[s:e] in the S and keep the result to the left of it.
+        # Note that end index is outer loop starting from 1.
         for e in range(1, n + 1):
             for s in range(e):
                 # Check if the substring is in the dictionary and the result to
                 # the left of it is True, which means it can be split into substrings
-                # in the dictionary.
-                if dp[s] and S[s:e] in word_set:
+                # in the dictionary so far.
+                if S[s:e] in word_set and dp[s]:
+                    # Save the result at index e so that we don't have to check
+                    # this char and chars before it again.
                     dp[e] = True
                     break
 
@@ -40,15 +45,14 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ("leetcode", ["leet", "code"], True),
         ]
         s = Solution()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.topKFrequent(input1, input2)
+                result = s.wordBreak(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
