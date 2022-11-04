@@ -20,6 +20,7 @@ class TestSolution(unittest.TestCase):
     def test_solve(self):
         '''
         Test
+        Change input and expected output as needed.
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
@@ -31,6 +32,7 @@ class TestSolution(unittest.TestCase):
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
+                # Change to the method name to be tested.
                 result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
