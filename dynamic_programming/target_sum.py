@@ -9,21 +9,24 @@ from collections import Counter
 
 
 class Solution:
+    '''
+    O(2^n) time and space, where n is the A length.
+    '''
 
     def findTargetSumWays(self, A, S):
+        # Use Counter because we can handle negative numbers as intermediate amount.
         # Initialize with 0 as key and its count 1 as value.
         count = Counter({0: 1})
         for x in A:
-            next = Counter()
-            # 'count' is the previous 'next' which keeps track of the number of
+            count_updated = Counter()
+            # 'count' is the previous 'count_updated' which keeps track of the number of
             # ways for each key.
             for y in count:
                 # y + x and y - x take over the number of ways for y.
-                next[y + x] += count[y]
-                next[y - x] += count[y]
+                count_updated[y + x] += count[y]
+                count_updated[y - x] += count[y]
 
-            count = next
-            print(count)
+            count = count_updated
 
         return count[S]
 
