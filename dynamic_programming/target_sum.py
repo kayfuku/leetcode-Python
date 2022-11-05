@@ -14,7 +14,7 @@ class Solution:
     '''
 
     def findTargetSumWays(self, A, S):
-        # Use Counter because we can handle negative numbers as intermediate amount.
+        # Use Counter, not dp array because we can handle negative numbers as intermediate amount.
         # Initialize with 0 as key and its count 1 as value.
         count = Counter({0: 1})
         for x in A:

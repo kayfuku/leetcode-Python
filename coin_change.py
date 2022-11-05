@@ -22,6 +22,7 @@ class Solution:
                 if x - coin >= 0:
                     # Note that if dp[x - coin] is inf, dp[x - coin] + 1 is also inf,
                     # which means we can't use the 'coin' to the amount 'x'.
+                    # dp is only updated when dp[x - coin] is not inf.
                     dp[x] = min(dp[x], dp[x - coin] + 1)
 
         return dp[amount] if dp[amount] != float('inf') else -1
@@ -34,6 +35,7 @@ class Solution:
         for x in range(1, amount + 1):
             minimum = float('inf')
             for coin in coins:
+                # If dp[x - coin] != -1, then there is no way to make up the amount.
                 if x - coin >= 0 and dp[x - coin] != -1:
                     minimum = min(minimum, dp[x - coin] + 1)
                     dp[x] = minimum
