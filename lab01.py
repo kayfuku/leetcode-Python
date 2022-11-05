@@ -9,9 +9,8 @@ from collections import *
 def main():
     # experiment code
 
-    a = {}
-    a['a'] = None
-    print(bool(a))
+    a = 3
+    print(a & 1)
 
     # done
     print('done')
