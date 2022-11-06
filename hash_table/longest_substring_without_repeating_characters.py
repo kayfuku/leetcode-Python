@@ -1,5 +1,6 @@
 # Author: leetcode + kei
-# Date: October 22, 2022
+# Date: November 6, 2022
+from collections import Counter
 from typing import *
 from helper_classes import *
 from collections import *
@@ -9,33 +10,79 @@ import unittest
 
 class Solution:
     '''
-    DP
-    O(n^3) time, O(n) space
-    (slicing takes O(n) time)
+    1. Set
+    O(N^3) time, O(min(M,N)), where N is the string length and M is the
+    charset size.
     '''
 
-    def wordBreak(self, S: str, word_dict: List[str]) -> bool:
-        word_set = set(word_dict)
-        n = len(S)
-        dp = [False] * (n + 1)
-        # dp: True if all chars to the left of the current index can meet the requirement.
-        dp[0] = True
+    def lengthOfLongestSubstring(self, s: str) -> int:
 
-        # Check every substring S[s:e] in the S and keep the result to the left of it.
-        # Note that end index is outer loop starting from 1.
-        # TODO: Why not s is outer loop?
-        for e in range(1, n + 1):
-            for s in range(e):
-                # Check if the substring is in the dictionary and the result to
-                # the left of it is True, which means it can be split into substrings
-                # in the dictionary so far.
-                if S[s:e] in word_set and dp[s]:
-                    # Save the result at index e so that we don't have to check
-                    # this char and chars before it again.
-                    dp[e] = True
-                    break
+        def check(start, end):
+            chars = set()
+            for i in range(start, end + 1):
+                c = s[i]
+                if c in chars:
+                    return False
+                chars.add(c)
+            return True
 
-        return dp[n]
+        n = len(s)
+        res = 0
+        for i in range(n):
+            for j in range(i, n):
+                if check(i, j):
+                    res = max(res, j - i + 1)
+
+        return res
+
+
+class Solution2:
+    '''
+    2. Map
+    '''
+
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        chars = Counter()
+
+        left = right = 0
+
+        res = 0
+        while right < len(s):
+            r = s[right]
+            chars[r] += 1
+
+            while chars[r] > 1:
+                l = s[left]
+                chars[l] -= 1
+                left += 1
+
+            res = max(res, right - left + 1)
+
+            right += 1
+        return res
+
+
+class Solution:
+    '''
+    3. Map
+    '''
+
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        ans = 0
+        # mp stores the current index of a character
+        mp = {}
+
+        i = 0
+        # try to extend the range [i, j]
+        for j in range(n):
+            if s[j] in mp:
+                i = max(mp[s[j]], i)
+
+            ans = max(ans, j - i + 1)
+            mp[s[j]] = j + 1
+
+        return ans
 
 
 class TestSolution(unittest.TestCase):
@@ -43,17 +90,20 @@ class TestSolution(unittest.TestCase):
     def test_solve(self):
         '''
         Test
+        Change input and expected output as needed.
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ("leetcode", ["leet", "code"], True),
+            ([0, 1, 2], 3, 6),
+            ([0, 1], 3, 5),
         ]
         s = Solution()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.wordBreak(input1, input2)
+                # Change to the method name to be tested.
+                result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
