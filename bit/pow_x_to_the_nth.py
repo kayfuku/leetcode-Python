@@ -36,6 +36,16 @@ class Solution3:
 class Solution4:
     '''
     Iterative
+    ex) x^21 = 2^0 + 2^2 + 2^4
+    x: 10101
+    10101 = 00001 + 00100 + 10000
+    - shift
+    01010
+    00101
+    00010
+    00001
+    00000
+
     O(logN) time, O(1) space
     '''
 
@@ -46,11 +56,14 @@ class Solution4:
 
         pow = 1
         while n:
-            if n % 2:
+            if n & 1:
+                # Multiply the result so far when LSB of n is 1.
                 pow *= x
 
+            # Double the number of times to multiply x.
             x *= x
-            n /= 2
+            # Shift to the right by one bit.
+            n >>= 1
 
         return pow
 
