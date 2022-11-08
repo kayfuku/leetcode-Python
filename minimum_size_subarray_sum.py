@@ -1,6 +1,5 @@
 # Author: leetcode + kei
-# Date: November 6, 2022
-from collections import Counter
+# Date: November 8, 2022
 from typing import *
 from helper_classes import *
 from collections import *
@@ -10,90 +9,21 @@ import unittest
 
 class Solution:
     '''
-    1. Brute Force
-    O(N^3) time, O(min(M,N)) space, where N is the string length and M is the
-    charset size.
+    Sliding window
     '''
 
-    def lengthOfLongestSubstring(self, S: str) -> int:
+    def minSubArrayLen(self, target, A):
+        n = len(A)
+        i = 0
+        res = n + 1
+        for j in range(n):
+            target -= A[j]
+            while target <= 0:
+                res = min(res, j - i + 1)
+                target += A[i]
+                i += 1
 
-        def check(start, end):
-            chars = set()
-            for i in range(start, end + 1):
-                c = S[i]
-                if c in chars:
-                    return False
-
-                chars.add(c)
-
-            return True
-
-        n = len(S)
-        res = 0
-        for s in range(n):
-            for e in range(s, n):
-                if check(s, e):
-                    # e - s + 1 is the substring length.
-                    res = max(res, e - s + 1)
-
-        return res
-
-
-class Solution2:
-    '''
-    2. Map (Sliding window)
-    O(N) time, O(min(M,N)) space
-    '''
-
-    def lengthOfLongestSubstring(self, S: str) -> int:
-        # count how many for each char
-        chars = Counter()
-        left = right = 0
-        res = 0
-        while right < len(S):
-            # right char
-            rc = S[right]
-            chars[rc] += 1
-
-            # Check duplicates.
-            while chars[rc] > 1:
-                lc = S[left]
-                chars[lc] -= 1
-                left += 1
-            # Assert that the substring 'left' to 'right' does not have dups.
-
-            res = max(res, right - left + 1)
-            right += 1
-
-        return res
-
-
-class Solution3:
-    '''
-    3. Faster Map (Sliding window)
-    Good for interview
-    '''
-
-    def lengthOfLongestSubstring(self, S: str) -> int:
-        n = len(S)
-        ans = 0
-        # K: substring chars, V: rightmost index of the char
-        d = {}
-
-        s = 0
-        for e in range(n):
-            if S[e] in d:
-                # We found this char more than one so far.
-                # Keep the start point rightmost index so that the substring
-                # does not contain duplicates.
-                # Start point moves in O(1) time.
-                s = max(d[S[e]], s)
-
-            # e - s + 1 is the substring length.
-            ans = max(ans, e - s + 1)
-            d[S[e]] = e + 1
-
-        return ans
+        return res % (n + 1)
 
 
 class TestSolution(unittest.TestCase):
