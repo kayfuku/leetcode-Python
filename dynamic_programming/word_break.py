@@ -22,8 +22,8 @@ class Solution:
         dp[0] = True
 
         # Check every substring S[s:e] in the S and keep the result to the left of it.
-        # Note that end index is outer loop starting from 1.
-        # TODO: Why not s is outer loop?
+        # Note that end index is outer loop starting from 1. If the end index is inner loop,
+        # it would overwrite dp.
         for e in range(1, n + 1):
             for s in range(e):
                 # Check if the substring is in the dictionary and the result to
