@@ -10,77 +10,88 @@ import unittest
 
 class Solution:
     '''
-    1. Set
-    O(N^3) time, O(min(M,N)), where N is the string length and M is the
+    1. Brute Force
+    O(N^3) time, O(min(M,N)) space, where N is the string length and M is the
     charset size.
     '''
 
-    def lengthOfLongestSubstring(self, s: str) -> int:
+    def lengthOfLongestSubstring(self, S: str) -> int:
 
         def check(start, end):
             chars = set()
             for i in range(start, end + 1):
-                c = s[i]
+                c = S[i]
                 if c in chars:
                     return False
+
                 chars.add(c)
+
             return True
 
-        n = len(s)
+        n = len(S)
         res = 0
-        for i in range(n):
-            for j in range(i, n):
-                if check(i, j):
-                    res = max(res, j - i + 1)
+        for s in range(n):
+            for e in range(s, n):
+                if check(s, e):
+                    # e - s + 1 is the substring length.
+                    res = max(res, e - s + 1)
 
         return res
 
 
 class Solution2:
     '''
-    2. Map
+    2. Map (Sliding window)
+    O(N) time, O(min(M,N)) space
     '''
 
-    def lengthOfLongestSubstring(self, s: str) -> int:
+    def lengthOfLongestSubstring(self, S: str) -> int:
+        # count how many for each char
         chars = Counter()
-
         left = right = 0
-
         res = 0
-        while right < len(s):
-            r = s[right]
-            chars[r] += 1
+        while right < len(S):
+            # right char
+            rc = S[right]
+            chars[rc] += 1
 
-            while chars[r] > 1:
-                l = s[left]
-                chars[l] -= 1
+            # Check duplicates.
+            while chars[rc] > 1:
+                lc = S[left]
+                chars[lc] -= 1
                 left += 1
+            # Assert that the substring 'left' to 'right' does not have dups.
 
             res = max(res, right - left + 1)
-
             right += 1
+
         return res
 
 
-class Solution:
+class Solution3:
     '''
-    3. Map
+    3. Faster Map (Sliding window)
+
     '''
 
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        n = len(s)
+    def lengthOfLongestSubstring(self, S: str) -> int:
+        n = len(S)
         ans = 0
-        # mp stores the current index of a character
-        mp = {}
+        # K: substring chars, V: rightmost index of the char
+        d = {}
 
-        i = 0
-        # try to extend the range [i, j]
-        for j in range(n):
-            if s[j] in mp:
-                i = max(mp[s[j]], i)
+        s = 0
+        for e in range(n):
+            if S[e] in d:
+                # We found this char more than one so far.
+                # Keep the start point rightmost index so that the substring
+                # does not contain duplicates.
+                # Start point moves in O(1) time.
+                s = max(d[S[e]], s)
 
-            ans = max(ans, j - i + 1)
-            mp[s[j]] = j + 1
+            # e - s + 1 is the substring length.
+            ans = max(ans, e - s + 1)
+            d[S[e]] = e + 1
 
         return ans
 
