@@ -14,16 +14,25 @@ class Solution:
 
     def minSubArrayLen(self, target, A):
         n = len(A)
-        i = 0
+        left = 0
+        sum = 0
         res = n + 1
-        for j in range(n):
-            target -= A[j]
-            while target <= 0:
-                res = min(res, j - i + 1)
-                target += A[i]
-                i += 1
+        # res = float('inf')
+        for right in range(n):
+            sum += A[right]
+            # Note that if A has all 0s and target is 0 (which is not the case for this problem),
+            # then this will not work.
+            while sum >= target:
+                # Now it satisfies the condition, keep that length.
+                # Update the min.
+                res = min(res, right - left + 1)
+                # Reduce the length further.
+                sum -= A[left]
+                left += 1
 
+        # If the res is updated, then return it. Otherwise, return 0.
         return res % (n + 1)
+        # return res if res != float('inf') else 0
 
 
 class TestSolution(unittest.TestCase):
