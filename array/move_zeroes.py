@@ -1,5 +1,5 @@
 # Author: OldCodingFarmer + kei
-# Date: August 10, 2021
+# Date: August 10, 2021, November 9, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -7,17 +7,18 @@ import numpy as np
 
 
 class Solution:
+    '''
+    Two pointers
+    '''
 
     def moveZeroes(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        p = 0
-        for i in range(len(nums)):
-            if nums[i] != 0:
+        # i points to the next index of the last index of non-zeros.
+        i = 0
+        for j in range(len(nums)):
+            if nums[j] != 0:
                 # swap
-                nums[i], nums[p] = nums[p], nums[i]
-                p += 1
+                nums[j], nums[i] = nums[i], nums[j]
+                i += 1
 
 
 class TestSolution(unittest.TestCase):
