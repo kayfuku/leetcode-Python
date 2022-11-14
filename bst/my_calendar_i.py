@@ -61,7 +61,7 @@ class TestSolution(unittest.TestCase):
             ([0, 1, 2], 3, 6),
             ([0, 1], 3, 5),
         ]
-        s = Solution()
+        s = MyCalendar()
         for case, (input1, input2, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
