@@ -28,6 +28,7 @@ class MyCalendar:
 class MyCalendar2:
     '''
     BST and Binary Search
+    Good for interview
     O(NlogN) time, O(N) space
     '''
 
@@ -37,7 +38,8 @@ class MyCalendar2:
     def book(self, start: int, end: int) -> bool:
         # TODO: what is bisect_right()?
         idx = self.calendar.bisect_right((start, end))
-        if (idx > 0 and self.calendar[idx-1][1] > start) or (idx < len(self.calendar) and self.calendar[idx][0] < end):
+        if (idx > 0 and self.calendar[idx - 1][1] > start) or \
+                (idx < len(self.calendar) and self.calendar[idx][0] < end):
             return False
 
         self.calendar.add((start, end))
