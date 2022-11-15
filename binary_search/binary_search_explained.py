@@ -54,6 +54,9 @@ class Solution:
         Find x, 'left' is a possible index of x.
         '''
         return bisect.bisect_left(nums, target)
+        # from sortedcontainers import SortedList
+        # sorted_list = SortedList(nums)
+        # return sorted_list.bisect_left(target)
 
     def search4(self, nums: List[int], target: int) -> int:
         '''
@@ -135,6 +138,9 @@ class Solution:
         8. Built-in Binary Search (smallest larger)
         '''
         return bisect.bisect_right(nums, target)
+        # from sortedcontainers import SortedList
+        # sorted_list = SortedList(nums)
+        # return sorted_list.bisect_right(target)
 
 
 class TestSolution(unittest.TestCase):
@@ -154,6 +160,8 @@ class TestSolution(unittest.TestCase):
             # ([0, 1, 3, 5, 7], 5, 3),
             # ([0, 1, 3, 5, 7], 6, 4),
             # ([0, 1, 3, 5, 7], 8, 5),  # Caution!
+            # ([1, 2, 3, 5, 7], 0, 0),  # Caution!
+            # ([1, 3, 3, 3, 7], 3, 1),  # Caution!
             # [4] Binary Search (leftmost)
             # ([0, 1, 1, 1, 5], 1, 1),
             # ([0, 0, 1, 1, 5], 0, 0),
@@ -179,7 +187,9 @@ class TestSolution(unittest.TestCase):
             ([1, 2, 3, 3, 3], 3, 5),  # Caution!
             ([0, 2, 4, 5, 7], 3, 2),
             ([0, 2, 4, 5, 7], 8, 5),  # Caution!
-
+            ([0, 2, 4, 5, 7], 7, 5),  # Caution!
+            ([2, 3, 4, 5, 7], 1, 0),
+            ([2, 3, 3, 3, 7], 2, 1),  # Caution!
         ]
         s = Solution()
         for input1, input2, expected in input_and_expected_outputs:

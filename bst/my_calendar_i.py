@@ -33,16 +33,37 @@ class MyCalendar2:
     '''
 
     def __init__(self):
-        self.calendar = SortedList()
+        from sortedcontainers import SortedList
+        # SortedList is like a TreeSet in Java, which is made of balanced Binary Search Tree.
+        self.sorted_list = SortedList()
 
     def book(self, start: int, end: int) -> bool:
-        # TODO: what is bisect_right()?
-        idx = self.calendar.bisect_right((start, end))
-        if (idx > 0 and self.calendar[idx - 1][1] > start) or \
-                (idx < len(self.calendar) and self.calendar[idx][0] < end):
+        # bisect_left() returns index of x if x is in the list.
+        # If x is not in the list, then it returns index at which x would be.
+        # That means that the element at the index is greater than x.
+        # Thus, self.sorted_list[idx] refers to the next meeting.
+        # Be careful to avoid index out of bounds because idx could be 0 or len(self.calender).
+        idx = self.sorted_list.bisect_left((start, end))
+
+        # This meeting must start after previous meeting ends.
+        # Check with the end time of previous meeting.
+        if (idx > 0 and start < self.sorted_list[idx - 1][1]):
+            # Overlapped because the start time of this meeting is earlier than
+            # the end time of previous meeting.
             return False
 
-        self.calendar.add((start, end))
+        # This meeting must end before next meeting starts.
+        # Check with the start time of next meeting.
+        if (idx < len(self.sorted_list) and end > self.sorted_list[idx][0]):
+            # Overlapped because the end time of this meeting is later than
+            # the start time of next meeting.
+            return False
+
+        # If there is no overlapped meetings, then add this meeting to the sorted list.
+        # Tuples are sorted based on the first element in SortedList.
+        # That means that the meetings are sorted by their start time.
+        self.sorted_list.add((start, end))
+
         return True
 
 
