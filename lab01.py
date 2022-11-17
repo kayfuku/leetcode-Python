@@ -11,8 +11,7 @@ def main():
     # experiment code
 
     a = [(3, 0), (1, 3), (5, 2), (4, 1)]
-    def start(x): return x[0]
-    sorted_list = SortedList(a, key=start)
+    sorted_list = SortedList(a, key=lambda x: x[0])
     print(sorted_list)
 
     # done

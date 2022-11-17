@@ -1,6 +1,5 @@
 # Author: leetcode + kei
 # Date: November 14, 2022
-from sortedcontainers import SortedList
 from typing import *
 from helper_classes import *
 from collections import *
@@ -29,24 +28,30 @@ class MyCalendar2:
     '''
     BST and Binary Search
     Good for interview
+    Save the event in the sorted list if it's not double-booked.
+    The sorted list only has not-overlapped events.
+    That means that we just have to check the previous event and the next event
+    to avoid overbooking.
     O(NlogN) time, O(N) space
     '''
 
     def __init__(self):
         from sortedcontainers import SortedList
         # SortedList is like a TreeSet in Java, which is made of balanced Binary Search Tree.
-        self.sorted_list = SortedList()
+        # SortedList maintains the events in sorted order.
+        # Inserting and Searching takes O(logN) time.
+        self.sorted_list = SortedList(key=lambda x: x[0])
 
     def book(self, start: int, end: int) -> bool:
         # bisect_left() returns index of x if x is in the list.
         # If x is not in the list, then it returns index at which x would be.
         # That means that the element at the index is greater than x.
         # Thus, self.sorted_list[idx] refers to the next meeting.
-        # Be careful to avoid index out of bounds because idx could be 0 or len(self.calender).
         idx = self.sorted_list.bisect_left((start, end))
 
         # This meeting must start after previous meeting ends.
         # Check with the end time of previous meeting.
+        # Be careful to avoid index out of bounds because idx could be 0.
         if (idx > 0 and start < self.sorted_list[idx - 1][1]):
             # Overlapped because the start time of this meeting is earlier than
             # the end time of previous meeting.
@@ -54,6 +59,7 @@ class MyCalendar2:
 
         # This meeting must end before next meeting starts.
         # Check with the start time of next meeting.
+        # Be careful to avoid index out of bounds because idx could be len(self.calender).
         if (idx < len(self.sorted_list) and end > self.sorted_list[idx][0]):
             # Overlapped because the end time of this meeting is later than
             # the start time of next meeting.
