@@ -10,9 +10,8 @@ from sortedcontainers import SortedList
 def main():
     # experiment code
 
-    a = [(3, 0), (1, 3), (5, 2), (4, 1)]
-    sorted_list = SortedList(a, key=lambda x: x[0])
-    print(sorted_list)
+    a = 0
+    print(1 ^ a)
 
     # done
     print('done')

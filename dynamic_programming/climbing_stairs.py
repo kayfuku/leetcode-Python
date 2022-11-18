@@ -28,12 +28,17 @@ class Solution:
     def climbStairs3(self, n: int) -> int:
         if n == 1:
             return 1
-        a, b = 1, 2
+        if n == 2:
+            return 2
+        a = 1  # for the step 1
+        b = 2  # for the step 2
+        # c is the answer for the step 3 to n.
         for i in range(2, n):
-            tmp = b
-            b = a + b
-            a = tmp
-        return b
+            c = a + b
+            a = b
+            b = c
+        # for the step n
+        return c
 
     # Top down + memorization (list)
     def climbStairs4(self, n: int) -> int:
