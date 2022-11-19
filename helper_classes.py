@@ -34,3 +34,19 @@ class Node:
     def __init__(self, val: int = 0, neighbors: Self = None):
         self.val = val
         self.neighbors = neighbors
+
+
+class UF:
+
+    def __init__(self, n) -> None:
+        self.roots = [i for i in range(n)]
+
+    def find(self, x):
+        if self.roots[x] == x:
+            # This is the root node.
+            return self.roots[x]
+        # Keep searching for parent of parent
+        return self.find(self.roots[x])
+
+    def unite(self, x, y):
+        self.roots[x] = y

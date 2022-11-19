@@ -10,8 +10,8 @@ from sortedcontainers import SortedList
 def main():
     # experiment code
 
-    a = 0
-    print(1 ^ a)
+    a = int('01')
+    print(a)
 
     # done
     print('done')
