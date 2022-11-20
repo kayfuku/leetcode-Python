@@ -35,7 +35,7 @@ class Solution:
         for x in range(1, amount + 1):
             minimum = float('inf')
             for coin in coins:
-                # If dp[x - coin] != -1, then there is no way to make up the amount.
+                # If dp[x - coin] is equal to -1, then there is no way to make up the amount.
                 if x - coin >= 0 and dp[x - coin] != -1:
                     minimum = min(minimum, dp[x - coin] + 1)
                     dp[x] = minimum
