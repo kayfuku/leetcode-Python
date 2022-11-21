@@ -38,6 +38,7 @@ class Solution:
     def getDirections(
             self, root: Optional[TreeNode],
             start_value: int, dest_value: int) -> str:
+
         ancestor = self.lowest_common_ancestor(root, start_value, dest_value)
 
         def get_direction(node: TreeNode, value: int, steps: List[str]):
@@ -67,6 +68,66 @@ class Solution:
             direction.append(d)
 
         return ''.join(direction)
+
+
+class Review:
+    '''
+    TODO: WA!
+    5
+    |\
+    1 2
+    | |\
+    2 6 4
+    '''
+
+    def getDirections(
+            self, root: Optional[TreeNode],
+            startValue: int, destValue: int) -> str:
+
+        def get_lowest_common_ancestor(node, s, t):
+            if node is None:
+                return None
+            if node.val == s or node.val == t:
+                return node
+
+            left = get_lowest_common_ancestor(node.left, s, t)
+            right = get_lowest_common_ancestor(node.right, s, t)
+            if not left and not right:
+                return node
+
+            return left if not left else right
+
+        def get_direction(node: TreeNode, x: int, steps):
+            if node is None:
+                return False
+
+            if node.val == x:
+                return True
+
+            if get_direction(node.left, x, steps):
+                steps.append('L')
+                return True
+
+            if get_direction(node.right, x, steps):
+                steps.append('R')
+                return True
+
+            return False
+
+        lca = get_lowest_common_ancestor(root, startValue, destValue)
+        to_dest = []
+        get_direction(lca, destValue, to_dest)
+        to_start = []
+        get_direction(lca, startValue, to_start)
+
+        steps = []
+        for _ in to_start:
+            steps.append('U')
+        sorted(to_dest, reverse=True)
+        for d in to_dest:
+            steps.append(d)
+
+        return ''.join(steps)
 
 
 class TestSolution(unittest.TestCase):

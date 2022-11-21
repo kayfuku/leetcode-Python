@@ -29,6 +29,22 @@ class Logger:
 # obj = Logger()
 # param_1 = obj.shouldPrintMessage(timestamp,message)
 
+class Review:
+
+    def __init__(self):
+        self.mp = dict()
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        if message not in self.mp:
+            self.mp[message] = timestamp + 10
+            return True
+
+        if timestamp >= self.mp[message]:
+            self.mp[message] = timestamp + 10
+            return True
+
+        return False
+
 
 class TestSolution(unittest.TestCase):
 
