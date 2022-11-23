@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: May 8, 2022
+# Date: May 8, 2022, November 23 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -8,11 +8,9 @@ import numpy as np
 
 class Solution:
 
-    def __init__(self):
-        pass
-
     def lowest_common_ancestor(
             self, root: TreeNode, p: int, q: int) -> TreeNode:
+
         def recurse_tree(curr_node):
             if not curr_node or curr_node.val == p or curr_node.val == q:
                 # No need to further explore this branch because
@@ -46,14 +44,17 @@ class Solution:
                 return False
             if node.val == value:
                 return True
+
             steps.append('L')
             if get_direction(node.left, value, steps):
                 return True
             steps.pop()
+
             steps.append('R')
             if get_direction(node.right, value, steps):
                 return True
             steps.pop()
+
             return False
 
         to_start = []
@@ -72,7 +73,6 @@ class Solution:
 
 class Review:
     '''
-    TODO: WA!
     5
     |\
     1 2
@@ -92,12 +92,14 @@ class Review:
 
             left = get_lowest_common_ancestor(node.left, s, t)
             right = get_lowest_common_ancestor(node.right, s, t)
-            if not left and not right:
+            # Don't use 'not'! It's confusing.
+            if left and right:
                 return node
 
-            return left if not left else right
+            # Don't use 'not'! It's confusing.
+            return left if left else right
 
-        def get_direction(node: TreeNode, x: int, steps):
+        def get_direction(node: TreeNode, x: int, steps: List[str]):
             if node is None:
                 return False
 
@@ -114,16 +116,26 @@ class Review:
 
             return False
 
+        def reverse(li):
+            i = 0
+            j = len(li) - 1
+            while i < j:
+                li[i], li[j] = li[j], li[i]
+                i += 1
+                j -= 1
+
         lca = get_lowest_common_ancestor(root, startValue, destValue)
-        to_dest = []
-        get_direction(lca, destValue, to_dest)
         to_start = []
         get_direction(lca, startValue, to_start)
+        to_dest = []
+        get_direction(lca, destValue, to_dest)
 
         steps = []
         for _ in to_start:
             steps.append('U')
-        sorted(to_dest, reverse=True)
+        # NG! Reversing and Reverse sorting are **NOT** equal!
+        # to_dest = sorted(to_dest, reverse=True)
+        reverse(to_dest)
         for d in to_dest:
             steps.append(d)
 
@@ -132,41 +144,55 @@ class Review:
 
 class TestSolution(unittest.TestCase):
 
-    def test_solve(self):
-        '''
-        Test
-        '''
-        input_and_expected_outputs = [
-            # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
-        ]
-        s = Solution()
-        for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
-                self.assertEqual(result, expected)
+    # def test_solve(self):
+    #     '''
+    #     Test
+    #     '''
+    #     input_and_expected_outputs = [
+    #         # (input1, input2, expected output) depending on number of arguments
+    #         ([0, 1, 2], 3, 6),
+    #         ([0, 1], 3, 5),
+    #     ]
+    #     s = Solution()
+    #     for input1, input2, expected in input_and_expected_outputs:
+    #         with self.subTest(input1=input1, input2=input2, expected=expected):
+    #             result = s.solve(input1, input2)
+    #             self.assertEqual(result, expected)
 
     def test_tree(self):
         '''
         Tree test example
+              6
+             /  \
+            2    12
+           / \   / \
+          1   4 9  14
         '''
-        n1 = TreeNode(5)
-        n2 = TreeNode(1)
-        n3 = TreeNode(5)
-        n4 = TreeNode(5)
-        n5 = TreeNode(5)
-        n6 = TreeNode(5)
+        n1 = TreeNode(6)
+        n2 = TreeNode(2)
+        n3 = TreeNode(12)
+        n4 = TreeNode(1)
+        n5 = TreeNode(4)
+        n6 = TreeNode(9)
+        n7 = TreeNode(14)
 
         n1.left = n2
         n1.right = n3
-        n3.right = n6
         n2.left = n4
         n2.right = n5
+        n3.left = n6
+        n3.right = n7
 
-        s = Solution()
-        result = s.solve(n1)
-        self.assertEqual(result, 4)
+        input_and_expected_outputs = [
+            # (input1, input2, expected output) depending on number of arguments
+            (n1, 4, 9, 'UURL'),
+            (n1, 2, 4, 'R'),
+        ]
+        s = Review()
+        for input1, input2, input3, expected in input_and_expected_outputs:
+            with self.subTest(input1=input1, input2=input2, input3=input3, expected=expected):
+                result = s.getDirections(input1, input2, input3)
+                self.assertEqual(result, expected)
 
 
 def main():
