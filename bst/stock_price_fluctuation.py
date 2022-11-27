@@ -18,35 +18,35 @@ class Solution:
         self.time_to_price = SortedDict()
         # K: price, V: set of timestamps, to keep track of max and min of price
         # because same prices can come and updating can remove a price
-        self.price_to_time_rec = SortedDict()
+        self.price_to_time_list = SortedDict()
 
     def update(self, timestamp: int, price: int) -> None:
-        # Remove old price.
+        # Remove old price from price_to_time_list.
         if timestamp in self.time_to_price:
-            prev_price = self.time_to_price[timestamp]
-            self.price_to_time_rec[prev_price].remove(timestamp)
-            if len(self.price_to_time_rec[prev_price]) == 0:
-                self.price_to_time_rec.pop(prev_price)
+            old_price = self.time_to_price[timestamp]
+            self.price_to_time_list[old_price].remove(timestamp)
+            if len(self.price_to_time_list[old_price]) == 0:
+                self.price_to_time_list.pop(old_price)
 
-        # Set new price.
-        if not price in self.price_to_time_rec:
-            self.price_to_time_rec[price] = set()
-        self.price_to_time_rec[price].add(timestamp)
+        # Save new price in price_to_time_list and time_to_price.
         self.time_to_price[timestamp] = price
+        if not price in self.price_to_time_list:
+            self.price_to_time_list[price] = set()
+        self.price_to_time_list[price].add(timestamp)
 
     def current(self) -> int:
         # Get latest price.
         # peekitem(): Optional argument index defaults to -1, the last item in the sorted dict.
-        # Specify index=0 for the first item in the sorted dict.
         return self.time_to_price.peekitem(-1)[1]
 
     def maximum(self) -> int:
         # Get max price.
-        return self.price_to_time_rec.peekitem(-1)[0]
+        return self.price_to_time_list.peekitem(-1)[0]
 
     def minimum(self) -> int:
         # Get min price.
-        return self.price_to_time_rec.peekitem(0)[0]
+        # Specify index=0 for the first item in the sorted dict.
+        return self.price_to_time_list.peekitem(0)[0]
 
 # Your StockPrice object will be instantiated and called as such:
 # obj = StockPrice()
@@ -54,40 +54,6 @@ class Solution:
 # param_2 = obj.current()
 # param_3 = obj.maximum()
 # param_4 = obj.minimum()
-
-
-class Review:
-    '''
-    We use a BST instead of a heap because a heap takes O(N) time to remove an
-    element while a BST only takes O(logN) time.
-    '''
-
-    def __init__(self):
-        self.time_to_value = defaultdict(int)
-        self.value_to_time = defaultdict(set)
-        heapq.heapify(self.min_heap)
-        heapq.heapify(self.max_heap)
-        self.latest_price = 0
-        return
-
-    def update(self, timestamp: int, price: int) -> None:
-        old_price = self.time_to_value[timestamp]
-        if len(self.value_to_time[old_price]) != 0:
-            self.value_to_time[old_price].remove(timestamp)
-
-        self.time_to_value[timestamp] = price
-        self.value_to_time[price].add(timestamp)
-
-        return
-
-    def current(self) -> int:
-        return self.latest_price
-
-    def maximum(self) -> int:
-        return heapq.heappop(self.max_heap)
-
-    def minimum(self) -> int:
-        return heapq.heappop(self.min_heap)
 
 
 class TestSolution(unittest.TestCase):
