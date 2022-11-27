@@ -6,9 +6,12 @@ from helper_classes import *
 import numpy as np
 
 from sortedcontainers import SortedDict
+from collections import *
+import heapq
 
 
 class Solution:
+
     def __init__(self):
         # SortedDict uses BST like TreeMap in Java.
         # K: timestamp, V: price, to get latest price
@@ -51,6 +54,40 @@ class Solution:
 # param_2 = obj.current()
 # param_3 = obj.maximum()
 # param_4 = obj.minimum()
+
+
+class Review:
+    '''
+    We use a BST instead of a heap because a heap takes O(N) time to remove an
+    element while a BST only takes O(logN) time.
+    '''
+
+    def __init__(self):
+        self.time_to_value = defaultdict(int)
+        self.value_to_time = defaultdict(set)
+        heapq.heapify(self.min_heap)
+        heapq.heapify(self.max_heap)
+        self.latest_price = 0
+        return
+
+    def update(self, timestamp: int, price: int) -> None:
+        old_price = self.time_to_value[timestamp]
+        if len(self.value_to_time[old_price]) != 0:
+            self.value_to_time[old_price].remove(timestamp)
+
+        self.time_to_value[timestamp] = price
+        self.value_to_time[price].add(timestamp)
+
+        return
+
+    def current(self) -> int:
+        return self.latest_price
+
+    def maximum(self) -> int:
+        return heapq.heappop(self.max_heap)
+
+    def minimum(self) -> int:
+        return heapq.heappop(self.min_heap)
 
 
 class TestSolution(unittest.TestCase):
