@@ -23,10 +23,13 @@ class Solution:
             if not node:
                 return -1
 
+            # Post order because we know the current height after checking
+            # both of children nodes.
             left_height = get_height(node.left)
             right_height = get_height(node.right)
             curr_height = max(left_height, right_height) + 1
 
+            # Now that we know the current height, do whatever we want to do.
             if len(ret) == curr_height:
                 ret.append([])
             ret[curr_height].append(node.val)
