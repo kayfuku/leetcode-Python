@@ -1,10 +1,9 @@
 # Author: leetcode + kei
-# Date: November ?, 2022
+# Date: November 28, 2022
 from typing import *
 from helper_classes import *
-from collections import defaultdict, deque
+from collections import *
 from sortedcontainers import SortedList, SortedSet, SortedDict
-import bisect
 import heapq
 import numpy as np
 import unittest
@@ -14,7 +13,7 @@ class Solution:
     '''
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
+    def earliestAcq(self, logs: List[List[int]], n: int) -> int:
         return 0
 
 

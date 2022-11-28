@@ -55,6 +55,8 @@ class Solution2:
     '''
     2. DFS, recursive
     Not recommended for interview
+    FYI, this is top down approach for level involved problems.
+    For bottom up, refer to find_leaves_of_binary_tree.py
     '''
 
     def levelOrder(self, root):

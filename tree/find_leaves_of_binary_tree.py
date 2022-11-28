@@ -14,6 +14,8 @@ class Solution:
     1. Use height without removing leaf nodes
     Good for interview
     It's a little like a level order traversal with recursion.
+    FYI, this is bottom up approach for level involved problems.
+    For top down, refer to "2. DFS, recursive" of binary_tree_level_order_traversal.py
     Author: kei
     '''
 
