@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing_extensions import Self
 
 
@@ -36,17 +37,86 @@ class Node:
         self.neighbors = neighbors
 
 
-class UF:
+class UnionFind(object):
+    '''
+    Union Find
+    n : int, the number of nodes
+    roots : list, list of parents.
+        If value is negative, the index is a root node number of a tree/group, and
+        the absolute value is the number of nodes in the tree.
+    rank : list, height of the tree
+    '''
 
-    def __init__(self, n) -> None:
-        self.roots = [i for i in range(n)]
+    def __init__(self, n):
+        self.n = n
+        self.roots = [-1] * (n + 1)
+        self.rank = [0] * (n + 1)
 
     def find(self, x):
-        if self.roots[x] == x:
-            # This is the root node.
-            return self.roots[x]
-        # Keep searching for parent of parent
-        return self.find(self.roots[x])
+        '''
+        Find roots of node x.
+        x : int, node number
+        '''
+        if (self.roots[x] < 0):
+            return x
+        self.roots[x] = self.find(self.roots[x])
+        return self.roots[x]
 
     def unite(self, x, y):
-        self.roots[x] = y
+        '''
+        Unite trees.
+        x : int, node number in one tree
+        y : int, node number in another tree
+        '''
+        x = self.find(x)
+        y = self.find(y)
+        if (x == y):
+            return
+        # Merge the lower-rank group into the higher-rank group.
+        if (self.rank[x] > self.rank[y]):
+            # Add the number of nodes in tree y to tree x.
+            self.roots[x] += self.roots[y]
+            # Set x as a root node of y.
+            self.roots[y] = x
+        elif self.rank[x] < self.rank[y]:
+            self.roots[y] += self.roots[x]
+            self.roots[x] = y
+            if (self.rank[x] == self.rank[y]):
+                self.rank[y] += 1
+
+    def is_same(self, x, y):
+        '''
+        Check if it's in the same tree.
+        x : int, one node number
+        y : int, another node number
+        '''
+        return self.find(x) == self.find(y)
+
+    def get_tree_size(self, x):
+        '''
+        Get the tree size.
+        x : int, node number
+        '''
+        return -self.roots[self.find(x)]
+
+    def get_roots(self):
+        '''
+        Get a list of the roots.
+        '''
+        return [i for i, x in enumerate(self.roots) if x < 0]
+
+    def get_number_of_group(self):
+        '''
+        Get the number of trees/groups.
+        '''
+        return len(self.get_roots())
+
+    def get_all_group_members(self):
+        '''
+        Get all lists of nodes for all trees/groups.
+        '''
+        # K: root, V: list of nodes
+        group_members = defaultdict(list)
+        for member in range(self.n):
+            group_members[self.find(member)].append(member)
+        return group_members

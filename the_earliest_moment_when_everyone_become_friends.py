@@ -11,10 +11,30 @@ import unittest
 
 class Solution:
     '''
+    Union Find
     '''
 
     def earliestAcq(self, logs: List[List[int]], n: int) -> int:
-        return 0
+        # First, we need to sort the events in chronological order.
+        logs.sort(key=lambda x: x[0])
+
+        uf = UnionFind(n)
+        # Initially, we treat each individual as a separate group.
+        group_cnt = n
+
+        # We merge the groups along the way.
+        for timestamp, friend_a, friend_b in logs:
+            if not uf.is_same(friend_a, friend_b):
+                uf.unite(friend_a, friend_b)
+                group_cnt -= 1
+
+            # The moment when all individuals are connected to each other.
+            if group_cnt == 1:
+                return timestamp
+
+        # There are still more than one groups left,
+        # i.e. not everyone is connected.
+        return -1
 
 
 class TestSolution(unittest.TestCase):
