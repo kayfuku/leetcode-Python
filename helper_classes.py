@@ -58,9 +58,10 @@ class UnionFind(object):
         x : int, node number
         '''
         if (self.roots[x] < 0):
+            # x is a root node.
             return x
-        self.roots[x] = self.find(self.roots[x])
-        return self.roots[x]
+        parent = self.roots[x]
+        return self.find(parent)
 
     def unite(self, x, y):
         '''
@@ -84,12 +85,13 @@ class UnionFind(object):
             if (self.rank[x] == self.rank[y]):
                 self.rank[y] += 1
 
-    def is_same(self, x, y):
+    def is_connected(self, x, y):
         '''
-        Check if it's in the same tree.
+        Check if x and y are connected, which means they are in the same tree.
         x : int, one node number
         y : int, another node number
         '''
+        # Return True if their root nodes are the same.
         return self.find(x) == self.find(y)
 
     def get_tree_size(self, x):
