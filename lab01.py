@@ -10,8 +10,14 @@ from sortedcontainers import SortedList
 def main():
     # experiment code
 
-    a = int('01')
-    print(a)
+    q = deque(['a', 'b', 'c'])
+    for _ in range(len(q)):
+        x = q.popleft()
+        if x == 'b':
+            a = 1
+        else:
+            q.append(x)
+    print(q)
 
     # done
     print('done')

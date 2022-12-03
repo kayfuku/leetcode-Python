@@ -54,6 +54,14 @@ class Solution2:
 
         return c
 
+    def rob2(self, nums: List[int]) -> int:
+        a, b = 0, 0
+        for n in nums:
+            c = max(a + n, b)
+            a = b
+            b = c
+        return c
+
 
 class TestSolution(unittest.TestCase):
 
