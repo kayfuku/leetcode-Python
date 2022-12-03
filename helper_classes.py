@@ -39,7 +39,7 @@ class Node:
 
 class UnionFind(object):
     '''
-    Union Find
+    Union Find (Disjoint Set with path compression and union by rank)
     n : int, the number of nodes
     roots : list, list of parents.
         If value is negative, the index is a root node number of a tree/group, and
@@ -48,6 +48,9 @@ class UnionFind(object):
     '''
 
     def __init__(self, n):
+        '''
+        O(N) time
+        '''
         self.n = n
         self.roots = [-1] * (n + 1)
         self.rank = [0] * (n + 1)
@@ -55,17 +58,20 @@ class UnionFind(object):
     def find(self, x):
         '''
         Find roots of node x.
+        O(logN) time or O(1) on average
         x : int, node number
         '''
         if (self.roots[x] < 0):
             # x is a root node.
             return x
-        parent = self.roots[x]
-        return self.find(parent)
+        # Path compression implementation
+        self.roots[x] = self.find(self.roots[x])
+        return self.roots[x]
 
     def unite(self, x, y):
         '''
         Unite trees.
+        O(logN) time or O(1) on average
         x : int, node number in one tree
         y : int, node number in another tree
         '''
@@ -88,6 +94,7 @@ class UnionFind(object):
     def is_connected(self, x, y):
         '''
         Check if x and y are connected, which means they are in the same tree.
+        O(logN) time or O(1) on average
         x : int, one node number
         y : int, another node number
         '''
@@ -98,24 +105,28 @@ class UnionFind(object):
         '''
         Get the tree size.
         x : int, node number
+        O(logN) time
         '''
         return -self.roots[self.find(x)]
 
     def get_roots(self):
         '''
         Get a list of the roots.
+        O(N) time
         '''
         return [i for i, x in enumerate(self.roots) if x < 0]
 
     def get_number_of_group(self):
         '''
         Get the number of trees/groups.
+        O(N) time
         '''
         return len(self.get_roots())
 
     def get_all_group_members(self):
         '''
         Get all lists of nodes for all trees/groups.
+        O(NlogN) time
         '''
         # K: root, V: list of nodes
         group_members = defaultdict(list)
