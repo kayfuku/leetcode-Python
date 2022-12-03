@@ -16,9 +16,6 @@ class Solution:
     '''
 
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        '''
-        TODO:
-        '''
         n = len(isConnected)
         uf = UnionFind(n)
         for i in range(n):

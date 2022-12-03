@@ -52,8 +52,8 @@ class UnionFind(object):
         O(N) time
         '''
         self.n = n
-        self.roots = [-1] * (n + 1)
-        self.rank = [0] * (n + 1)
+        self.roots = [-1] * n
+        self.rank = [0] * n
 
     def find(self, x):
         '''
@@ -97,7 +97,7 @@ class UnionFind(object):
             self.roots[x] += self.roots[y]
             # Set x as a root node of y.
             self.roots[y] = x
-        elif self.rank[x] < self.rank[y]:
+        else:
             self.roots[y] += self.roots[x]
             self.roots[x] = y
             if (self.rank[x] == self.rank[y]):
@@ -124,7 +124,6 @@ class UnionFind(object):
     def get_roots(self):
         '''
         Get a list of the roots.
-        Caution! if you use find(), not find_without_pc() when uniting.
         O(N) time
         '''
         return [i for i, x in enumerate(self.roots) if x < 0]
@@ -132,11 +131,9 @@ class UnionFind(object):
     def get_number_of_groups(self):
         '''
         Get the number of trees/groups.
-        Caution! if you use find(), not find_without_pc() when uniting. TODO:
         O(N) time
         '''
-        # return len(self.get_roots())
-        return len(set(self.get_roots()))
+        return len(self.get_roots())
 
     def get_all_group_members(self):
         '''
