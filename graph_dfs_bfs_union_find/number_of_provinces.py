@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: November ?, 2022
+# Date: December 3, 2022
 from typing import *
 from helper_classes import *
 from collections import defaultdict, deque
@@ -12,10 +12,36 @@ import unittest
 
 class Solution:
     '''
+    1. Union Find
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        '''
+        TODO:
+        '''
+        n = len(isConnected)
+        uf = UnionFind(n)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if isConnected[i][j] == 1:
+                    uf.unite(i, j)
+
+        return uf.get_number_of_groups()
+
+    def findCircleNum_NG(self, isConnected: List[List[int]]) -> int:
+        '''
+        NG if there is a cycle.
+        '''
+        n = len(isConnected)
+        num_group = n
+        uf = UnionFind(n)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if isConnected[i][j] == 1:
+                    uf.unite(i, j)
+                    num_group -= 1
+
+        return num_group
 
 
 class TestSolution(unittest.TestCase):
@@ -27,16 +53,15 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]], 1),
         ]
         s = Solution()
-        for case, (input1, input2, expected) in enumerate(
+        for case, (input1, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
-            with self.subTest(input1=input1, input2=input2, expected=expected):
+            with self.subTest(input1=input1, expected=expected):
                 # Change to the method name to be tested.
-                result = s.topKFrequent(input1, input2)
+                result = s.findCircleNum(input1)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):

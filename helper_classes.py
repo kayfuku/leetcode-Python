@@ -68,6 +68,18 @@ class UnionFind(object):
         self.roots[x] = self.find(self.roots[x])
         return self.roots[x]
 
+    def find_without_pc(self, x):
+        '''
+        Find roots of node x.
+        O(logN) time
+        x : int, node number
+        '''
+        if (self.roots[x] < 0):
+            # x is a root node.
+            return x
+        # Without path compression
+        return self.find_without_pc(self.roots[x])
+
     def unite(self, x, y):
         '''
         Unite trees.
@@ -112,16 +124,19 @@ class UnionFind(object):
     def get_roots(self):
         '''
         Get a list of the roots.
+        Caution! if you use find(), not find_without_pc() when uniting.
         O(N) time
         '''
         return [i for i, x in enumerate(self.roots) if x < 0]
 
-    def get_number_of_group(self):
+    def get_number_of_groups(self):
         '''
         Get the number of trees/groups.
+        Caution! if you use find(), not find_without_pc() when uniting. TODO:
         O(N) time
         '''
-        return len(self.get_roots())
+        # return len(self.get_roots())
+        return len(set(self.get_roots()))
 
     def get_all_group_members(self):
         '''
