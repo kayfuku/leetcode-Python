@@ -54,6 +54,7 @@ class UnionFind(object):
         self.n = n
         self.roots = [-1] * n
         self.rank = [0] * n
+        self.num_of_groups = n
 
     def find(self, x):
         '''
@@ -103,6 +104,8 @@ class UnionFind(object):
             if (self.rank[x] == self.rank[y]):
                 self.rank[y] += 1
 
+        self.num_of_groups -= 1
+
     def is_connected(self, x, y):
         '''
         Check if x and y are connected, which means they are in the same tree.
@@ -131,9 +134,9 @@ class UnionFind(object):
     def get_number_of_groups(self):
         '''
         Get the number of trees/groups.
-        O(N) time
+        O(1) time
         '''
-        return len(self.get_roots())
+        return self.num_of_groups
 
     def get_all_group_members(self):
         '''

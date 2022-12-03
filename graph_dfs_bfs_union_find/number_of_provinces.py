@@ -31,11 +31,9 @@ class Solution:
         '''
         n = len(isConnected)
         num_group = n
-        uf = UnionFind(n)
         for i in range(n):
             for j in range(i + 1, n):
                 if isConnected[i][j] == 1:
-                    uf.unite(i, j)
                     num_group -= 1
 
         return num_group
