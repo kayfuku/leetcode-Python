@@ -142,6 +142,72 @@ class Review:
         return ''.join(steps)
 
 
+class Cbot:
+    '''
+    RE
+    Author: + kei
+    '''
+
+    def getDirections(self, root, startValue, destValue):
+        if root is None:
+            return None
+
+        # create an empty queue
+        q = []
+
+        # create a map to store the parent of each node
+        parent = {}
+
+        # add the root node to the queue
+        q.append(root)
+
+        # loop until the queue is empty
+        while len(q) > 0:
+            # get the first element from the queue
+            node = q.pop(0)
+
+            # if the current node is start node, break the loop
+            if node.val == startValue:
+                break
+
+            # add the left and right children of the current node to the queue
+            if node.left is not None:
+                q.append(node.left)
+                parent[node.left.val] = node
+            if node.right is not None:
+                q.append(node.right)
+                parent[node.right.val] = node
+
+        # create a string to store the path
+        path = []
+
+        # loop until we reach the destValue
+        while destValue != startValue:
+            # add the current node to the path
+            path.append('U')
+
+            # get the parent of the current node
+            pnode = parent[destValue]
+
+            # if the parent's left child has the current value, add 'L' to the path
+            if pnode.left is not None and pnode.left.val == destValue:
+                path.append('L')
+            # else add 'R' to the path
+            else:
+                path.append('R')
+
+            # update the current value to the parent value
+            destValue = pnode.val
+
+        # reverse the path
+        path = path[::-1]
+
+        # convert the list to a string
+        path = ''.join(path)
+
+        return path
+
+
 class TestSolution(unittest.TestCase):
 
     # def test_solve(self):
