@@ -88,21 +88,21 @@ class UnionFind(object):
         x : int, node number in one tree
         y : int, node number in another tree
         '''
-        x = self.find(x)
-        y = self.find(y)
-        if (x == y):
+        root_x = self.find(x)
+        root_y = self.find(y)
+        if (root_x == root_y):
             return False
         # Merge the lower-rank group into the higher-rank group.
-        if (self.rank[x] > self.rank[y]):
-            # Add the number of nodes in tree y to tree x.
-            self.roots[x] += self.roots[y]
-            # Set x as a root node of y.
-            self.roots[y] = x
+        if (self.rank[root_x] > self.rank[root_y]):
+            # Add the number of nodes in tree root_y to tree root_x.
+            self.roots[root_x] += self.roots[root_y]
+            # Set root_x as a root node of root_y.
+            self.roots[root_y] = root_x
         else:
-            self.roots[y] += self.roots[x]
-            self.roots[x] = y
-            if (self.rank[x] == self.rank[y]):
-                self.rank[y] += 1
+            self.roots[root_y] += self.roots[root_x]
+            self.roots[root_x] = root_y
+            if (self.rank[root_x] == self.rank[root_y]):
+                self.rank[root_y] += 1
 
         self.num_of_groups -= 1
         return True

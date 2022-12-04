@@ -15,18 +15,19 @@ class Solution:
 
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
         # First, every node is isolated. The number of group is n at first.
+        uf = UnionFind(n)
+        for u, v in edges:
+            uf.unite(u, v)
+
+        return uf.get_number_of_groups()
+
+    def countComponents2(self, n: int, edges: List[List[int]]) -> int:
+        # First, every node is isolated. The number of group is n at first.
         uf = UF(n)
         # Next, unite nodes that are connected and decrement n by one.
-        for edge in edges:
-            u = edge[0]
-            v = edge[1]
-            root_u = uf.find(u)
-            root_v = uf.find(v)
-            # u and v should be connected. If it's not, then connect them together.
-            if root_u != root_v:
-                uf.unite(root_u, root_v)
+        for u, v in edges:
+            if uf.unite(u, v):
                 n -= 1
-
         return n
 
 
@@ -37,13 +38,17 @@ class UF:
 
     def find(self, x):
         if self.roots[x] == x:
-            # This is the root node.
             return self.roots[x]
-        # Keep searching for parent of parent
+        # self.roots[x] = self.find(self.roots[x])
         return self.find(self.roots[x])
 
     def unite(self, x, y):
-        self.roots[x] = y
+        root_x = self.find(x)
+        root_y = self.find(y)
+        if root_x == root_y:
+            return False
+        self.roots[root_x] = root_y
+        return True
 
 
 class TestSolution(unittest.TestCase):
@@ -54,15 +59,14 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            ([[0, 1], [0, 2], [1, 2], [2, 3], [2, 4]], 1),
         ]
         s = Solution()
-        for case, (input1, input2, expected) in enumerate(
+        for case, (input1, expected) in enumerate(
                 input_and_expected_output):
             print('Case: {}'.format(case))
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.topKFrequent(input1, input2)
+            with self.subTest(input1=input1, expected=expected):
+                result = s.countComponents(len(input1), input1)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):
