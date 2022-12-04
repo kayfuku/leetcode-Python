@@ -91,7 +91,7 @@ class UnionFind(object):
         x = self.find(x)
         y = self.find(y)
         if (x == y):
-            return
+            return False
         # Merge the lower-rank group into the higher-rank group.
         if (self.rank[x] > self.rank[y]):
             # Add the number of nodes in tree y to tree x.
@@ -105,6 +105,7 @@ class UnionFind(object):
                 self.rank[y] += 1
 
         self.num_of_groups -= 1
+        return True
 
     def is_connected(self, x, y):
         '''
