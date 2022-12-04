@@ -142,7 +142,7 @@ class Review:
         return ''.join(steps)
 
 
-class Cbot:
+class Cbase:
     '''
     RE
     Author: + kei

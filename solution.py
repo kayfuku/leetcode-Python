@@ -18,6 +18,18 @@ class Solution:
         return 0
 
 
+class Try:
+
+    def solve(self, nums: List[int], target: int) -> List[int]:
+        return 0
+
+
+class Cbase:
+
+    def solve(self, nums: List[int], target: int) -> List[int]:
+        return 0
+
+
 class TestSolution(unittest.TestCase):
 
     def test_solve(self):
