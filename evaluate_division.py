@@ -16,17 +16,16 @@ class Solution:
     Author: WangQiuc + kei
     '''
 
-    def calcEquation(equations, values, queries):
+    def calcEquation(self, equations, values, queries):
         # Create a directed weighted graph with adjacency matrix.
+        # numerator: {denominator: value}
         g = defaultdict(dict)
         for (x, y), v in zip(equations, values):
             g[x][y] = v
             g[y][x] = 1 / v
 
         def bfs(src, dst):
-            if not (src in g and dst in g):
-                return -1.0
-
+            # Store value with the node.
             q = deque([(src, 1.0)])
             seen = set([src])
             while q:
@@ -36,11 +35,18 @@ class Solution:
                 for nei in g[node]:
                     if nei not in seen:
                         q.append((nei, val * g[node][nei]))
-                        seen.add(node)
+                        seen.add(nei)
 
             return -1.0
 
-        return [bfs(s, d) for s, d in queries]
+        ret = []
+        for s, d in queries:
+            if not (s in g and d in g):
+                ret.append(-1.0)
+                continue
+            ret.append(bfs(s, d))
+
+        return ret
 
 
 class Try:
