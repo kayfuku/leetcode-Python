@@ -5,19 +5,19 @@ import numpy as np
 import os
 from collections import *
 from sortedcontainers import SortedList
+from pprint import pprint
 
 
 def main():
     # experiment code
 
-    q = deque(['a', 'b', 'c'])
-    for _ in range(len(q)):
-        x = q.popleft()
-        if x == 'b':
-            a = 1
-        else:
-            q.append(x)
-    print(q)
+    a = [
+        [1, 1, 0, 0, 0],
+        [1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 1],
+        [0, 0, 0, 1, 1]
+    ]
+    pprint(a)
 
     # done
     print('done')

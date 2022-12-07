@@ -3,11 +3,12 @@
 import unittest
 from typing import *
 from helper_classes import *
+from collections import *
 
 
 class Solution:
     '''
-    DFS recursive
+    1. DFS recursive
     '''
 
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
@@ -39,6 +40,115 @@ class Solution:
         return max_area
 
 
+class Solution2:
+    '''
+    2. BFS
+    '''
+
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        VISITED = 0
+
+        def bfs(r, c):
+            q = deque([(r, c)])
+            # Add it to the visited right after adding it to the queue.
+            grid[r][c] = VISITED
+            cnt = 0
+            while q:
+                cr, cc = q.popleft()
+                cnt += 1
+                for d in DIR:
+                    nr = cr + d[0]
+                    nc = cc + d[1]
+                    if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
+                            grid[nr][nc] != VISITED:
+                        q.append((nr, nc))
+                        # Add it to the visited right after adding it to the queue.
+                        grid[nr][nc] = VISITED
+
+            return cnt
+
+        R = len(grid)
+        C = len(grid[0])
+        max_area = 0
+        for row in range(R):
+            for col in range(C):
+                if grid[row][col] == 1:
+                    area = bfs(row, col)
+                    max_area = max(max_area, area)
+
+        return max_area
+
+    def maxAreaOfIsland_TLE(self, grid: List[List[int]]) -> int:
+        '''
+        TLE because we start checking on the same island over and over again.
+        '''
+        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+
+        def bfs(r, c):
+            q = deque([(r, c)])
+            seen = set([(r, c)])
+            cnt = 0
+            while q:
+                cr, cc = q.popleft()
+                cnt += 1
+                for d in DIR:
+                    nr = cr + d[0]
+                    nc = cc + d[1]
+                    if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
+                            (nr, nc) not in seen:
+                        q.append((nr, nc))
+                        seen.add((nr, nc))
+
+            return cnt
+
+        R = len(grid)
+        C = len(grid[0])
+        max_area = 0
+        for row in range(R):
+            for col in range(C):
+                if grid[row][col] == 1:
+                    area = bfs(row, col)
+                    max_area = max(max_area, area)
+
+        return max_area
+
+    def maxAreaOfIsland_WA(self, grid: List[List[int]]) -> int:
+        '''
+        WA because this is a bad pattern of code for BFS. This does not work when
+        there is a cycle in the graph. We must add node to the visited right after adding queue.
+        '''
+        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        VISITED = 0
+
+        def bfs(r, c):
+            q = deque([(r, c)])
+            cnt = 0
+            while q:
+                cr, cc = q.popleft()
+                cnt += 1
+                grid[cr][cc] = VISITED
+                for d in DIR:
+                    nr = cr + d[0]
+                    nc = cc + d[1]
+                    if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
+                            grid[nr][nc] != VISITED:
+                        q.append((nr, nc))
+
+            return cnt
+
+        R = len(grid)
+        C = len(grid[0])
+        max_area = 0
+        for row in range(R):
+            for col in range(C):
+                if grid[row][col] == 1:
+                    area = bfs(row, col)
+                    max_area = max(max_area, area)
+
+        return max_area
+
+
 class TestSolution(unittest.TestCase):
 
     def test_solve(self):
@@ -47,13 +157,21 @@ class TestSolution(unittest.TestCase):
         '''
         input_and_expected_outputs = [
             # (input1, input2, expected output) depending on number of arguments
-            ([0, 1, 2], 3, 6),
-            ([0, 1], 3, 5),
+            # ([[0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+            #   [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            #   [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            #   [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
+            #   [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+            #   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            #   [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+            #   [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], 6),
+            ([[1, 1, 0, 0, 0], [1, 1, 0, 0, 0], [
+             0, 0, 0, 1, 1], [0, 0, 0, 1, 1]], 4),
         ]
-        s = Solution()
-        for input1, input2, expected in input_and_expected_outputs:
-            with self.subTest(input1=input1, input2=input2, expected=expected):
-                result = s.solve(input1, input2)
+        s = Solution2()
+        for input1, expected in input_and_expected_outputs:
+            with self.subTest(input1=input1, expected=expected):
+                result = s.maxAreaOfIsland(input1)
                 self.assertEqual(result, expected)
 
     # def test_tree(self):

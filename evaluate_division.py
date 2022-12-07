@@ -12,14 +12,35 @@ import unittest
 
 class Solution:
     '''
+    BFS
+    Author: WangQiuc + kei
     '''
 
-    def calcEquation(
-            self, equations: List[List[str]],
-            values: List[float],
-            queries: List[List[str]]) -> List[float]:
+    def calcEquation(equations, values, queries):
+        # Create a directed weighted graph with adjacency matrix.
+        g = defaultdict(dict)
+        for (x, y), v in zip(equations, values):
+            g[x][y] = v
+            g[y][x] = 1 / v
 
-        return 0
+        def bfs(src, dst):
+            if not (src in g and dst in g):
+                return -1.0
+
+            q = deque([(src, 1.0)])
+            seen = set([src])
+            while q:
+                node, val = q.popleft()
+                if node == dst:
+                    return val
+                for nei in g[node]:
+                    if nei not in seen:
+                        q.append((nei, val * g[node][nei]))
+                        seen.add(node)
+
+            return -1.0
+
+        return [bfs(s, d) for s, d in queries]
 
 
 class Try:
