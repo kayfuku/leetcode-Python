@@ -12,60 +12,23 @@ import unittest
 
 class Solution:
     '''
-    Union Find
-    Note: The important point to note here is that if we have pairs like (a, b) and (b, c),
-    then we can swap characters at indices a and c. Although we don't have the pair (a, c),
-    we can still swap them by first swapping them with the character at index b.
-    Thus, because we can swap the characters at these indices any number of times,
-    we can rearrange the characters a, b, and c into any order.
     '''
 
-    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+    def calcEquation(
+            self, equations: List[List[str]],
+            values: List[float],
+            queries: List[List[str]]) -> List[float]:
 
-        class UF:
-
-            def __init__(self, n):
-                self.p = list(range(n))
-
-            def find(self, x):
-                if x == self.p[x]:
-                    return x
-                self.p[x] = self.find(self.p[x])
-                return self.p[x]
-
-            def unite(self, x, y):
-                # No need to check if x and y are in the same group for this problem.
-                self.p[self.find(x)] = self.find(y)
-
-        # Create a graph with union find.
-        uf = UF(len(s))
-        for x, y in pairs:
-            uf.unite(x, y)
-
-        # Group the characters at the indices which belong to the same group.
-        # K: root, V: list of nodes in the same group
-        m = defaultdict(list)
-        for i in range(len(s)):
-            root = uf.find(i)
-            m[root].append(s[i])
-
-        for comp_id in m.keys():
-            m[comp_id].sort(reverse=True)
-
-        res = []
-        for i in range(len(s)):
-            res.append(m[uf.find(i)].pop())
-
-        return ''.join(res)
+        return 0
 
 
 class Try:
 
-    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+    def solve(self, nums: List[int], target: int) -> List[int]:
         return 0
 
 
-class Cbase:
+class Bot:
 
     def solve(self, nums: List[int], target: int) -> List[int]:
         return 0
