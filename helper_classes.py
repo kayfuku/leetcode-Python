@@ -49,7 +49,7 @@ class UnionFind(object):
 
     def __init__(self, n):
         '''
-        O(N) time
+        O(N) time and space
         '''
         self.n = n
         self.roots = [-1] * n
@@ -59,13 +59,16 @@ class UnionFind(object):
     def find(self, x):
         '''
         Find roots of node x.
-        O(logN) time or O(1) on average
+        O(logN) or O(α(N)) time, where N is the number of vertices in the graph.
+        α refers to the Inverse Ackermann function. In practice, we assume
+        it's a constant. In other words, O(α(N)) is regarded as O(1) on average.
         x : int, node number
         '''
         if (self.roots[x] < 0):
             # x is a root node.
             return x
         # Path compression implementation
+        # Note that path compression needs recursion stacks of size O(N).
         self.roots[x] = self.find(self.roots[x])
         return self.roots[x]
 
@@ -84,7 +87,7 @@ class UnionFind(object):
     def unite(self, x, y):
         '''
         Unite trees.
-        O(logN) time or O(1) on average
+        O(logN) or O(α(N)) time
         x : int, node number in one tree
         y : int, node number in another tree
         '''
@@ -110,7 +113,7 @@ class UnionFind(object):
     def is_connected(self, x, y):
         '''
         Check if x and y are connected, which means they are in the same tree.
-        O(logN) time or O(1) on average
+        O(logN) or O(α(N)) time
         x : int, one node number
         y : int, another node number
         '''
@@ -120,8 +123,8 @@ class UnionFind(object):
     def get_tree_size(self, x):
         '''
         Get the tree size.
+        O(logN) or O(α(N)) time
         x : int, node number
-        O(logN) time
         '''
         return -self.roots[self.find(x)]
 
@@ -142,7 +145,7 @@ class UnionFind(object):
     def get_all_group_members(self):
         '''
         Get all lists of nodes for all trees/groups.
-        O(NlogN) time
+        O(NlogN) or O(N・α(N)) time
         '''
         # K: root, V: list of nodes
         group_members = defaultdict(list)

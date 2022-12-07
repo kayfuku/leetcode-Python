@@ -11,13 +11,9 @@ from pprint import pprint
 def main():
     # experiment code
 
-    a = [
-        [1, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0],
-        [0, 0, 0, 1, 1],
-        [0, 0, 0, 1, 1]
-    ]
-    pprint(a)
+    a = [[1, 2]]
+    for a1, a2 in a:
+        print(a1, a2)
 
     # done
     print('done')
