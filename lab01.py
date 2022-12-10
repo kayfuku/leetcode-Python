@@ -11,9 +11,8 @@ from pprint import pprint
 def main():
     # experiment code
 
-    a = [[1, 2]]
-    for a1, a2 in a:
-        print(a1, a2)
+    a = []
+    print(bool(a))
 
     # done
     print('done')

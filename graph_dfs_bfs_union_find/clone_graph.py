@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: June 19, 2022
+# Date: June 19, 2022, December 10, 2022
 from collections import deque
 from typing import *
 from helper_classes import *
@@ -24,11 +24,12 @@ class Solution:
     def __init__(self):
         # Dictionary to save the visited node and its respective clone
         # as key and value respectively. This helps to avoid cycles.
-        # K: visited node, V: clone node
+        # K: visited node, V: cloned node
         # In general, when we traverse a graph, we need 'visited/seen' dict.
         self.visited = {}
 
     def cloneGraph(self, node: Node) -> Node:
+        # If we access node.val later on, then we need null check.
         if node is None:
             return node
 
@@ -39,10 +40,7 @@ class Solution:
             return self.visited[node]
 
         # Create a clone for the given node.
-        # Note that we don't have cloned neighbors as of now, hence [].
         clone_node = Node(node.val, [])
-
-        # The key is original node and value being the clone node.
         # Memoization
         self.visited[node] = clone_node
 
@@ -87,6 +85,65 @@ class Solution2(object):
 
         # Return the clone of the node from visited.
         return visited[node]
+
+
+class Review:
+    '''
+    DFS
+    '''
+
+    def __init__(self) -> None:
+        self.map = {}
+
+    def cloneGraph(self, node: Node) -> Node:
+        # If we access node.val later on, then we need null check here.
+        if node is None:
+            return node
+
+        if node.val in self.map:
+            return self.map[node.val]
+
+        c_node = Node(node.val)
+        self.map[node.val] = c_node
+
+        for nei in node.neighbors:
+            c_nei = self.cloneGraph(nei)
+            c_node.neighbors.append(c_nei)
+
+        return c_node
+
+
+class Review2:
+    '''
+    BFS
+    TODO: NG!
+    '''
+
+    def __init__(self) -> None:
+        # K: val, V: cloned node
+        self.map = {}
+
+    def cloneGraph(self, node: Node) -> Node:
+        if node is None:
+            return None
+
+        q = deque([node])
+        # dict not set because we need to return the cloned node
+        # TODO:
+        # self.map[node.val] = Node(node.val)
+        while q:
+            curr = q.popleft()
+
+            c_node = Node(curr.val)
+            # self.map[curr.val] = c_node
+            for nei in curr.neighbors:
+                if nei.val in self.map:
+                    c_node.neighbors.append(self.map[nei.val])
+                    continue
+                q.append(nei)
+                self.map[nei.val] = Node(nei.val)
+
+        return self.map[node.val]
 
 
 class TestSolution(unittest.TestCase):
