@@ -35,7 +35,7 @@ class Solution:
 
         # kick of the backtracking, starting from the source node (0).
         path = [0]
-        # For a directed graph, we don't need this.
+        # For a directed acyclic graph, we don't need this.
         seen = set()
         backtrack(0, path)
 
