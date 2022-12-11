@@ -19,6 +19,7 @@ class Node:
 class Solution:
     '''
     DFS
+    Good for interview
     '''
 
     def __init__(self):
@@ -55,6 +56,7 @@ class Solution:
 class Solution2(object):
     '''
     BFS
+    A bit hard for interview
     '''
 
     def cloneGraph(self, node):
@@ -90,60 +92,62 @@ class Solution2(object):
 class Review:
     '''
     DFS
+    Good for interview
     '''
 
-    def __init__(self) -> None:
-        self.map = {}
+    def cloneGraph(self, root: Node) -> Node:
+        # K: node, V: cloned node
+        map = {}
 
-    def cloneGraph(self, node: Node) -> Node:
-        # If we access node.val later on, then we need null check here.
-        if node is None:
-            return node
+        def dfs(node):
+            # If we access node.val later on, then we need null check here.
+            if node is None:
+                return None
 
-        if node.val in self.map:
-            return self.map[node.val]
+            if node in map:
+                return map[node]
 
-        c_node = Node(node.val)
-        self.map[node.val] = c_node
+            c_node = Node(node.val)
+            map[node] = c_node
 
-        for nei in node.neighbors:
-            c_nei = self.cloneGraph(nei)
-            c_node.neighbors.append(c_nei)
+            for nei in node.neighbors:
+                c_nei = dfs(nei)
+                c_node.neighbors.append(c_nei)
 
-        return c_node
+            return c_node
+
+        c_root = dfs(root)
+        return c_root
 
 
 class Review2:
     '''
     BFS
-    TODO: NG!
     '''
-
-    def __init__(self) -> None:
-        # K: val, V: cloned node
-        self.map = {}
 
     def cloneGraph(self, node: Node) -> Node:
         if node is None:
-            return None
+            return node
+
+        # K: node, V: cloned node
+        map = {}
 
         q = deque([node])
         # dict not set because we need to return the cloned node
-        # TODO:
-        # self.map[node.val] = Node(node.val)
+        map[node] = Node(node.val)
         while q:
             curr = q.popleft()
-
-            c_node = Node(curr.val)
-            # self.map[curr.val] = c_node
             for nei in curr.neighbors:
-                if nei.val in self.map:
-                    c_node.neighbors.append(self.map[nei.val])
-                    continue
-                q.append(nei)
-                self.map[nei.val] = Node(nei.val)
+                if nei not in map:
+                    q.append(nei)
+                    # Create the cloned node.
+                    map[nei] = Node(nei.val)
 
-        return self.map[node.val]
+                # Don't forget this!! This is a bit different from other BFS problems.
+                # Connect the (already) cloned neighbor node whether or not it's visited.
+                map[curr].neighbors.append(map[nei])
+
+        return map[node]
 
 
 class TestSolution(unittest.TestCase):

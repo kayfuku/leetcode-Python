@@ -11,8 +11,12 @@ from pprint import pprint
 def main():
     # experiment code
 
-    a = []
-    print(bool(a))
+    d = {}
+    a = Node(1)
+    b = Node(1)
+    d[a] = a
+    d[b] = b
+    print(len(d))
 
     # done
     print('done')
