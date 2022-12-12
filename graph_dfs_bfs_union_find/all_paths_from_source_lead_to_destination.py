@@ -13,6 +13,7 @@ import unittest
 class Solution:
     '''
     DFS, Backward edge detection in a directed graph
+    There are three status of a node, "never seen", "processing", and "leads to dst".
     Author: reddddddd + kei
     '''
 
@@ -24,22 +25,32 @@ class Solution:
         for [x, y] in edges:
             g[x].add(y)
 
-        def dfs(node):
-            if leads_to_dst[node]:
-                # This is not a backward edge.
-                return True
-            if not leads_to_dst[node]:
-                # There is a backward edge in a directed graph.
-                return False
-            # TODO:
-            if len(g[node]) == 0:
-                return node == destination
+        PROCESSING = -1
+        LEADS_TO_DST = 1
 
-            leads_to_dst[node] = False
+        def dfs(node):
+            # Note that leads_to_dst[node] is 0 if the node has never been seen.
+            if leads_to_dst[node] == LEADS_TO_DST:
+                # This node leads to the destination.
+                return True
+            if leads_to_dst[node] == PROCESSING:
+                # There is a backward edge in the directed graph.
+                return False
+            if len(g[node]) == 0:
+                # The node has no out-edge.
+                return node == destination
+            # Assert that the node is new and has at least one out-edge.
+
+            leads_to_dst[node] = PROCESSING
             for nei in g[node]:
+                # Check all neighbor nodes regardless of whether it's visited.
+                # Return False if the node has at least one backward edge.
                 if not dfs(nei):
                     return False
-            leads_to_dst[node] = True
+            # Assert that the node does not have a backward edge and
+            # leads to the destination.
+
+            leads_to_dst[node] = LEADS_TO_DST
             return True
 
         return dfs(source)
