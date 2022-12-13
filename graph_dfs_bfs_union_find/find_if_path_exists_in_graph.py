@@ -46,7 +46,7 @@ class Solution:
             self, n: int, edges: List[List[int]],
             source: int, destination: int) -> bool:
         '''
-        print the shortest path
+        Print the shortest path.
         '''
 
         # Graph with Adjacency List

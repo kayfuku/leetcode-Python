@@ -13,6 +13,8 @@ import unittest
 class Solution:
     '''
     DFS, Backtracking
+    Good for interview
+    Note that we do not need a visited set for a directed acyclic graph.
     '''
 
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
@@ -45,8 +47,8 @@ class Solution:
 class Solution2:
     '''
     BFS
-    Note that we must not use a visited set. We add all the neighbor nodes
-    to the path.
+    Note that we do not need a visited set for a directed acyclic graph.
+    We just add all the neighbor nodes to the path.
     '''
 
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
