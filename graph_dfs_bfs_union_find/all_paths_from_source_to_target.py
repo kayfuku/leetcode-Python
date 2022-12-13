@@ -12,7 +12,7 @@ import unittest
 
 class Solution:
     '''
-    Backtracking
+    DFS, Backtracking
     '''
 
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
@@ -40,6 +40,35 @@ class Solution:
         backtrack(0, path)
 
         return results
+
+
+class Solution2:
+    '''
+    BFS
+    Note that we must not use a visited set. We add all the neighbor nodes
+    to the path.
+    '''
+
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        n = len(graph)
+        target = n - 1
+        path = []
+        ret = []
+        path.append(0)
+        q = deque([path])
+        while q:
+            path = q.popleft()
+            node = path[-1]
+            if node == target:
+                ret.append(list(path))
+                continue
+
+            for nei in graph[node]:
+                path.append(nei)
+                q.append(list(path))
+                path.pop()
+
+        return ret
 
 
 class Try:

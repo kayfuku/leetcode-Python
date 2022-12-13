@@ -11,12 +11,10 @@ from pprint import pprint
 def main():
     # experiment code
 
-    d = {}
-    a = Node(1)
-    b = Node(1)
-    d[a] = a
-    d[b] = b
-    print(len(d))
+    a = [[]]
+    b = [1, 2]
+    a.append(b)
+    print(a)
 
     # done
     print('done')
