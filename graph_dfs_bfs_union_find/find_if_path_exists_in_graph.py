@@ -37,6 +37,42 @@ class Solution:
                     if nei not in seen:
                         q.append(nei)
                         seen.add(nei)
+
+            return False
+
+        return bfs(source)
+
+    def validPath2(
+            self, n: int, edges: List[List[int]],
+            source: int, destination: int) -> bool:
+        '''
+        print the shortest path
+        '''
+
+        # Graph with Adjacency List
+        g = defaultdict(set)
+        for e in edges:
+            g[e[0]].add(e[1])
+            g[e[1]].add(e[0])
+
+        def bfs(src):
+            path = []
+            path.append(src)
+            q = deque([path])
+            seen = set([src])
+            while q:
+                path = q.popleft()
+                node = path[-1]
+                if node == destination:
+                    print(path)
+                    return True
+                for nei in g[node]:
+                    if nei not in seen:
+                        path.append(nei)
+                        q.append(list(path))
+                        seen.add(nei)
+                        path.pop()
+
             return False
 
         return bfs(source)
