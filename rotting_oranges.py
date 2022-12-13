@@ -12,10 +12,49 @@ import unittest
 
 class Solution:
     '''
+    BFS, Multi-directional
     '''
 
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        return 0
+        m = len(grid)
+        n = len(grid[0])
+        q = deque()
+        seen = set()
+        fresh_oranges = 0
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == 2:
+                    q.append((r, c))
+                    seen.add((r, c))
+                elif grid[r][c] == 1:
+                    fresh_oranges += 1
+
+        # Don't forget these!
+        if fresh_oranges == 0:
+            return 0
+        if len(q) == 0:
+            return -1
+
+        minute = -1
+        D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        while q:
+            size = len(q)
+            for _ in range(size):
+                cr, cc = q.popleft()
+                for d in D:
+                    nr = cr + d[0]
+                    nc = cc + d[1]
+                    if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == 1 and \
+                            (nr, nc) not in seen:
+                        q.append((nr, nc))
+                        seen.add((nr, nc))
+                        # Don't forget this!
+                        grid[cr][cc] = 2
+                        fresh_oranges -= 1
+
+            minute += 1
+
+        return -1 if fresh_oranges > 0 else minute
 
 
 class Try:
