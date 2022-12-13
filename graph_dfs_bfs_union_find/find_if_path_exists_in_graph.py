@@ -21,17 +21,17 @@ class Solution:
             source: int, destination: int) -> bool:
 
         # Graph with Adjacency List
-        g = defaultdict(list)
-        for u, v in edges:
-            g[u].append(v)
-            g[v].append(u)
+        g = defaultdict(set)
+        for e in edges:
+            g[e[0]].add(e[1])
+            g[e[1]].add(e[0])
 
-        def bfs(src, dst):
+        def bfs(src):
             q = deque([src])
             seen = set([src])
             while q:
                 node = q.popleft()
-                if node == dst:
+                if node == destination:
                     return True
                 for nei in g[node]:
                     if nei not in seen:
@@ -39,7 +39,7 @@ class Solution:
                         seen.add(nei)
             return False
 
-        return bfs(source, destination)
+        return bfs(source)
 
 
 class Solution:
