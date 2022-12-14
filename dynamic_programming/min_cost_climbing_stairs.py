@@ -1,83 +1,33 @@
 # Author: leetcode + kei
-# Date: October 22, 2022
+# Date: December 14, 2022
 from typing import *
 from helper_classes import *
-from collections import *
+from collections import defaultdict, deque
+from sortedcontainers import SortedList, SortedSet, SortedDict
+import bisect
+import heapq
 import numpy as np
 import unittest
 
 
 class Solution:
     '''
-    DP
-    Recurrence relation: dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
-    O(N) time and space
-    Author: leetcode + kei
     '''
 
-    def rob(self, nums: List[int]) -> int:
-        n = len(nums)
-        if n == 1:
-            return nums[0]
-
-        dp = [0] * n
-        dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
-        for i in range(2, n):
-            # Take max of the value two before plus current value or the value one before.
-            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
-
-        return dp[-1]
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        return 0
 
 
-class Solution2:
-    '''
-    DP
-    O(N) time, O(1) space
-    '''
+class Try:
 
-    def rob(self, nums: List[int]) -> int:
-        a = nums[0]
-        if len(nums) == 1:
-            return a
-
-        b = max(nums[0], nums[1])
-        if len(nums) == 2:
-            return b
-
-        c = 0
-        for i in range(2, len(nums)):
-            # Take whichever is larger.
-            c = max(a + nums[i], b)
-            a = b
-            b = c
-
-        return c
-
-    def rob2(self, nums: List[int]) -> int:
-        a, b = 0, 0
-        for n in nums:
-            c = max(a + n, b)
-            a = b
-            b = c
-        return c
+    def solve(self, nums: List[int], target: int) -> List[int]:
+        return 0
 
 
-class Review:
+class Bot:
 
-    def rob(self, nums: List[int]) -> int:
-        n = len(nums)
-        dp = [0] * n
-        if n == 1:
-            return nums[0]
-        if n == 2:
-            return max(nums[0], nums[1])
-        dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
-        for i in range(2, n):
-            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
-
-        return dp[-1]
+    def solve(self, nums: List[int], target: int) -> List[int]:
+        return 0
 
 
 class TestSolution(unittest.TestCase):
@@ -85,6 +35,7 @@ class TestSolution(unittest.TestCase):
     def test_solve(self):
         '''
         Test
+        Change input and expected output as needed.
         '''
         input_and_expected_output = [
             # (input1, input2, expected output) depending on number of arguments
@@ -96,6 +47,7 @@ class TestSolution(unittest.TestCase):
                 input_and_expected_output):
             print('Case: {}'.format(case))
             with self.subTest(input1=input1, input2=input2, expected=expected):
+                # Change to the method name to be tested.
                 result = s.topKFrequent(input1, input2)
                 self.assertEqual(result, expected)
 
