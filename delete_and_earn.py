@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: December ?, 2022
+# Date: December 17, 2022
 from typing import *
 from helper_classes import *
 from collections import defaultdict, deque
@@ -13,15 +13,33 @@ import unittest
 
 class Solution:
     '''
+    Top-Down DP
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        points = defaultdict(int)
+        max_number = 0
+        # Precompute how many points we gain from taking an element
+        for num in nums:
+            points[num] += num
+            max_number = max(max_number, num)
+
+        @cache
+        def max_points(num):
+            if num == 0:
+                return 0
+            if num == 1:
+                return points[1]
+
+            # Recurrence relation
+            return max(max_points(num - 1), max_points(num - 2) + points[num])
+
+        return max_points(max_number)
 
 
 class Try:
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
+    def deleteAndEarn(self, nums: List[int]) -> int:
         return 0
 
 
