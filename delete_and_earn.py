@@ -12,11 +12,32 @@ import unittest
 
 
 class Solution:
-    '''
-    Top-Down DP
-    '''
 
     def deleteAndEarn(self, nums: List[int]) -> int:
+        '''
+        Bottom-Up DP
+        '''
+        # K: num, V: points
+        points = defaultdict(int)
+        max_number = 0
+        # Precompute how many points we gain from taking an element.
+        for num in nums:
+            points[num] += num
+            max_number = max(max_number, num)
+
+        dp = [0] * (max_number + 1)
+        dp[1] = points[1]
+        for num in range(2, len(dp)):
+            # Recurrence relation
+            # dp[num]: maximum points when we take num
+            dp[num] = max(dp[num - 1], dp[num - 2] + points[num])
+
+        return dp[max_number]
+
+    def deleteAndEarn2(self, nums: List[int]) -> int:
+        '''
+        Top-Down DP
+        '''
         points = defaultdict(int)
         max_number = 0
         # Precompute how many points we gain from taking an element
@@ -40,6 +61,10 @@ class Solution:
 class Try:
 
     def deleteAndEarn(self, nums: List[int]) -> int:
+        num_to_points = defaultdict(int)
+        for num in range(nums):
+            num_to_points[num] += num
+
         return 0
 
 
