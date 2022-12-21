@@ -16,34 +16,35 @@ class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
         '''
         Bottom-Up DP
+        Good for interview
         '''
         # K: num, V: points
         points = defaultdict(int)
-        max_number = 0
+        max_num = 0
         # Precompute how many points we gain from taking an element.
         for num in nums:
             points[num] += num
-            max_number = max(max_number, num)
+            max_num = max(max_num, num)
 
-        dp = [0] * (max_number + 1)
+        dp = [0] * (max_num + 1)
         dp[1] = points[1]
         for num in range(2, len(dp)):
             # Recurrence relation
             # dp[num]: maximum points when we take num
             dp[num] = max(dp[num - 1], dp[num - 2] + points[num])
 
-        return dp[max_number]
+        return dp[max_num]
 
     def deleteAndEarn2(self, nums: List[int]) -> int:
         '''
         Top-Down DP
         '''
         points = defaultdict(int)
-        max_number = 0
+        max_num = 0
         # Precompute how many points we gain from taking an element
         for num in nums:
             points[num] += num
-            max_number = max(max_number, num)
+            max_num = max(max_num, num)
 
         @cache
         def max_points(num):
@@ -55,7 +56,7 @@ class Solution:
             # Recurrence relation
             return max(max_points(num - 1), max_points(num - 2) + points[num])
 
-        return max_points(max_number)
+        return max_points(max_num)
 
 
 class Try:
