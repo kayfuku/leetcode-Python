@@ -11,11 +11,6 @@ from pprint import pprint
 def main():
     # experiment code
 
-    a = [[]]
-    b = [1, 2]
-    a.append(b)
-    print(a)
-
     # done
     print('done')
 
