@@ -11,13 +11,30 @@ class Solution:
     def __init__(self):
         pass
 
-    def isIsomorphic(self, s: str, t: str) -> bool:
+    def isIsomorphic(self, s, t):
+        map1 = []
+        map2 = []
+        for c in s:
+            map1.append(s.find(c))
+        for c in t:
+            map2.append(t.find(c))
+        if map1 == map2:
+            return True
+        return False
+
+    def isIsomorphic2(self, s: str, t: str) -> bool:
+        '''
+           01234
+        s: paper
+        t: title
+        The last index of the character is the same.
+        '''
         # K: character, V: index
         map_s_idx = {}
         map_t_idx = {}
         for i, (c1, c2) in enumerate(zip(s, t)):
-            # Use get(key, default) instead of map[key] or
-            # use defaultdict from collections.
+            # Use get(key, default) instead of map[key] to avoid KeyError.
+            # Use -1 as default value because index starts from 0.
             if map_s_idx.get(c1, -1) != map_t_idx.get(c2, -1):
                 return False
             map_s_idx[c1] = i

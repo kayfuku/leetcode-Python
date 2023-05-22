@@ -1,30 +1,48 @@
 # Author: leetcode + kei
-# Date: November 13, 2022
+# Date: May ?, 2023
 from typing import *
 from helper_classes import *
-from collections import *
+from collections import defaultdict, deque
+from sortedcontainers import SortedList, SortedSet, SortedDict
+import bisect
+import heapq
 import numpy as np
+from functools import cache
 import unittest
 
 
 class Solution:
     '''
-    Two Pointers
-    O(M) time, O(1) space, where M is the target string length.
     '''
 
-    def isSubsequence(self, s: str, t: str) -> bool:
-        N, M = len(s), len(t)
-        left = right = 0
-        while left < N and right < M:
-            if s[left] == t[right]:
-                # This char is in t.
-                # Move the left pointer.
-                left += 1
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        for c in set(ransomNote):
+            if magazine.count(c) < ransomNote.count(c):
+                return False
+        return True
 
-            right += 1
 
-        return left == N
+class Try:
+
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        ransom_cnt = defaultdict(int)
+        for c in ransomNote:
+            ransom_cnt[c] += 1
+        magazine_cnt = defaultdict(int)
+        for c in magazine:
+            magazine_cnt[c] += 1
+
+        for c in ransom_cnt:
+            if c not in magazine_cnt or ransom_cnt[c] > magazine_cnt[c]:
+                return False
+
+        return True
+
+
+class Bot:
+
+    def solve(self, nums: List[int], target: int) -> List[int]:
+        return 0
 
 
 class TestSolution(unittest.TestCase):

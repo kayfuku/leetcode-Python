@@ -12,6 +12,8 @@ from pprint import pprint
 def main():
     # experiment code
     # get the angle
+    a = ''
+    print(a.lower())
 
     # done
     print('done')

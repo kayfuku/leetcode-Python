@@ -10,8 +10,10 @@ class Solution:
     def isPalindrome(self, s: str) -> bool:
         i, j = 0, len(s) - 1
         while i < j:
+            # find alphanumeric char from left
             while i < j and not s[i].isalnum():
                 i += 1
+            # find alphanumeric char from right
             while i < j and not s[j].isalnum():
                 j -= 1
 
