@@ -15,14 +15,26 @@ class Solution:
     '''
     '''
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
+    def isPalindrome(self, x: int) -> bool:
         return 0
 
 
 class Try:
 
-    def solve(self, nums: List[int], target: int) -> List[int]:
-        return 0
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        if x == 0:
+            return True
+        if x % 10 == 0:
+            return False
+
+        rev = 0
+        while x > rev:
+            rev = rev * 10 + x % 10
+            x //= 10
+
+        return x == rev or x == rev // 10
 
 
 class Bot:
