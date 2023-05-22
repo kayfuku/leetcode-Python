@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: May ?, 2023
+# Date: May 22, 2023
 from typing import *
 from helper_classes import *
 from collections import defaultdict, deque
@@ -15,26 +15,22 @@ class Solution:
     '''
     '''
 
-    def isPalindrome(self, x: int) -> bool:
+    def generate(self, numRows: int) -> List[List[int]]:
         return 0
 
 
 class Try:
 
-    def isPalindrome(self, x: int) -> bool:
-        if x < 0:
-            return False
-        if x == 0:
-            return True
-        if x % 10 == 0:
-            return False
+    def generate(self, numRows: int) -> List[List[int]]:
+        rows = []
+        for i in range(numRows):
+            row = [1] * (i + 1)
+            for j in range(1, i):
+                row[j] = rows[i-1][j-1] + rows[i-1][j]
 
-        rev = 0
-        while x > rev:
-            rev = rev * 10 + x % 10
-            x //= 10
+            rows.append(row)
 
-        return x == rev or x == rev // 10
+        return rows
 
 
 class Bot:
