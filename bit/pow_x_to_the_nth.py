@@ -50,6 +50,11 @@ class Solution4:
     '''
 
     def myPow(self, x: float, n: int) -> float:
+        '''
+        x^n = x^(2^0 + 2^1 + 2^2 + ...)
+            = x^(2^0) * x^(2^1) * x^(2^2) * ...
+            = x + x*x + x*x*x*x + x*x*x*x*x*x*x*x + ...
+        '''
         if n < 0:
             x = 1 / x
             n = -n

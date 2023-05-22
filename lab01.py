@@ -12,8 +12,6 @@ from pprint import pprint
 def main():
     # experiment code
     # get the angle
-    theta = math.atan(-2 / -6)
-    print(theta)
 
     # done
     print('done')
