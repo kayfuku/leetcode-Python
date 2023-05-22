@@ -20,13 +20,15 @@ class Solution:
 
         # And move p backwards through the array, each time writing
         # the smallest value pointed at by p1 or p2.
-        for p in range(n + m - 1, -1, -1):
+        for p in range(n+m-1, -1, -1):
             if p2 < 0:
                 # nums2 finished.
                 # The remaining is already filled.
                 break
+            # if nums1 finished, then keep copying nums2
+            # if nums1[p1] == nums2[p2], then copy from nums2
+            # because it's done when copying all in nums2
             if p1 >= 0 and nums1[p1] > nums2[p2]:
-                # if nums1 finished, then keep copying nums2
                 nums1[p] = nums1[p1]
                 p1 -= 1
             else:
