@@ -12,15 +12,19 @@ class Solution:
         pass
 
     def isIsomorphic(self, s, t):
-        map1 = []
-        map2 = []
-        for c in s:
-            map1.append(s.find(c))
-        for c in t:
-            map2.append(t.find(c))
-        if map1 == map2:
-            return True
-        return False
+        s_to_t = {}
+        t_to_s = {}
+
+        for c1, c2 in zip(s, t):
+            # First, check if the character is already mapped
+            # because the code will be simpler.
+            if (c1 not in s_to_t) and (c2 not in t_to_s):
+                s_to_t[c1] = c2
+                t_to_s[c2] = c1
+            elif s_to_t.get(c1) != c2 or t_to_s.get(c2) != c1:
+                return False
+
+        return True
 
     def isIsomorphic2(self, s: str, t: str) -> bool:
         '''
