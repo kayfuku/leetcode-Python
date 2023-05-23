@@ -17,7 +17,7 @@ class Solution:
             return 0
 
         def dfs(r, c):
-            if r < 0 or r >= R or c < 0 or c >= C or \
+            if r < 0 or r >= self.R or c < 0 or c >= self.C or \
                     grid[r][c] == self.WATER or grid[r][c] == self.VISITED:
                 return
 
@@ -31,10 +31,10 @@ class Solution:
         self.WATER = '0'
         self.ISLAND = '1'
         self.VISITED = '2'
-        R = len(grid)
-        C = len(grid[0])
-        for row in range(R):
-            for col in range(C):
+        self.R = len(grid)
+        self.C = len(grid[0])
+        for row in range(self.R):
+            for col in range(self.C):
                 if grid[row][col] == self.ISLAND:
                     dfs(row, col)
                     count += 1
@@ -65,7 +65,7 @@ class Solution2:
                     for d in self.D:
                         nr = r + d[0]
                         nc = c + d[1]
-                        if nr < 0 or nr >= R or nc < 0 or nc >= C or \
+                        if nr < 0 or nr >= self.R or nc < 0 or nc >= self.C or \
                                 grid[nr][nc] == self.WATER or grid[nr][nc] == self.VISITED:
                             continue
                         # Adding and marking as visited must be at the same time!
@@ -77,11 +77,11 @@ class Solution2:
         self.WATER = '0'
         self.ISLAND = '1'
         self.VISITED = '2'
-        R = len(grid)
-        C = len(grid[0])
+        self.R = len(grid)
+        self.C = len(grid[0])
         count = 0
-        for row in range(R):
-            for col in range(C):
+        for row in range(self.R):
+            for col in range(self.C):
                 if grid[row][col] == self.ISLAND:
                     bfs(row, col)
                     count += 1

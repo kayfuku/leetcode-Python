@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: July 24, 2021, September 17, 2022
+# self.Date: July 24, 2021, September 17, 2022
 import unittest
 from typing import *
 from helper_classes import *
@@ -12,30 +12,30 @@ class Solution:
     '''
 
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-        R = len(grid)
-        C = len(grid[0])
+        self.D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        self.R = len(grid)
+        self.C = len(grid[0])
 
         def get_area(r, c):
-            if r < 0 or r >= R or c < 0 or c >= C or \
-                    grid[r][c] == VISITED or grid[r][c] == WATER:
+            if r < 0 or r >= self.R or c < 0 or c >= self.C or \
+                    grid[r][c] == self.VISITED or grid[r][c] == self.WATER:
                 return 0
 
             area = 1
-            grid[r][c] = VISITED
-            for d in D:
+            grid[r][c] = self.VISITED
+            for d in self.D:
                 area += get_area(r + d[0], c + d[1])
 
             return area
 
         max_area = 0
-        WATER = 0
-        ISLAND = 1
-        VISITED = 2
-        for r in range(R):
-            for c in range(C):
-                if grid[r][c] == ISLAND:
-                    max_area = max(max_area, get_area(r, c))
+        self.WATER = 0
+        self.ISLAND = 1
+        self.VISITED = 2
+        for row in range(self.R):
+            for col in range(self.C):
+                if grid[row][col] == self.ISLAND:
+                    max_area = max(max_area, get_area(row, col))
 
         return max_area
 
@@ -46,33 +46,36 @@ class Solution2:
     '''
 
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-        VISITED = 0
+        self.D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        self.WATER = 0
+        self.ISLAND = 1
+        self.VISITED = 2
 
         def bfs(r, c):
             q = deque([(r, c)])
             # Add it to the visited right after adding it to the queue.
-            grid[r][c] = VISITED
+            grid[r][c] = self.VISITED
             cnt = 0
             while q:
                 cr, cc = q.popleft()
                 cnt += 1
-                for d in DIR:
+                for d in self.D:
                     nr = cr + d[0]
                     nc = cc + d[1]
-                    if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
-                            grid[nr][nc] != VISITED:
-                        q.append((nr, nc))
-                        # Add it to the visited right after adding it to the queue.
-                        grid[nr][nc] = VISITED
+                    if nr < 0 or nr >= self.R or nc < 0 or nc >= self.C or \
+                            grid[nr][nc] == self.WATER or grid[nr][nc] == self.VISITED:
+                        continue
+                    q.append((nr, nc))
+                    # Add it to the visited right after adding it to the queue.
+                    grid[nr][nc] = self.VISITED
 
             return cnt
 
-        R = len(grid)
-        C = len(grid[0])
+        self.R = len(grid)
+        self.C = len(grid[0])
         max_area = 0
-        for row in range(R):
-            for col in range(C):
+        for row in range(self.R):
+            for col in range(self.C):
                 if grid[row][col] == 1:
                     area = bfs(row, col)
                     max_area = max(max_area, area)
@@ -83,7 +86,7 @@ class Solution2:
         '''
         TLE because we start checking on the same island over and over again.
         '''
-        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        self.D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
 
         def bfs(r, c):
             q = deque([(r, c)])
@@ -92,7 +95,7 @@ class Solution2:
             while q:
                 cr, cc = q.popleft()
                 cnt += 1
-                for d in DIR:
+                for d in self.D:
                     nr = cr + d[0]
                     nc = cc + d[1]
                     if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
@@ -118,8 +121,8 @@ class Solution2:
         WA because this is a bad pattern of code for BFS. This does not work when
         there is a cycle in the graph. We must add node to the visited right after adding queue.
         '''
-        DIR = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-        VISITED = 0
+        self.D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        self.VISITED = 0
 
         def bfs(r, c):
             q = deque([(r, c)])
@@ -127,12 +130,12 @@ class Solution2:
             while q:
                 cr, cc = q.popleft()
                 cnt += 1
-                grid[cr][cc] = VISITED
-                for d in DIR:
+                grid[cr][cc] = self.VISITED
+                for d in self.D:
                     nr = cr + d[0]
                     nc = cc + d[1]
                     if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1 and \
-                            grid[nr][nc] != VISITED:
+                            grid[nr][nc] != self.VISITED:
                         q.append((nr, nc))
 
             return cnt
