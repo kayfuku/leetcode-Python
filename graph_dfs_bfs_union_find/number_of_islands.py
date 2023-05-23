@@ -1,5 +1,5 @@
 # Author: girikuncoro + kei
-# Date: July 24, 2021, September 14, 2022
+# Date: July 24, 2021, September 14, 2022, May 23, 2023
 import unittest
 from typing import *
 from helper_classes import *
@@ -18,25 +18,25 @@ class Solution:
 
         def dfs(r, c):
             if r < 0 or r >= R or c < 0 or c >= C or \
-                    grid[r][c] == WATER or grid[r][c] == VISITED:
+                    grid[r][c] == self.WATER or grid[r][c] == self.VISITED:
                 return
 
-            grid[r][c] = VISITED
-            for d in D:
+            grid[r][c] = self.VISITED
+            for d in self.D:
                 dfs(r + d[0], c + d[1])
 
         count = 0
         # [up, right, down, left]
-        D = [[-1, 0], [0, 1], [1, 0], [0, -1]]
-        WATER = '0'
-        ISLAND = '1'
-        VISITED = '2'
+        self.D = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+        self.WATER = '0'
+        self.ISLAND = '1'
+        self.VISITED = '2'
         R = len(grid)
         C = len(grid[0])
-        for r in range(R):
-            for c in range(C):
-                if grid[r][c] == ISLAND:
-                    dfs(r, c)
+        for row in range(R):
+            for col in range(C):
+                if grid[row][col] == self.ISLAND:
+                    dfs(row, col)
                     count += 1
 
         return count
@@ -55,34 +55,34 @@ class Solution2:
         def bfs(r, c):
             q = deque()
             # Adding to the queue and marking as visited.
-            q.append([r, c])
-            grid[r][c] = VISITED
+            q.append((r, c))
+            grid[r][c] = self.VISITED
             while q:
                 size = len(q)
                 for i in range(size):
                     r, c = q.popleft()
                     # Neighbors
-                    for d in D:
+                    for d in self.D:
                         nr = r + d[0]
                         nc = c + d[1]
                         if nr < 0 or nr >= R or nc < 0 or nc >= C or \
-                                grid[nr][nc] == WATER or grid[nr][nc] == VISITED:
+                                grid[nr][nc] == self.WATER or grid[nr][nc] == self.VISITED:
                             continue
                         # Adding and marking as visited must be at the same time!
                         # because two children can have the same child node.
-                        q.append([nr, nc])
-                        grid[nr][nc] = VISITED
+                        q.append((nr, nc))
+                        grid[nr][nc] = self.VISITED
 
-        D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-        WATER = '0'
-        ISLAND = '1'
-        VISITED = '2'
+        self.D = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        self.WATER = '0'
+        self.ISLAND = '1'
+        self.VISITED = '2'
         R = len(grid)
         C = len(grid[0])
         count = 0
         for row in range(R):
             for col in range(C):
-                if grid[row][col] == ISLAND:
+                if grid[row][col] == self.ISLAND:
                     bfs(row, col)
                     count += 1
 
