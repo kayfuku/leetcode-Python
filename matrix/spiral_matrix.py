@@ -1,5 +1,5 @@
 # Author: leetcode + kei
-# Date: May ?, 2023
+# Date: May 24, 2023
 from typing import *
 from helper_classes import *
 from collections import defaultdict, deque
@@ -15,30 +15,39 @@ class Solution:
     '''
     '''
 
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         return 0
 
 
 class Try:
 
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
-        rows = defaultdict(set)
-        cols = defaultdict(set)
-        boxes = defaultdict(set)
-        R = len(board)
-        C = len(board[0])
-        for r in range(R):
-            for c in range(C):
-                if board[r][c] == '.':
-                    continue
-                box_index = (r // 3, c // 3)
-                if board[r][c] in rows[r] or board[r][c] in cols[c] or board[r][c] in boxes[box_index]:
-                    return False
-                rows[r].add(board[r][c])
-                cols[c].add(board[r][c])
-                boxes[box_index].add(board[r][c])
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        self.R = len(matrix)
+        self.C = len(matrix[0])
+        self.D = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        self.VISITED = [[False] * self.C for _ in range(self.R)]
 
-        return True
+        def dfs(matrix, r, c, d):
+            if not (0 <= r < self.R and 0 <= c < self.C) or self.VISITED[r][c]:
+                return
+
+            self.res.append(matrix[r][c])
+            self.VISITED[r][c] = True
+
+            nr = r + self.D[d][0]
+            nc = c + self.D[d][1]
+            # If the next cell is out of bounds or already visited,
+            # then go to the next direction.
+            if not (0 <= nr < self.R and 0 <= nc < self.C) or self.VISITED[nr][nc]:
+                d = (d + 1) % 4
+                nr = r + self.D[d][0]
+                nc = c + self.D[d][1]
+
+            dfs(matrix, nr, nc, d)
+
+        self.res = []
+        dfs(matrix, 0, 0, 0)
+        return self.res
 
 
 class Bot:
